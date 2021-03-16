@@ -7,6 +7,7 @@ import yaml
 from scipy.optimize import linprog
 from mip import Model, xsum, minimize, BINARY
 
+
 class AYTO:
     """Class that contains methods to solve and decodes pairs."""
 
@@ -68,33 +69,36 @@ class AYTO:
                 self.b_uneq = np.append(self.b, 1)
 
     def add_matchingnight(self, results: dict):
+        """Add constraints derived from matching night."""
         if "Pairs" not in results.keys() or "Matches" not in results.keys():
-            return KeyError("Results need to contain Pairs and Matches")
+            raise KeyError("Results need to contain Pairs and Matches")
         matches = np.zeros((1, len(self.males), len(self.females)))
         for pairs in results["Pairs"]:
             m = pairs[0]
             f = pairs[1]
             if m not in self.males or f not in self.females:
-                return ValueError("Check your pairs. One or several names are invalid.")
+                raise ValueError("Check your pairs. One or several names are invalid.")
             matches[0, self.males.index(m), self.females.index(f)] = 1
         if np.max(matches) > 1:
-            return ValueError("One or many people have multiple matches in this night.")
+            raise ValueError("One or many people have multiple matches in this night.")
         self.b = np.append(self.b, results["Matches"])
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
 
     def add_truth_booth(self, result):
+        """Add constraints derived from truth booth."""
         if "Pair" not in result.keys() or "Match" not in result.keys():
-            return KeyError("Results need to contain Pairs and Matches")
+            raise KeyError("Results need to contain Pairs and Matches")
         m = result["Pair"][0]
         f = result["Pair"][1]
         if m not in self.males or f not in self.females:
-            return ValueError("Check your truth booth couple. One or several names are invalid.")
+            raise ValueError("Check your truth booth couple. One or several names are invalid.")
         matches = np.zeros((1, len(self.males), len(self.females)))
         matches[0, self.males.index(m), self.females.index(f)] = 1
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
         self.b = np.append(self.b, int(result["Match"]))
 
     def solve(self):
+        """Try to solve the problem and identify possible matches."""
         A_eq = self.A3D.reshape(-1, self.n_1 * self.n_2)
         n = self.n_1 * self.n_2
 
@@ -115,15 +119,16 @@ class AYTO:
         self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
     def print_matches(self):
+        """Pretty print solutions found."""
         if not np.array_equal(self.X, self.X_binary):
-            print("All possible solutions:")
+            print("Likely matches (not necessarily all):")
             for i, row in enumerate(self.X):
                 print("{} and:".format(self.males[i]))
                 for j, cell in enumerate(row):
                     if cell > 0.1:
                         print("    {}, score: {}".format(self.females[j], cell.round(1)))
             print("\n")
-            print("Most probable solution:")
+            print("Most probable matches:")
             for i, row in enumerate(self.X_binary):
                 print("{} and:".format(self.males[i]))
                 for j, cell in enumerate(row):
@@ -131,7 +136,7 @@ class AYTO:
                         print("    {}".format(self.females[j]))
             print("\n")
         else:
-            print("Perfect solution found:")
+            print("Single solution found. Not guranteed to be the only remaining one:")
             for i, row in enumerate(self.X_binary):
                 print("{} and:".format(self.males[i]))
                 for j, cell in enumerate(row):
@@ -141,6 +146,7 @@ class AYTO:
 
 
 def main():
+    """Entry point."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--yaml_file_path", type=Path)
     args = parser.parse_args()

@@ -2,10 +2,11 @@
 
 [FORMAT]
 max-line-length=120
+max-attributes=15
 
 [MESSAGES CONTROL]
 disable=invalid-name,
         missing-docstring
 
 [TYPECHECK]
-ignored-modules=cv2,tensorflow
+ignored-modules=numpy
