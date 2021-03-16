@@ -1,0 +1,149 @@
+# AYTO SEASON2 DE AFTER NIGHT 8
+MALES:
+  - "Aaron"
+  - "Dario"
+  - "Dominik"
+  - "Germain"
+  - "Marc"
+  - "Marcel"
+  - "Marko"
+  - "Marvin"
+  - "Maximilian"
+  - "Sascha"
+
+FEMALES:
+  - "Christin"
+  - "Jill"
+  - "Kathleen"
+  - "Laura"
+  - "Leonie"
+  - "Melissa"
+  - "Mirjam"
+  - "Sabrina"
+  - "Vanessa"
+  - "Victoria"
+  - "Vanessa_2"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Marcel", "Laura"]
+    - ["Aaron", "Kathleen"]
+    - ["Marc", "Mirjam"]
+    - ["Sascha", "Vanessa"]
+    - ["Marvin", "Jill"]
+    - ["Dominik", "Melissa"]
+    - ["Maximilian", "Christin"]
+    - ["Germain", "Leonie"]
+    - ["Marko", "Sabrina"]
+    - ["Dario", "Victoria"]
+    Matches: 2
+  - Pairs:  # Night 2
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Kathleen"]
+    - ["Marc", "Mirjam"]
+    - ["Sascha", "Jill"]
+    - ["Marvin", "Vanessa"]
+    - ["Dominik", "Melissa"]
+    - ["Maximilian", "Christin"]
+    - ["Germain", "Victoria"]
+    - ["Marko", "Sabrina"]
+    - ["Dario", "Laura"]
+    Matches: 2
+  - Pairs:  # Night 3
+    - ["Marcel", "Laura"]
+    - ["Aaron", "Melissa"]
+    - ["Marc", "Leonie"]
+    - ["Sascha", "Sabrina"]
+    - ["Marvin", "Kathleen"]
+    - ["Dominik", "Vanessa"]
+    - ["Maximilian", "Jill"]
+    - ["Germain", "Christin"]  # CHECK THIS
+    - ["Marko", "Mirjam"]
+    - ["Dario", "Victoria"]
+    Matches: 3
+  - Pairs:  # Night 4
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Melissa"]
+    - ["Marc", "Mirjam"]
+    - ["Sascha", "Vanessa"]
+    - ["Marvin", "Christin"]
+    - ["Dominik", "Laura"]
+    - ["Maximilian", "Jill"]
+    - ["Germain", "Victoria"]
+    - ["Marko", "Sabrina"]
+    - ["Dario", "Kathleen"]
+    Matches: 3
+  - Pairs:  # Night 5
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Mirjam"]
+    - ["Marc", "Melissa"]
+    - ["Sascha", "Jill"]
+    - ["Marvin", "Kathleen"]
+    - ["Dominik", "Vanessa"]
+    - ["Maximilian", "Laura"]
+    - ["Germain", "Victoria"]
+    - ["Marko", "Vanessa_2"]
+    - ["Dario", "Victoria"]
+    Matches: 3
+  - Pairs:  # Night 6
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Melissa"]
+    - ["Marc", "Mirjam"]
+    - ["Sascha", "Jill"]
+    - ["Marvin", "Laura"]
+    - ["Dominik", "Vanessa"]
+    - ["Maximilian", "Christin"]
+    - ["Germain", "Victoria"]
+    - ["Marko", "Sabrina"]
+    - ["Dario", "Vanessa_2"]
+    Matches: 4
+  - Pairs:  # Night 7
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Melissa"]
+    - ["Marc", "Mirjam"]
+    - ["Sascha", "Jill"]
+    - ["Marvin", "Kathleen"]
+    - ["Dominik", "Laura"]
+    - ["Maximilian", "Christin"]
+    - ["Germain", "Vanessa_2"]
+    - ["Marko", "Victoria"]
+    - ["Dario", "Sabrina"]
+    Matches: 4
+  - Pairs:  # Night 8
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Vanessa"]
+    - ["Marc", "Vanessa_2"]
+    - ["Sascha", "Sabrina"]
+    - ["Marvin", "Kathleen"]
+    - ["Dominik", "Melissa"]
+    - ["Maximilian", "Mirjam"]
+    - ["Germain", "Jill"]
+    - ["Marko", "Laura"]
+    - ["Dario", "Victoria"]
+    Matches: 1
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Maximilian"
+      - "Sabrina"
+    Match: False
+  - Pair:
+      - "Aaron"
+      - "Kathleen"
+    Match: False
+  - Pair:
+      - "Marcel"
+      - "Laura"
+    Match: False
+  - Pair:
+      - "Marcel"
+      - "Leonie"
+    Match: True
+  - Pair:
+    - "Dario"
+    - "Laura"
+    Match: False
+  - Pair:
+    - "Marko"
+    - "Sabrina"
+    Match: False
