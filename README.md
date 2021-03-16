@@ -7,7 +7,7 @@ You can then call the script to solve the matching problem with `python ./ayto/a
 
 ## Remarks:
 
-This code is untested and rather a PoC than production ready code. It was developed for the German season 2 of AYTO currently airing on TVNow/RTL. It silently assumes that we have "Males" and "Females" and we only match a Male with a Female. Furthermore, all matches and truth booth couples need to be defined in the yaml file, first with the male name followed by the female name. This was done because of pure laziness and should in no way be meant to discriminate anyone. Code modifications would be needed to enable a season like "Come on, Come all" (season 8 AYTO USA), where anyone can match with anyone. This also makes the optimization problem more complex and, hence, harder to solve.
+This code is untested and rather a PoC than production ready code. It was developed for the German season 2 of AYTO currently airing on TVNow/RTL. It silently assumes that we have "Males" and "Females" and we only match a Male with a Female. Furthermore, all matches and truth booth couples need to be defined in the yaml file, first with the male name followed by the female name. This was done because of pure laziness and should in no way be meant to discriminate anyone. Code modifications would be needed to enable a season like "Come one, Come all" (season 8 AYTO US), where anyone can match with anyone. This also makes the optimization problem more complex and, hence, harder to solve.
 
 ## Optimization details:
 
@@ -19,17 +19,21 @@ We use two solvers to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x in
 
 <details>
 <summary>SPOILER ARE YOU THE ONE SEASON 2 GERMANY CURRENT GUESSES AFTER EPISODE 16:</summary>
-  
+ 
+Perfect matches: 
 - Aaron + Melissa
 - Dario + Sabrina  
-- Dominik + Vanessa  
+- Dominik + Vanessa_E  
 - Germain + Christin  
 - Marc + Mirjam  
 - Marcel + Leonie  
-- Marko + Kathleen + Vanessa_2  
+- Marko + Kathleen
 - Marvin + Jill
 - Maximilian + Victoria  
 - Sascha + Laura 
+
+Unclear: 
+- Vanessa_M has several matches still, potentially Aaron or Marvin
 
 </details>
 

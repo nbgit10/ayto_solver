@@ -20,16 +20,16 @@ FEMALES:
   - "Melissa"
   - "Mirjam"
   - "Sabrina"
-  - "Vanessa"
+  - "Vanessa_E"
   - "Victoria"
-  - "Vanessa_2"
+  - "Vanessa_M"
 
 MATCHING_NIGHTS:
   - Pairs:  # Night 1
     - ["Marcel", "Laura"]
     - ["Aaron", "Kathleen"]
     - ["Marc", "Mirjam"]
-    - ["Sascha", "Vanessa"]
+    - ["Sascha", "Vanessa_E"]
     - ["Marvin", "Jill"]
     - ["Dominik", "Melissa"]
     - ["Maximilian", "Christin"]
@@ -42,7 +42,7 @@ MATCHING_NIGHTS:
     - ["Aaron", "Kathleen"]
     - ["Marc", "Mirjam"]
     - ["Sascha", "Jill"]
-    - ["Marvin", "Vanessa"]
+    - ["Marvin", "Vanessa_E"]
     - ["Dominik", "Melissa"]
     - ["Maximilian", "Christin"]
     - ["Germain", "Victoria"]
@@ -55,9 +55,9 @@ MATCHING_NIGHTS:
     - ["Marc", "Leonie"]
     - ["Sascha", "Sabrina"]
     - ["Marvin", "Kathleen"]
-    - ["Dominik", "Vanessa"]
+    - ["Dominik", "Vanessa_E"]
     - ["Maximilian", "Jill"]
-    - ["Germain", "Christin"]  # CHECK THIS
+    - ["Germain", "Christin"]
     - ["Marko", "Mirjam"]
     - ["Dario", "Victoria"]
     Matches: 3
@@ -65,7 +65,7 @@ MATCHING_NIGHTS:
     - ["Marcel", "Leonie"]
     - ["Aaron", "Melissa"]
     - ["Marc", "Mirjam"]
-    - ["Sascha", "Vanessa"]
+    - ["Sascha", "Vanessa_E"]
     - ["Marvin", "Christin"]
     - ["Dominik", "Laura"]
     - ["Maximilian", "Jill"]
@@ -79,10 +79,10 @@ MATCHING_NIGHTS:
     - ["Marc", "Melissa"]
     - ["Sascha", "Jill"]
     - ["Marvin", "Kathleen"]
-    - ["Dominik", "Vanessa"]
+    - ["Dominik", "Vanessa_E"]
     - ["Maximilian", "Laura"]
-    - ["Germain", "Victoria"]
-    - ["Marko", "Vanessa_2"]
+    - ["Germain", "Christin"]
+    - ["Marko", "Vanessa_M"]
     - ["Dario", "Victoria"]
     Matches: 3
   - Pairs:  # Night 6
@@ -91,11 +91,11 @@ MATCHING_NIGHTS:
     - ["Marc", "Mirjam"]
     - ["Sascha", "Jill"]
     - ["Marvin", "Laura"]
-    - ["Dominik", "Vanessa"]
+    - ["Dominik", "Vanessa_E"]
     - ["Maximilian", "Christin"]
     - ["Germain", "Victoria"]
     - ["Marko", "Sabrina"]
-    - ["Dario", "Vanessa_2"]
+    - ["Dario", "Vanessa_M"]
     Matches: 4
   - Pairs:  # Night 7
     - ["Marcel", "Leonie"]
@@ -105,14 +105,14 @@ MATCHING_NIGHTS:
     - ["Marvin", "Kathleen"]
     - ["Dominik", "Laura"]
     - ["Maximilian", "Christin"]
-    - ["Germain", "Vanessa_2"]
+    - ["Germain", "Vanessa_M"]
     - ["Marko", "Victoria"]
     - ["Dario", "Sabrina"]
     Matches: 4
   - Pairs:  # Night 8
     - ["Marcel", "Leonie"]
-    - ["Aaron", "Vanessa"]
-    - ["Marc", "Vanessa_2"]
+    - ["Aaron", "Vanessa_E"]
+    - ["Marc", "Vanessa_M"]
     - ["Sascha", "Sabrina"]
     - ["Marvin", "Kathleen"]
     - ["Dominik", "Melissa"]
