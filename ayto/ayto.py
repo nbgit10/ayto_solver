@@ -79,7 +79,7 @@ class AYTO:
             if m not in self.males or f not in self.females:
                 raise ValueError("Check your pairs. One or several names are invalid.")
             matches[0, self.males.index(m), self.females.index(f)] = 1
-        if np.max(matches) > 1:
+        if np.any(np.sum(matches, axis=-2) > 1) or np.any(np.sum(matches, axis=-1) > 1):
             raise ValueError("One or many people have multiple matches in this night.")
         self.b = np.append(self.b, results["Matches"])
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
@@ -118,31 +118,30 @@ class AYTO:
         model.optimize(max_seconds=2)
         self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
+        # TODO: ADD OMP/BP BASED SOLVER
+
     def print_matches(self):
         """Pretty print solutions found."""
-        if not np.array_equal(self.X, self.X_binary):
-            print("Likely matches (not necessarily all):")
-            for i, row in enumerate(self.X):
-                print("{} and:".format(self.males[i]))
-                for j, cell in enumerate(row):
-                    if cell > 0.1:
-                        print("    {}, score: {}".format(self.females[j], cell.round(1)))
-            print("\n")
-            print("Most probable matches:")
-            for i, row in enumerate(self.X_binary):
-                print("{} and:".format(self.males[i]))
-                for j, cell in enumerate(row):
-                    if cell > 0.1:
-                        print("    {}".format(self.females[j]))
-            print("\n")
-        else:
-            print("Single solution found. Not guranteed to be the only remaining one:")
-            for i, row in enumerate(self.X_binary):
-                print("{} and:".format(self.males[i]))
-                for j, cell in enumerate(row):
-                    if cell > 0.1:
-                        print("    {}".format(self.females[j]))
-            print("\n")
+        X_union = np.maximum(self.X, self.X_binary)
+        print("Current solution proposed:\n")
+        print("Males first:")
+        for i, row in enumerate(X_union):
+            print("{} and:".format(self.males[i]))
+            for j, cell in enumerate(row):
+                if cell > 0.1:
+                    print("    {}".format(self.females[j]))
+        print("\nFemales first:")
+        for j, column in enumerate(X_union.T):
+            print("{} and:".format(self.females[j]))
+            for i, cell in enumerate(column):
+                if cell > 0.1:
+                    print("    {}".format(self.males[i]))
+        print("\n")
+
+    def check_uniqueness(self):
+        """Check if A and b allow for unique optimal solution."""
+        # TODO: CHECK UNIQUENESS (RIP?, SPARK?)
+        return NotImplementedError
 
 
 def main():
@@ -162,4 +161,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()  # pylint: disable=
+    main()
