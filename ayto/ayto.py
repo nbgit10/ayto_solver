@@ -4,8 +4,8 @@ from pathlib import Path
 
 import numpy as np
 import yaml
-from scipy.optimize import linprog
-from mip import Model, xsum, minimize, BINARY
+from mip import BINARY, Model, minimize, xsum
+from sympy import Matrix
 
 
 class AYTO:
@@ -15,15 +15,12 @@ class AYTO:
         """Init."""
         self.males = MALES
         self.females = FEMALES
-        self.confirmed_matches = dict()
-        # self.confirmed_no_matches = dict()
 
         self.n_1 = len(self.males)
         self.n_2 = len(self.females)
         m = 0
         self.A3D = np.zeros((m, self.n_1, self.n_2))  # measurement matrix
         self.b = np.zeros((m, 1))  # measurements
-        self.X = np.zeros((self.n_1, self.n_2))
         self.X_binary = np.zeros((self.n_1, self.n_2))
 
         # CONSTRAINT WE HAVE COLUMN/ROWSUME 1s
@@ -99,13 +96,9 @@ class AYTO:
 
     def solve(self):
         """Try to solve the problem and identify possible matches."""
+        self._check_linear_dependency()
         A_eq = self.A3D.reshape(-1, self.n_1 * self.n_2)
         n = self.n_1 * self.n_2
-
-        # SCIPY LINEAR SOLVER:
-        c = np.ones((n, 1))
-        result = linprog(c, A_eq=A_eq, b_eq=self.b, bounds=(0, 1), method="highs-ds")
-        self.X = result.x.reshape(self.n_1, self.n_2)
 
         # PYTHON MIP:
         model = Model()
@@ -118,20 +111,17 @@ class AYTO:
         model.optimize(max_seconds=2)
         self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
-        # TODO: ADD OMP/BP BASED SOLVER
-
     def print_matches(self):
         """Pretty print solutions found."""
-        X_union = np.maximum(self.X, self.X_binary)
         print("Current solution proposed:\n")
         print("Males first:")
-        for i, row in enumerate(X_union):
+        for i, row in enumerate(self.X_binary):
             print("{} and:".format(self.males[i]))
             for j, cell in enumerate(row):
                 if cell > 0.1:
                     print("    {}".format(self.females[j]))
         print("\nFemales first:")
-        for j, column in enumerate(X_union.T):
+        for j, column in enumerate(self.X_binary.T):
             print("{} and:".format(self.females[j]))
             for i, cell in enumerate(column):
                 if cell > 0.1:
@@ -142,6 +132,13 @@ class AYTO:
         """Check if A and b allow for unique optimal solution."""
         # TODO: CHECK UNIQUENESS (RIP?, SPARK?)
         return NotImplementedError
+
+    def _check_linear_dependency(self):
+        """Detect and remove linear dependent constraints."""
+        A2D = self.A3D.reshape((self.A3D.shape[0], -1))
+        _, inds = Matrix(A2D).T.rref()
+        self.A3D = self.A3D[inds, :, :]
+        self.b = self.b[inds, ]
 
 
 def main():
