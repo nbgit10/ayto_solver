@@ -121,6 +121,18 @@ MATCHING_NIGHTS:
     - ["Marko", "Laura"]
     - ["Dario", "Victoria"]
     Matches: 1
+  - Pairs:  # Night 9
+    - ["Marcel", "Leonie"]
+    - ["Aaron", "Melissa"]
+    - ["Dario", "Kathleen"]
+    - ["Dominik", "Sabrina"]
+    - ["Germain", "Laura"]
+    - ["Marc", "Mirjam"]
+    - ["Marko", "Victoria"]
+    - ["Marvin", "Vanessa_E"]
+    - ["Maximilian", "Christin"]
+    - ["Sascha", "Jill"]
+    Matches: 3
 
 TRUTH_BOOTH:
   - Pair:
@@ -147,3 +159,7 @@ TRUTH_BOOTH:
     - "Marko"
     - "Sabrina"
     Match: False
+  - Pair:
+    - "Aaron"
+    - "Melissa"
+    Match: True
