@@ -1,0 +1,65 @@
+# AYTO SEASON VIP DE AFTER NIGHT 2/EP 6
+MALES:
+  - "Alex"
+  - "Danilo"
+  - "Diogo"
+  - "Eugen"
+  - "Francesco"
+  - "Jamy"
+  - "Josua"
+  - "Manu"
+  - "Salvatore"
+  - "Tommy"
+
+FEMALES:
+  - "Aurelia"
+  - "Finnja"
+  - "Jacky"
+  - "Jill"
+  - "Jules"
+  - "Kathleen"
+  - "Melina"
+  - "Sarah"
+  - "Steffi"
+  - "Walentina"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Alex", "Jules"]
+    - ["Danilo", "Steffi"]
+    - ["Diogo", "Aurelia"]
+    - ["Eugen", "Walentina"]
+    - ["Francesco", "Finnja"]
+    - ["Jamy", "Jill"]
+    - ["Josua", "Sarah"]
+    - ["Manu", "Kathleen"]
+    - ["Salvatore", "Jacky"]
+    - ["Tommy", "Melina"]
+    Matches: 3
+  - Pairs: # Night 2 (actually 3 but 2 was cancelled)
+    - ["Francesco", "Jules"]
+    - ["Tommy", "Melina"]
+    - ["Josua", "Walentina"]
+    - ["Eugen", "Steffi"]
+    - ["Salvatore", "Jacky"]
+    - ["Jamy", "Jill"]
+    - ["Manu", "Kathleen"]
+    - ["Diogo", "Aurelia"]
+    - ["Alex", "Finnja"]
+    - ["Danilo","Sarah"]
+    Matches: 3
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Danilo"
+      - "Finnja"
+    Match: False
+  - Pair:
+    - "Francesco"
+    - "Jules"
+    Match: True
+  - Pair:
+    - "Tommy"
+    - "Walentina"
+    Match: False
+  
