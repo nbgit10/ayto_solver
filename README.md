@@ -11,7 +11,7 @@ This code is untested and rather a PoC than production ready code. It was develo
 
 ## Optimization details
 
-We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x in {0,1}`where we actually already now the minimum and it is not unique until we have enough constraints (i.e. matching nights and truth booth results). This is derived from a compressed sensing approach where we would solve `min norm(x,0) s.t. Ax=b` since we know that our solution is sparse: The vector `x` of length `males * females` decoding all possible matches is `s`-sparse where `s` defines the number of couples. This knowledge allows us to solve the underdetermined linear equation system `Ax=b` nevertheless. We use a mixed integer linear programming approach (MIP). This algorithm will in our case always find a feasible and optimial solution, that means we always find a valid combination of couples that satisfies all information we have from matching nights and truth boothes. However, we don not know and do not check if this solution is unique. This approach is derived from a compressed sensing approach using linear optimization trying to do sparse signal recovery (see [https://en.wikipedia.org/wiki/Compressed_sensing]) and not treating this as a combinatorical problem. For the latter see e.g. [https://blogs.sas.com/content/operations/2018/08/14/are-you-the-one/] for an example.
+We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x in {0,1}`where we actually already now the minimum and it is not unique until we have enough constraints (i.e. matching nights and truth booth results). This is derived from a compressed sensing approach where we would solve `min norm(x,0) s.t. Ax=b` since we know that our solution is sparse: The vector `x` of length `males * females` decoding all possible matches is `s`-sparse where `s` defines the number of couples. This knowledge allows us to solve the underdetermined linear equation system `Ax=b` nevertheless. We use a mixed integer linear programming approach (MIP). This algorithm will in our case always find a feasible and optimial solution, that means we always find a valid combination of couples that satisfies all information we have from matching nights and truth boothes. However, we do not know and do not check if this solution is unique. This approach is derived from a compressed sensing approach using linear optimization trying to do sparse signal recovery (see [https://en.wikipedia.org/wiki/Compressed_sensing]) and not treating this as a combinatorical problem. For the latter see e.g. [https://blogs.sas.com/content/operations/2018/08/14/are-you-the-one/] for an example.
 
 ## Known Issues
 
@@ -21,25 +21,18 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 2 GERMANY CURRENT GUESSES AFTER EPISODE 18:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 10:</summary>
 
-Perfect matches:
-
-- Aaron + Melissa
-- Dario + Sabrina  
-- Dominik + Vanessa_E  
-- Germain + Christin  
-- Marc + Mirjam  
-- Marcel + Leonie  
-- Marko + Kathleen
-- Marvin + Jill
-- Maximilian + Victoria
-- Sascha + Laura
-
-Unclear:
-
-- Vanessa_M has several matches still, potentially Aaron or Marvin
-
-Solution is unique after matching night 8 - except for Vanessa M.
+Current guess:
+- Jamy + Aurelia
+- Tommy + Steffi
+- Danilo + Walentina
+- Eugen + Finnja
+- Francesco + Jules
+- Diogo + Jill and Vanessa
+- Alex + Melina
+- Salvatore + Jacky
+- Josua + Sarah
+- Manu + Kathleen
 
 </details>

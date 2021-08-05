@@ -88,16 +88,3 @@ TRUTH_BOOTH:
     - "Tommy"
     - "Walentina"
     Match: False
-
-# Current guess:
-#  - ["Jamy", "Aurelia"]
-#  - ["Tommy", "Steffi"]
-#  - ["Danilo", "Walentina"]
-#  - ["Eugen", "Finnja"]
-#  - ["Francesco", "Jules"]  # Out of show 
-#  - ["Diogo", "Jill"]
-#  - ["Alex", "Melina"]
-#  - ["Salvatore", "Jacky"]
-#  - ["Josua", "Sarah"]
-#  - ["Manu", "Kathleen"]
-#  - ["Diogo", "Vanessa"]
