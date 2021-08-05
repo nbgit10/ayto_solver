@@ -22,6 +22,7 @@ FEMALES:
   - "Sarah"
   - "Steffi"
   - "Walentina"
+  - "Vanessa"
 
 MATCHING_NIGHTS:
   - Pairs:  # Night 1
@@ -48,6 +49,31 @@ MATCHING_NIGHTS:
     - ["Alex", "Finnja"]
     - ["Danilo","Sarah"]
     Matches: 3
+  - Pairs: # Night 3, no match for Jacky
+    - ["Alex", "Steffi"]
+    - ["Danilo", "Melina"]
+    - ["Diogo", "Aurelia"]
+    - ["Eugen", "Finnja"]
+    - ["Francesco", "Jules"]
+    - ["Jamy", "Vanessa"]
+    - ["Josua", "Sarah"]
+    - ["Manu", "Kathleen"]
+    - ["Salvatore", "Walentina"]
+    - ["Tommy", "Jill"]
+    Matches: 4
+  - Pairs: # Night 4
+    - ["Jamy", "Steffi"]
+    - ["Tommy", "Melina"]
+    - ["Danilo", "Aurelia"]
+    - ["Eugen", "Finnja"]
+    - ["Francesco", "Jules"]  # Out of show 
+    - ["Diogo", "Vanessa"]
+    - ["Alex", "Sarah"]
+    - ["Salvatore", "Kathleen"]
+    - ["Josua", "Walentina"]
+    - ["Manu", "Jill"]
+    # - ["Diogo", "Jacky"]  # declined by Diogo
+    Matches: 3
 
 TRUTH_BOOTH:
   - Pair:
@@ -62,4 +88,16 @@ TRUTH_BOOTH:
     - "Tommy"
     - "Walentina"
     Match: False
-  
+
+# Current guess:
+#  - ["Jamy", "Aurelia"]
+#  - ["Tommy", "Steffi"]
+#  - ["Danilo", "Walentina"]
+#  - ["Eugen", "Finnja"]
+#  - ["Francesco", "Jules"]  # Out of show 
+#  - ["Diogo", "Jill"]
+#  - ["Alex", "Melina"]
+#  - ["Salvatore", "Jacky"]
+#  - ["Josua", "Sarah"]
+#  - ["Manu", "Kathleen"]
+#  - ["Diogo", "Vanessa"]
