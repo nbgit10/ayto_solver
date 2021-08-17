@@ -74,6 +74,18 @@ MATCHING_NIGHTS:
     - ["Manu", "Jill"]
     # - ["Diogo", "Jacky"]  # declined by Diogo
     Matches: 3
+  - Pairs: # Night 4
+    - ["Jamy", "Sarah"]
+    - ["Tommy", "Melina"]
+    - ["Danilo", "Jill"]
+    - ["Eugen", "Finnja"]
+    - ["Francesco", "Jules"]  # Out of show 
+    - ["Diogo", "Aurelia"]
+    - ["Alex", "Steffi"]
+    - ["Salvatore", "Jacky"]
+    - ["Josua", "Walentina"]
+    - ["Manu", "Kathleen"]
+    Matches: 3
 
 TRUTH_BOOTH:
   - Pair:
@@ -87,4 +99,8 @@ TRUTH_BOOTH:
   - Pair:
     - "Tommy"
     - "Walentina"
+    Match: False
+  - Pair:
+    - "Salvatore"
+    - "Finnja"
     Match: False
