@@ -37,7 +37,7 @@ MATCHING_NIGHTS:
     - ["Salvatore", "Jacky"]
     - ["Tommy", "Melina"]
     Matches: 3
-  - Pairs: # Night 2 (actually 3 but 2 was cancelled)
+  - Pairs: # Night 3 (actually 3 but 2 was cancelled)
     - ["Francesco", "Jules"]
     - ["Tommy", "Melina"]
     - ["Josua", "Walentina"]
@@ -49,7 +49,7 @@ MATCHING_NIGHTS:
     - ["Alex", "Finnja"]
     - ["Danilo","Sarah"]
     Matches: 3
-  - Pairs: # Night 3, no match for Jacky
+  - Pairs: # Night 4, no match for Jacky
     - ["Alex", "Steffi"]
     - ["Danilo", "Melina"]
     - ["Diogo", "Aurelia"]
@@ -61,7 +61,7 @@ MATCHING_NIGHTS:
     - ["Salvatore", "Walentina"]
     - ["Tommy", "Jill"]
     Matches: 4
-  - Pairs: # Night 4
+  - Pairs: # Night 5
     - ["Jamy", "Steffi"]
     - ["Tommy", "Melina"]
     - ["Danilo", "Aurelia"]
@@ -74,7 +74,7 @@ MATCHING_NIGHTS:
     - ["Manu", "Jill"]
     # - ["Diogo", "Jacky"]  # declined by Diogo
     Matches: 3
-  - Pairs: # Night 4
+  - Pairs: # Night 6
     - ["Jamy", "Sarah"]
     - ["Tommy", "Melina"]
     - ["Danilo", "Jill"]
@@ -86,6 +86,18 @@ MATCHING_NIGHTS:
     - ["Josua", "Walentina"]
     - ["Manu", "Kathleen"]
     Matches: 3
+    Pairs: # Night 7
+    - ["Josua", "Sarah"]
+    - ["Tommy", "Melina"]
+    - ["Eugen", "Jill"]
+    - ["Jamy", "Finnja"]
+    - ["Francesco", "Jules"]  # Out of show 
+    - ["Danilo", "Aurelia"]
+    - ["Alex", "Jacky"]
+    - ["Salvatore", "Walentina"]
+    - ["Manu", "Kathleen"]
+    - ["Diogo", "Vanessa"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair:
@@ -102,5 +114,9 @@ TRUTH_BOOTH:
     Match: False
   - Pair:
     - "Salvatore"
+    - "Finnja"
+    Match: False
+  - Pair:
+    - "Eugen"
     - "Finnja"
     Match: False
