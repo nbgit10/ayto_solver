@@ -21,18 +21,18 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 14:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 16:</summary>
 
 Current guess:
-- Jamy + Jacky and Vanessa
-- Tommy + Melina
-- Danilo + Kathleen
+- Jamy + Finnja and Vanessa
+- Tommy + Kathleen
+- Danilo + Melina
 - Eugen + Walentina
 - Francesco + Jules
 - Diogo + Aurelia
-- Alex + Steffi
-- Salvatore + Sarah
-- Josua + Finnja
+- Alex + Sarah
+- Salvatore + Jacky
+- Josua + Steffi
 - Manu + Jill
 
 </details>
