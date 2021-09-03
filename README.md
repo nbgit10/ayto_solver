@@ -24,16 +24,16 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 <summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 18:</summary>
 
 Current guess:
-- Jamy + Steffi and Vanessa
+- Jamy + Steffi ✅ and Vanessa
 - Tommy + Aurelia
-- Danilo + Melina
-- Eugen + Walentina
-- Francesco + Jules
+- Danilo + Melina ✅
+- Eugen + Walentina ✅
+- Francesco + Jules ✅
 - Diogo + Jill
-- Alex + Sarah
-- Salvatore + Jacky
+- Alex + Sarah ✅
+- Salvatore + Jacky ✅
 - Josua + Finnja
-- Manu + Kathleen
+- Manu + Kathleen ✅
 
-Does not seem to be unique, but not further tested.
+Ticked matches should be save, others do not seem to be unique after this episode yet.
 </details>
