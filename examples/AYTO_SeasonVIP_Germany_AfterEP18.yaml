@@ -110,6 +110,18 @@ MATCHING_NIGHTS:
     - ["Manu", "Finnja"]
     - ["Diogo", "Vanessa"]
     Matches: 1
+  - Pairs: # Night 9
+    - ["Josua", "Vanessa"]
+    - ["Tommy", "Finnja"]
+    - ["Eugen", "Melina"]
+    - ["Jamy", "Steffi"]
+    - ["Francesco", "Jules"]  # Out of show 
+    - ["Danilo", "Jill"]
+    - ["Alex", "Sarah"]
+    - ["Salvatore", "Walentina"]
+    - ["Manu", "Kathleen"]
+    - ["Diogo", "Aurelia"]
+    Matches: 4
 
 TRUTH_BOOTH:
   - Pair:
@@ -135,4 +147,8 @@ TRUTH_BOOTH:
   - Pair:
     - "Eugen"
     - "Steffi"
+    Match: False
+  - Pair:
+    - "Josua"
+    - "Sarah"
     Match: False
