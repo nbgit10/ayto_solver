@@ -26,4 +26,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test current solution
       run: |
-        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_SeasonVIP_Germany_AfterEP16.yaml
+        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_SeasonVIP_Germany_AfterEP18.yaml
