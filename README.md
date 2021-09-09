@@ -21,21 +21,20 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 18/20:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON VIP GERMANY CURRENT GUESSES AFTER EPISODE 20:</summary>
 
 Current guess:
-- Jamy + Steffi ✅ and Vanessa
-- Tommy + Aurelia
-- Danilo + Melina ✅
+- Jamy + Steffi ✅
+- Tommy + Jill 
+- Danilo + Melina 
 - Eugen + Walentina ✅
 - Francesco + Jules ✅
-- Diogo + Jill
-- Alex + Sarah ✅
+- Diogo + Finnja 
+- Alex + Sarah and Vanessa ✅
 - Salvatore + Jacky ✅
-- Josua + Finnja
+- Josua + Aurelia ✅
 - Manu + Kathleen ✅
 
-Ticked matches should be save, others do not seem to be unique after this episode yet.
-
-They do NOT win after episode 20. In the preview one can see that e.g. Danilo and Sarah sit together who do not match.
+Ticked matches mark matches they had at last matching night in episode 20.
+They do NOT win after episode 20 since they just had 7 matches.
 </details>
