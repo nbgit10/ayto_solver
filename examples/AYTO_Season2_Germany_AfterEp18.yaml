@@ -1,4 +1,4 @@
-# AYTO SEASON2 DE AFTER NIGHT 8/EP 16
+# AYTO SEASON2 DE AFTER NIGHT 9/EP 18
 MALES:
   - "Aaron"
   - "Dario"
@@ -152,14 +152,14 @@ TRUTH_BOOTH:
       - "Leonie"
     Match: True
   - Pair:
-    - "Dario"
-    - "Laura"
+      - "Dario"
+      - "Laura"
     Match: False
   - Pair:
-    - "Marko"
-    - "Sabrina"
+      - "Marko"
+      - "Sabrina"
     Match: False
   - Pair:
-    - "Aaron"
-    - "Melissa"
+      - "Aaron"
+      - "Melissa"
     Match: True
