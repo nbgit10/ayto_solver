@@ -35,6 +35,11 @@ Current guess:
 - Josua + Aurelia ✅
 - Manu + Kathleen ✅
 
-Ticked matches mark matches they had at last matching night in episode 20.
-They do NOT win after episode 20 since they just had 7 matches.
+Ticked matches mark matches they had at last matching night in episode 20. 
+They did NOT win after episode 20 since they just had 7 matches. 
+We note, that our algorithm did not guess the correct solution after episode 18.
+However, we stress that the solution was not yet unique due to the bad performance of the cast.
+After the truth boot of episode 19, the algorithm converged to the final and correct solution.
+Hence, it would have been possible to get the money for the cast.
+We get the same results running with the results of the final matching night.
 </details>
