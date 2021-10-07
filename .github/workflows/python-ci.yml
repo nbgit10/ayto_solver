@@ -1,0 +1,42 @@
+name: Standard Python CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  standard-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build        
+        run: |
+          # Check python version
+          which python
+          python --version
+          # Print 32- or 64-bit version.
+          python -c "import struct;print(struct.calcsize('P') * 8)"
+          # Install packages
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade --upgrade-strategy eager -r ./.github/requirements/ci_py.txt
+          # List packages
+          python -m pip list
+          # List outdated packages
+          python -m pip list --outdated
+          # Check for broken dependencies
+          python -m pip check
+      - name: flake8
+        run: python -m flake8
+        if: always()
+      - name: pylint
+        run: find . -iname "*.py" | xargs python -m pylint
+        if: always()
+      - name: pydocstyle
+        run: python -m pydocstyle ayto
+        if: always()
+#       - name: pytest
+#         run: python -m pytest -v --cov=ayto     
+#         if: always()

@@ -1,4 +1,0 @@
-mip
-numpy
-pyyaml
-sympy

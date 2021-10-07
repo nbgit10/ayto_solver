@@ -23,7 +23,7 @@ class AYTO:
         self.b = np.zeros((m, 1))  # measurements
         self.X_binary = np.zeros((self.n_1, self.n_2))
 
-        # CONSTRAINT WE HAVE COLUMN/ROWSUME 1s
+        # CONSTRAINT WE HAVE COLUMN/ROWSUM is 1
         if self.n_2 == self.n_1:
             for i in range(self.n_1):
                 # Over all columns:
@@ -58,7 +58,7 @@ class AYTO:
                 matches[0, i, 1] = 1
                 self.A3D = np.concatenate((self.A3D, matches), axis=0)
                 self.b = np.append(self.b, 1)
-            # Each female has a match with the "first set" if males
+            # Each female has a match with the "first set" of males
             for i in range(self.n_2):
                 matches = np.zeros((1, len(self.males), len(self.females)))
                 matches[0, :-1, i] = 1
@@ -116,16 +116,16 @@ class AYTO:
         print("Current solution proposed:\n")
         print("Males first:")
         for i, row in enumerate(self.X_binary):
-            print("{} and:".format(self.males[i]))
+            print(f"{self.males[i]} and:")
             for j, cell in enumerate(row):
                 if cell > 0.1:
-                    print("    {}".format(self.females[j]))
+                    print(f"    {self.females[j]}")
         print("\nFemales first:")
         for j, column in enumerate(self.X_binary.T):
-            print("{} and:".format(self.females[j]))
+            print(f"{self.females[j]} and:")
             for i, cell in enumerate(column):
                 if cell > 0.1:
-                    print("    {}".format(self.males[i]))
+                    print(f"    {self.males[i]}")
         print("\n")
 
     def check_uniqueness(self):
@@ -146,7 +146,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--yaml_file_path", type=Path)
     args = parser.parse_args()
-    with open(args.yaml_file_path, "r") as f:
+    with open(args.yaml_file_path, "r", encoding="utf-8") as f:
         progress = yaml.load(f, Loader=yaml.SafeLoader)
     ayto = AYTO(progress["MALES"], progress["FEMALES"])
     for _, val in enumerate(progress["MATCHING_NIGHTS"]):
