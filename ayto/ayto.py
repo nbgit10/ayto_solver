@@ -128,11 +128,6 @@ class AYTO:
                     print(f"    {self.males[i]}")
         print("\n")
 
-    def check_uniqueness(self):
-        """Check if A and b allow for unique optimal solution."""
-        # TODO: CHECK UNIQUENESS (RIP?, SPARK?)
-        return NotImplementedError
-
     def _check_linear_dependency(self):
         """Detect and remove linear dependent constraints."""
         A2D = self.A3D.reshape((self.A3D.shape[0], -1))
