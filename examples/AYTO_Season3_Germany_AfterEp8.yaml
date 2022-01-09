@@ -1,0 +1,93 @@
+# AYTO SEASON3 DE
+MALES:
+  - "Andre"
+  - "Antonio"
+  - "Dustin"
+  - "Jordi"
+  - "Leon"
+  - "Marius"
+  - "Max"
+  - "Mike"
+  - "Tim"
+  - "William"
+
+FEMALES:
+  - "Dana"
+  - "Estelle"
+  - "Isabelle"
+  - "Jessica"
+  - "Joelina"
+  - "Kerstin"
+  - "Marie"
+  - "Monami"
+  - "Raphaela"
+  - "Zaira"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Andre", "Raphaela"]
+    - ["Antonio", "Monami"]
+    - ["Dustin", "Zaira"]
+    - ["Jordi", "Estelle"]
+    - ["Leon", "Jessica"]
+    - ["Marius", "Isabelle"]
+    - ["Max", "Kerstin"]
+    - ["Mike", "Joelina"]
+    - ["Tim", "Marie"]
+    - ["William", "Dana"]
+    Matches: 3
+
+  - Pairs:  # Night 2
+    - ["Andre", "Dana"]
+    - ["Antonio", "Monami"]
+    - ["Dustin", "Isabelle"]
+    - ["Jordi", "Zaira"]
+    - ["Leon", "Estelle"]
+    - ["Marius", "Marie"]
+    - ["Max", "Kerstin"]
+    - ["Mike", "Joelina"]
+    - ["Tim", "Jessica"]
+    - ["William", "Raphaela"]
+    Matches: 2
+
+  - Pairs:  # Night 3
+    - ["Andre", "Raphaela"]
+    - ["Antonio", "Kerstin"]
+    - ["Dustin", "Zaira"]
+    - ["Jordi", "Jessica"]
+    - ["Leon", "Estelle"]
+    - ["Marius", "Isabelle"]
+    - ["Max", "Monami"]
+    - ["Mike", "Joelina"]
+    - ["Tim", "Marie"]
+    - ["William", "Dana"]
+    Matches: 2
+
+  - Pairs:  # Night 4
+    - ["Andre", "Isabelle"]
+    - ["Antonio", "Monami"]
+    - ["Dustin", "Zaira"]
+    - ["Jordi", "Raphaela"]
+    - ["Leon", "Estelle"]
+    - ["Marius", "Jessica"]
+    - ["Max", "Marie"]
+    - ["Mike", "Joelina"]
+    - ["Tim", "Kerstin"]
+    - ["William", "Dana"]
+    Matches: 3
+
+TRUTH_BOOTH:
+  - Pair:
+    - "Mike"
+    - "Jessica"
+    Match: False
+
+  - Pair:
+    - "Leon"
+    - "Monami"
+    Match: False
+
+  - Pair:
+    - "Andre"
+    - "Raphaela"
+    Match: False
