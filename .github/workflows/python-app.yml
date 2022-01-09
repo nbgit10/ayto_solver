@@ -20,10 +20,22 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Install dependencies
+    - name: build        
       run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test current solution
+        # Check python version
+        which python
+        python --version
+        # Print 32- or 64-bit version.
+        python -c "import struct;print(struct.calcsize('P') * 8)"
+        # Install packages
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --upgrade --upgrade-strategy eager -r ./.github/requirements/ci_py.txt
+        # List packages
+        python -m pip list
+        # List outdated packages
+        python -m pip list --outdated
+        # Check for broken dependencies
+        python -m pip check
+    - name: Get current solution
       run: |
         python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_Season3_Germany_AfterEP8.yaml

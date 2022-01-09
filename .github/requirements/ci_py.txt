@@ -1,0 +1,11 @@
+# Packages for Ayto:
+mip
+numpy
+pyyaml
+sympy
+# Dev packages:
+flake8
+pydocstyle
+pylint
+pytest
+pytest-cov
