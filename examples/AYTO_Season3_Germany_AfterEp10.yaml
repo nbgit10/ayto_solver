@@ -22,6 +22,7 @@ FEMALES:
   - "Monami"
   - "Raphaela"
   - "Zaira"
+  - "Desiree"
 
 MATCHING_NIGHTS:
   - Pairs:  # Night 1
@@ -36,7 +37,6 @@ MATCHING_NIGHTS:
     - ["Tim", "Marie"]
     - ["William", "Dana"]
     Matches: 3
-
   - Pairs:  # Night 2
     - ["Andre", "Dana"]
     - ["Antonio", "Monami"]
@@ -49,7 +49,6 @@ MATCHING_NIGHTS:
     - ["Tim", "Jessica"]
     - ["William", "Raphaela"]
     Matches: 2
-
   - Pairs:  # Night 3
     - ["Andre", "Raphaela"]
     - ["Antonio", "Kerstin"]
@@ -62,7 +61,6 @@ MATCHING_NIGHTS:
     - ["Tim", "Marie"]
     - ["William", "Dana"]
     Matches: 2
-
   - Pairs:  # Night 4
     - ["Andre", "Isabelle"]
     - ["Antonio", "Monami"]
@@ -75,19 +73,33 @@ MATCHING_NIGHTS:
     - ["Tim", "Kerstin"]
     - ["William", "Dana"]
     Matches: 3
+  - Pairs:  # Night 5
+    - ["Andre", "Joelina"]
+    - ["Antonio", "Kerstin"]
+    - ["Dustin", "Isabelle"]
+    - ["Jordi", "Zaira"]
+    - ["Leon", "Jessica"]
+    - ["Marius", "Raphaela"]
+    - ["Max", "Monami"]
+    - ["Mike", "Estelle"]
+    - ["Tim", "Desiree"]
+    - ["William", "Dana"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair:
     - "Mike"
     - "Jessica"
     Match: False
-
   - Pair:
     - "Leon"
     - "Monami"
     Match: False
-
   - Pair:
     - "Andre"
     - "Raphaela"
+    Match: False
+  - Pair:
+    - "Antonio"
+    - "Monami"
     Match: False

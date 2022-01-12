@@ -21,17 +21,17 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 3 GERMANY CURRENT GUESSES AFTER EPISODE 8:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 3 GERMANY CURRENT GUESSES AFTER EPISODE 10:</summary>
 
 Current guess:
-- Andre + Joelina
-- Antonio + Monami 
-- Dustin + Zaira 
-- Jordi + Dana
-- Leon + Kerstin
-- Marius + Jessica 
-- Max + Isabelle
-- Mike + Estelle
-- Tim + Marie
-- William + Raphaela
+- Andre + Isabelle
+- Antonio + Raphaela 
+- Dustin + Dana 
+- Jordi + Estelle
+- Leon + Jessica
+- Marius + Marie and Desiree 
+- Max + Monami
+- Mike + Joelina
+- Tim + Kerstin
+- William + Zaira
 </details>
