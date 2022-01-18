@@ -25,13 +25,13 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 
 Current guess:
 - Andre + Isabelle
-- Antonio + Raphaela 
+- Antonio + Marie 
 - Dustin + Dana 
-- Jordi + Estelle
+- Jordi + Estelle and Desiree
 - Leon + Jessica
-- Marius + Marie and Desiree 
+- Marius + Zaira
 - Max + Monami
 - Mike + Joelina
 - Tim + Kerstin
-- William + Zaira
+- William + Raphaela
 </details>
