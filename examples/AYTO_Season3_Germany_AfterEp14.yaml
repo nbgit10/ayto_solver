@@ -97,6 +97,18 @@ MATCHING_NIGHTS:
     - ["Tim", "Joelina"]
     - ["William", "Raphaela"]
     Matches: 4
+  - Pairs:  # Night 7
+    - ["Andre", "Desiree"]
+    - ["Antonio", "Dana"]
+    - ["Dustin", "Isabelle"]
+    - ["Jordi", "Monami"]
+    - ["Leon", "Jessica"]
+    - ["Marius", "Zaira"]
+    - ["Max", "Marie"]
+    - ["Mike", "Joelina"]
+    - ["Tim", "Kerstin"]
+    - ["William", "Raphaela"]
+    Matches: 6
 
 TRUTH_BOOTH:
   - Pair:
@@ -119,3 +131,11 @@ TRUTH_BOOTH:
     - "Max"
     - "Jessica"
     Match: False
+  - Pair:
+    - "Marius"
+    - "Zaira"
+    Match: True
+  - Pair:
+    - "William"
+    - "Desiree"
+    Match: True  # Not confirmed, but speculating that both options are a perfect match
