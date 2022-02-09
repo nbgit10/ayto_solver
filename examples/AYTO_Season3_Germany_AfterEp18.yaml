@@ -121,6 +121,18 @@ MATCHING_NIGHTS:
     - ["Tim", "Joelina"]
     - ["William", "Raphaela"]
     Matches: 4
+  - Pairs:  # Night 9
+    - ["Andre", "Desiree"]
+    - ["Antonio", "Isabelle"]
+    - ["Dustin", "Dana"]
+    - ["Jordi", "Monami"]
+    - ["Leon", "Jessica"]
+    - ["Marius", "Zaira"]
+    - ["Max", "Raphaela"]
+    - ["Mike", "Estelle"]
+    - ["Tim", "Joelina"]
+    - ["William", "Marie"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair:
@@ -154,4 +166,8 @@ TRUTH_BOOTH:
   - Pair:
     - "Jordi"
     - "Raphaela"
+    Match: False
+  - Pair:
+    - "Max"
+    - "Kerstin"
     Match: False

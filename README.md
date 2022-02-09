@@ -21,7 +21,7 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 3 GERMANY CURRENT GUESSES AFTER EPISODE 16:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 3 GERMANY CURRENT GUESSES AFTER EPISODE 18:</summary>
 
 Current guess:
 - Andre + Isabelle
@@ -34,4 +34,6 @@ Current guess:
 - Mike + Joelina
 - Tim + Kerstin
 - William + Raphaela and Desiree
+
+We notice that there has not been an improvement since episode 14. We assume that the solution has converged to a unique one and all perfect matches have been found. We further notice that RTL has improved and did not leak the final results in their preview by accident. Based on the reaction of the cast we can assume that they will find all perfect matches and win the money. The only unknown is Desiree which based on the "random dates" in episode 13 we assume has William as partner but she might as well end up alone.
 </details>
