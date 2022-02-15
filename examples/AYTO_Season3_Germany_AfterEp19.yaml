@@ -171,3 +171,7 @@ TRUTH_BOOTH:
     - "Max"
     - "Kerstin"
     Match: False
+  - Pair:
+    - "Dustin"
+    - "Isabelle"
+    Match: False
