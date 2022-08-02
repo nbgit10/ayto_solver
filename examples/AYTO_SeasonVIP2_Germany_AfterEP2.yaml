@@ -1,0 +1,35 @@
+# AYTO SEASON VIP 2 DE
+MALES:
+  - "Amadu"
+  - "Calvin"
+  - "Fabio"
+  - "Luca"
+  - "Lukas"
+  - "Martin"
+  - "Maurice"
+  - "Max"
+  - "Micha"
+  - "Pharrell"
+
+FEMALES:
+  - "Anna"
+  - "Cecilia"
+  - "Celina"
+  - "Franziska"
+  - "Gina"
+  - "Isabelle"
+  - "Karina"
+  - "Luisa"
+  - "Ricarda"
+  - "Zoe"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, not yet shown. Will be episode 4.
+    - ["Martin", "Zoe"]
+    Matches: 0
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Martin"
+      - "Zoe"
+    Match: False # Episode 3 preview spoilered result
