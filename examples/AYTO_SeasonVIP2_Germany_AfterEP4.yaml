@@ -24,12 +24,26 @@ FEMALES:
   - "Zoe"
 
 MATCHING_NIGHTS:
-  - Pairs:  # Night 1, not yet shown. Will be episode 4.
-    - ["Martin", "Zoe"]
-    Matches: 0
+  - Pairs:  # Night 1, ep4
+    - ["Max", "Franziska"]
+    - ["Micha", "Anna"]
+    - ["Martin", "Celina"]
+    - ["Maurice", "Ricarda"]
+    - ["Calvin", "Gina"]
+    - ["Amadu", "Cecilia"]
+    - ["Pharrell", "Karina"]
+    - ["Lukas", "Isabelle"]
+    - ["Fabio", "Luisa"]
+    - ["Luca", "Zoe"]
+    Matches: 3
 
 TRUTH_BOOTH:
   - Pair:
       - "Martin"
       - "Zoe"
     Match: False # Episode 3 preview spoilered result
+  - Pair:
+      - "Pharrell"
+      - "Karina"
+    Match: False # Episode 5 preview spoilered result again
+

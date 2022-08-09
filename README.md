@@ -21,18 +21,18 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON Reality Stars in Love (VIP) 2 GERMANY CURRENT GUESSES AFTER EPISODE 2:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON Reality Stars in Love (VIP) 2 GERMANY CURRENT GUESSES AFTER EPISODE 4:</summary>
 
-Current guess which is totally random:
-- Amadu + Isabelle
-- Calvin + Zoe
-- Fabio + Karina
-- Luca + Ricarda
-- Lukas + Anna
-- Martin + Franziska
-- Maurica + Luisa
+Current guess which is still quite random:
+- Amadu + Franziska
+- Calvin + Gina
+- Fabio + Luisa
+- Luca + Celina
+- Lukas + Karina
+- Martin + Ricarda
+- Maurica + Zoe
 - Max + Cecilia
-- Micha + Cecilia
-- Pharrell + Gina
+- Micha + Anna
+- Pharrell + Isabelle
 
 </details>
