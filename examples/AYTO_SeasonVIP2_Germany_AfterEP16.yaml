@@ -1,0 +1,129 @@
+# AYTO SEASON VIP 2 DE
+MALES:
+  - "Amadu"
+  - "Calvin"
+  - "Fabio"
+  - "Luca"
+  - "Lukas"
+  - "Martin"
+  - "Maurice"
+  - "Max"
+  - "Micha"
+  - "Pharrell"
+  # - "Felix"
+
+FEMALES:
+  - "Anna"
+  - "Cecilia"
+  - "Celina"
+  - "Franziska"
+  - "Gina"
+  - "Isabelle"
+  - "Karina"
+  - "Luisa"
+  - "Ricarda"
+  - "Zoe"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, ep4
+    - ["Max", "Franziska"]
+    - ["Micha", "Anna"]
+    - ["Martin", "Celina"]
+    - ["Maurice", "Ricarda"]
+    - ["Calvin", "Gina"]
+    - ["Amadu", "Cecilia"]
+    - ["Pharrell", "Karina"]
+    - ["Lukas", "Isabelle"]
+    - ["Fabio", "Luisa"]
+    - ["Luca", "Zoe"]
+    Matches: 3
+  - Pairs:  # Night 2, ep6
+    - ["Luca", "Franziska"]
+    - ["Micha", "Anna"]
+    - ["Max", "Celina"]
+    - ["Maurice", "Ricarda"]
+    - ["Amadu", "Gina"]
+    - ["Pharrell", "Cecilia"]
+    - ["Fabio", "Karina"]
+    - ["Martin", "Isabelle"]
+    - ["Calvin", "Luisa"]
+    - ["Lukas", "Zoe"]
+    Matches: 2
+  - Pairs:  # Night 3
+    - ["Luca", "Isabelle"]
+    - ["Micha", "Gina"]
+    - ["Max", "Zoe"]
+    - ["Maurice", "Ricarda"]
+    - ["Fabio", "Celina"]
+    - ["Martin", "Anna"]
+    - ["Calvin", "Karina"]
+    - ["Amadu", "Cecilia"]
+    - ["Pharrell", "Luisa"]
+    - ["Lukas", "Franziska"]
+    Matches: 3
+  - Pairs:  # Night 5
+    - ["Luca", "Zoe"]
+    - ["Micha", "Franziska"]
+    - ["Max", "Ricarda"]
+    - ["Maurice", "Isabelle"]
+    - ["Pharrell", "Anna"]
+    - ["Fabio", "Celina"]
+    - ["Martin", "Karina"]
+    # - ["Felix", "Gina"]
+    - ["Amadu", "Cecilia"]
+    - ["Lukas", "Luisa"]
+    Matches: 3
+  - Pairs:  # Night 6
+    - ["Luca", "Zoe"]
+    - ["Micha", "Anna"]
+    - ["Max", "Franziska"]
+    - ["Maurice", "Cecilia"]
+    - ["Calvin", "Karina"]
+    - ["Pharrell", "Ricarda"]
+    - ["Fabio", "Celina"]
+    - ["Martin", "Isabelle"]
+    # - ["Felix", "Gina"]
+    - ["Lukas", "Luisa"]
+    Matches: 3
+  - Pairs:  # Night 7
+    - ["Luca", "Zoe"]
+    - ["Micha", "Anna"]
+    - ["Max", "Franziska"]
+    - ["Pharrell", "Ricarda"]
+    - ["Fabio", "Celina"]
+    - ["Martin", "Isabelle"]
+    # - ["Felix", "Gina"]
+    - ["Calvin", "Karina"]
+    - ["Amadu", "Cecilia"]
+    - ["Lukas", "Luisa"]
+    Matches: 4
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Martin"
+      - "Zoe"
+    Match: False # Episode 3 preview spoilered result
+  - Pair:
+      - "Pharrell"
+      - "Karina"
+    Match: False # Episode 5 preview spoilered result again
+  - Pair:
+      - "Lukas"
+      - "Celina"
+    Match: False # Ep7 preview did not spoiler it
+  # - Pair:
+  #     - "Felix"
+  #     - "Ricarda"
+    Match: False # ep 11
+  - Pair:
+      - "Pharrell"
+      - "Isabelle"
+    Match: False # ep 13
+  - Pair:
+      - "Amadu"
+      - "Cecilia"
+    Match: True # ep 15
+  - Pair:
+      - "Lukas"
+      - "Luisa"
+    Match: True # had to leave ep 9
