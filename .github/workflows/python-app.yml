@@ -38,4 +38,4 @@ jobs:
         python -m pip check
     - name: Get current solution
       run: |
-        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_Season3_Germany_AfterEP8.yaml
+        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_SeasonVIP2_Germany_AfterEP16.yaml
