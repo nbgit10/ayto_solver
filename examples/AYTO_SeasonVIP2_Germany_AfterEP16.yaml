@@ -114,7 +114,7 @@ TRUTH_BOOTH:
   # - Pair:
   #     - "Felix"
   #     - "Ricarda"
-    Match: False # ep 11
+  #  Match: False # ep 11
   - Pair:
       - "Pharrell"
       - "Isabelle"
@@ -127,3 +127,7 @@ TRUTH_BOOTH:
       - "Lukas"
       - "Luisa"
     Match: True # had to leave ep 9
+  - Pair:
+      - "Micha"
+      - "Anna"
+    Match: True
