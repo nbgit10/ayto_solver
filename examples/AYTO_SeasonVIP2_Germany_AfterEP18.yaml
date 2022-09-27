@@ -10,7 +10,7 @@ MALES:
   - "Max"
   - "Micha"
   - "Pharrell"
-  # - "Felix"
+  - "Felix"
 
 FEMALES:
   - "Anna"
@@ -69,7 +69,7 @@ MATCHING_NIGHTS:
     - ["Pharrell", "Anna"]
     - ["Fabio", "Celina"]
     - ["Martin", "Karina"]
-    # - ["Felix", "Gina"]
+    - ["Felix", "Gina"]
     - ["Amadu", "Cecilia"]
     - ["Lukas", "Luisa"]
     Matches: 3
@@ -82,7 +82,7 @@ MATCHING_NIGHTS:
     - ["Pharrell", "Ricarda"]
     - ["Fabio", "Celina"]
     - ["Martin", "Isabelle"]
-    # - ["Felix", "Gina"]
+    - ["Felix", "Gina"]
     - ["Lukas", "Luisa"]
     Matches: 3
   - Pairs:  # Night 7
@@ -92,11 +92,23 @@ MATCHING_NIGHTS:
     - ["Pharrell", "Ricarda"]
     - ["Fabio", "Celina"]
     - ["Martin", "Isabelle"]
-    # - ["Felix", "Gina"]
+    - ["Felix", "Gina"]
     - ["Calvin", "Karina"]
     - ["Amadu", "Cecilia"]
     - ["Lukas", "Luisa"]
     Matches: 4
+  - Pairs:  # Night 8
+    - ["Fabio", "Gina"]
+    - ["Calvin", "Franziska"]
+    - ["Pharrell", "Ricarda"]
+    - ["Luca", "Celina"]
+    - ["Martin", "Karina"]
+    - ["Felix", "Isabelle"]
+    - ["Maurice", "Zoe"]
+    - ["Micha", "Anna"]
+    - ["Amadu", "Cecilia"]
+    - ["Lukas", "Luisa"]
+    Matches: 5
 
 TRUTH_BOOTH:
   - Pair:
@@ -111,10 +123,10 @@ TRUTH_BOOTH:
       - "Lukas"
       - "Celina"
     Match: False # Ep7 preview did not spoiler it
-  # - Pair:
-  #     - "Felix"
-  #     - "Ricarda"
-  #  Match: False # ep 11
+  - Pair:
+       - "Felix"
+       - "Ricarda"
+    Match: False # ep 11
   - Pair:
       - "Pharrell"
       - "Isabelle"

@@ -24,46 +24,73 @@ class AYTO:
         self.X_binary = np.zeros((self.n_1, self.n_2))
 
         # CONSTRAINT WE HAVE COLUMN/ROWSUM is 1
-        if self.n_2 == self.n_1:
-            for i in range(self.n_1):
-                # Over all columns:
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, :, i] = 1
-                self.A3D = np.concatenate((self.A3D, matches), axis=0)
-                self.b = np.append(self.b, 1)
-                # Over all rows:
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, i, :] = 1
-                self.A3D = np.concatenate((self.A3D, matches), axis=0)
-                self.b = np.append(self.b, 1)
-        elif self.n_2 > self.n_1:
-            # SILENTLY ASSUMING ONLY ONE MORE FEMALE THAN MALE!
-            # More females than males, we know each female has one perfect match:
-            for i in range(self.n_2):
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, :, i] = 1
-                self.A3D = np.concatenate((self.A3D, matches), axis=0)
-                self.b = np.append(self.b, 1)
-            # Each male has one match with the "first set" of females
-            for i in range(self.n_1):
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, i, :-1] = 1
-                self.A3D = np.concatenate((self.A3D, matches), axis=0)
-                self.b = np.append(self.b, 1)
-        else:
-            # SILENTLY ASSUMING ONLY ONE MORE MALE THAN FEMALE!
-            # More males than females, we know each female has one perfect match:
-            for i in range(self.n_1):
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, i, 1] = 1
-                self.A3D = np.concatenate((self.A3D, matches), axis=0)
-                self.b = np.append(self.b, 1)
-            # Each female has a match with the "first set" of males
-            for i in range(self.n_2):
-                matches = np.zeros((1, len(self.males), len(self.females)))
-                matches[0, :-1, i] = 1
-                self.A3D_uneq = np.concatenate((self.A3D, matches), axis=0)
-                self.b_uneq = np.append(self.b, 1)
+        #if self.n_2 == self.n_1:
+        n3 = min(self.n_1, self.n_2)
+        for i in range(n3):
+            # every (first set of) females has exactly one match with first set of males
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :n3, i] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+ 
+            # Every first set of males has exactly one match with first set of females
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, i, :n3] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+
+        if self.n_2 > self.n_1:
+            # add additional constraints for new female
+            # new female has one perfect male
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, -1] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+            # all males have at most two matches
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, :] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 2)
+        if self.n_1 > self.n_2:
+            # add additional constraints for new male
+            # new male has one perfect match
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, -1, :] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+            # all females have two perfect matches at most
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, :] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 2)
+
+        #     # SILENTLY ASSUMING ONLY ONE MORE FEMALE THAN MALE!
+        #     # More females than males, we know each female has one perfect match:
+        #     for i in range(self.n_2):
+        #         matches = np.zeros((1, self.n_1, self.n_2))
+        #         matches[0, :, i] = 1
+        #         self.A3D = np.concatenate((self.A3D, matches), axis=0)
+        #         self.b = np.append(self.b, 1)
+        #     # Each male has one match with the "first set" of females
+        #     for i in range(self.n_1):
+        #         matches = np.zeros((1, self.n_1, self.n_2))
+        #         matches[0, i, :-1] = 1
+        #         self.A3D = np.concatenate((self.A3D, matches), axis=0)
+        #         self.b = np.append(self.b, 1)
+        # else:
+        #     # SILENTLY ASSUMING ONLY ONE MORE MALE THAN FEMALE!
+        #     # More males than females, we know each male has one perfect match:
+        #     for i in range(self.n_1):
+        #         matches = np.zeros((1, self.n_1, self.n_2))
+        #         matches[0, i, :] = 1
+        #         self.A3D = np.concatenate((self.A3D, matches), axis=0)
+        #         self.b = np.append(self.b, 1)
+        #     # Each female has a match with the "first set" of males
+        #     for i in range(self.n_2):
+        #         matches = np.zeros((1, self.n_1, self.n_2))
+        #         matches[0, :-1, i] = 1
+        #         self.A3D_uneq = np.concatenate((self.A3D, matches), axis=0)
+        #         self.b_uneq = np.append(self.b, 1)
 
     def add_matchingnight(self, results: dict):
         """Add constraints derived from matching night."""
