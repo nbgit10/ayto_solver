@@ -159,3 +159,7 @@ TRUTH_BOOTH:
       - "Pharrell"
       - "Ricarda"
     Match: False # ep 19
+  - Pair:
+      - "Max"
+      - "Franziska"
+    Match: False # preview ep 21 (ep 20 0:43 before end) spoilered result

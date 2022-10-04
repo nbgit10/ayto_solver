@@ -23,7 +23,7 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 <details>
 <summary>SPOILER ARE YOU THE ONE SEASON Reality Stars in Love (VIP) 2 GERMANY CURRENT GUESSES AFTER EPISODE 20:</summary>
 
-Current guess, looks pretty solid:
+Solution:
 
 - Amadu + Cecilia ✅
 - Calvin + Franziska
@@ -37,4 +37,5 @@ Current guess, looks pretty solid:
 - Pharrell + Zoe
 - Felix + Isabelle
 
+Note, that the preiew of episode 21 spoilered that Max and Franziska are not a perfect match. He could be seen sitting alone in the back at the final matching night. Also note, that it does not matter. Our algorithm converges to the same solution.
 </details>
