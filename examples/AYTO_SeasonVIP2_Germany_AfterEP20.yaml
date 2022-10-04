@@ -109,6 +109,18 @@ MATCHING_NIGHTS:
     - ["Amadu", "Cecilia"]
     - ["Lukas", "Luisa"]
     Matches: 5
+  - Pairs:  # Night 9
+    - ["Fabio", "Celina"]
+    - ["Calvin", "Gina"]
+    - ["Pharrell", "Zoe"]
+    - ["Max", "Franziska"]
+    - ["Martin", "Karina"]
+    - ["Felix", "Isabelle"]
+    - ["Maurice", "Ricarda"]
+    - ["Micha", "Anna"]
+    - ["Amadu", "Cecilia"]
+    - ["Lukas", "Luisa"]
+    Matches: 7
 
 TRUTH_BOOTH:
   - Pair:
@@ -143,3 +155,7 @@ TRUTH_BOOTH:
       - "Micha"
       - "Anna"
     Match: True # ep 17
+  - Pair:
+      - "Pharrell"
+      - "Ricarda"
+    Match: False # ep 19
