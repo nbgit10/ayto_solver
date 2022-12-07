@@ -163,6 +163,38 @@ class AYTO:
         self.b = self.b[inds, ]
 
 
+class AYTO_SEASON4(AYTO):
+    """Class for German season four where"""
+
+    def __init__(self, MALES, FEMALES):
+        """Init."""
+        self.males = MALES
+        self.females = FEMALES
+
+        self.n_1 = len(self.males)
+        self.n_2 = len(self.females)
+        m = 0
+        self.A3D = np.zeros((m, self.n_1, self.n_2))  # measurement matrix
+        self.b = np.zeros((m, 1))  # measurements
+        self.X_binary = np.zeros((self.n_1, self.n_2))
+
+        # CONSTRAINTS WE HAVE COLUMN/ROWSUM is = 1:
+
+        # every females can have two matches
+        for i in range(self.n_2):
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, i] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 2)
+
+        for i in range(self.n_1):
+            # Every male has one match
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, i, :] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+
+
 def main():
     """Entry point."""
     parser = argparse.ArgumentParser()
@@ -170,7 +202,7 @@ def main():
     args = parser.parse_args()
     with open(args.yaml_file_path, "r", encoding="utf-8") as f:
         progress = yaml.load(f, Loader=yaml.SafeLoader)
-    ayto = AYTO(progress["MALES"], progress["FEMALES"])
+    ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
     for _, val in enumerate(progress["MATCHING_NIGHTS"]):
         ayto.add_matchingnight(val)
     for _, val in enumerate(progress["TRUTH_BOOTH"]):
