@@ -233,6 +233,7 @@ def main():
     with open(args.yaml_file_path, "r", encoding="utf-8") as f:
         progress = yaml.load(f, Loader=yaml.SafeLoader)
     ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
+    ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
     for _, val in enumerate(progress["MATCHING_NIGHTS"]):
         ayto.add_matchingnight(val)
     for _, val in enumerate(progress["TRUTH_BOOTH"]):
