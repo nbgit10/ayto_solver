@@ -150,3 +150,5 @@ cython_debug/
 activate_venv.ps1
 set_pythonpath.bat
 set_pythonpath.ps1
+.devcontainer
+.DS_Store

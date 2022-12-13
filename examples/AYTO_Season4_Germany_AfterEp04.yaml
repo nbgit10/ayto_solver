@@ -1,0 +1,51 @@
+# AYTO SEASON 4 DE Episode 4
+MALES:
+  - "Burim"
+  - "Barkin"
+  - "Cris"
+  - "Denniz"
+  - "Ken"
+  - "Kenneth"
+  - "Joel"
+  - "Marwin"
+  - "Max"
+  - "Pascal"
+  - "Sasa"
+
+
+FEMALES:
+  - "Aurelia"
+  - "Carina"
+  - "Caro"
+  - "Dorna"
+  - "Henna"
+  - "Juliette"
+  - "Larissa"
+  - "Steffi"
+  - "Valeria"
+  - "Vanessa"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Sasa", "Vanessa"]
+    - ["Ken", "Carina"]
+    - ["Kenneth", "Henna"]
+    - ["Burim", "Juliette"]
+    - ["Joel", "Larissa"]
+    - ["Denniz", "Aurelia"]
+    - ["Marwin", "Dorna"]
+    - ["Max", "Valeria"]
+    - ["Cris", "Steffi"]
+    - ["Barkin", "Caro"]
+    Matches: 3
+
+TRUTH_BOOTH:
+  - Pair: # Match box ep 1
+    - "Marwin"
+    - "Valeria"
+    Match: False
+  - Pair: # Match box ep 2
+    - "Kenneth"
+    - "Dorna"
+    Match: False
+

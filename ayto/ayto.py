@@ -163,6 +163,68 @@ class AYTO:
         self.b = self.b[inds, ]
 
 
+class AYTO_SEASON4(AYTO):
+    """Class for German season four where"""
+
+    def __init__(self, MALES, FEMALES):
+        """Init."""
+        self.males = MALES
+        self.females = FEMALES
+
+        self.n_1 = len(self.males)
+        self.n_2 = len(self.females)
+
+        # Equality constraints:
+        self.A3D = np.zeros((0, self.n_1, self.n_2))  # measurement matrix     
+        self.b = np.zeros((0, 1))  # measurements
+
+        # Inequality constraints:
+        self.A3D_ineq = np.zeros((0, self.n_1, self.n_2))  # measurement matrix
+        self.b_ineq = np.zeros((0, 1))  # measurements
+
+        self.X_binary1 = np.zeros((self.n_1, self.n_2))
+
+        # CONSTRAINTS WE HAVE COLUMN/ROWSUM is = 1:
+
+        # every females can have two matches but at least one
+        for i in range(self.n_2):
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, i] = 1
+            self.A3D_ineq = np.concatenate((self.A3D_ineq, matches), axis=0)
+            self.b_ineq = np.append(self.b_ineq, 2)
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, :, i] = -1
+            self.A3D_ineq = np.concatenate((self.A3D_ineq, matches), axis=0)
+            self.b_ineq = np.append(self.b_ineq, -1)
+
+        for i in range(self.n_1):
+            # Every male has one match
+            matches = np.zeros((1, self.n_1, self.n_2))
+            matches[0, i, :] = 1
+            self.A3D = np.concatenate((self.A3D, matches), axis=0)
+            self.b = np.append(self.b, 1)
+
+    def solve(self):
+        """Try to solve the problem and identify possible matches."""
+        self._check_linear_dependency()
+        A_eq = self.A3D.reshape(-1, self.n_1 * self.n_2)
+        A_ineq = self.A3D_ineq.reshape(-1, self.n_1 * self.n_2)
+        n = self.n_1 * self.n_2
+
+        # PYTHON MIP:
+        model = Model()
+        x = [model.add_var(var_type=BINARY) for i in range(n)]
+        model.objective = minimize(xsum(x[i] for i in range(n)))
+        for i, row in enumerate(A_eq):
+            model += xsum(int(row[j]) * x[j] for j in range(n)) == int(self.b[i])
+        for i, row in enumerate(A_ineq):
+            model += xsum(int(row[j]) * x[j] for j in range(n)) <= int(self.b_ineq[i])
+        model.emphasis = 2
+        model.verbose = 0
+        model.optimize(max_seconds=5)
+        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
+
+
 def main():
     """Entry point."""
     parser = argparse.ArgumentParser()
@@ -170,7 +232,7 @@ def main():
     args = parser.parse_args()
     with open(args.yaml_file_path, "r", encoding="utf-8") as f:
         progress = yaml.load(f, Loader=yaml.SafeLoader)
-    ayto = AYTO(progress["MALES"], progress["FEMALES"])
+    ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
     for _, val in enumerate(progress["MATCHING_NIGHTS"]):
         ayto.add_matchingnight(val)
     for _, val in enumerate(progress["TRUTH_BOOTH"]):
