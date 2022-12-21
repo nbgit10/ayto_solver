@@ -1,0 +1,14 @@
+# Common:
+mip
+numpy
+pyyaml
+sympy
+
+# dDv:
+black
+flake8
+pydocstyle
+pylint
+pytest
+pytest-cov
+yapf
