@@ -1,4 +1,4 @@
-# AYTO SEASON 4 DE Episode 4
+# AYTO SEASON 4 DE Episode 6
 MALES:
   - "Burim"
   - "Barkin"
@@ -26,7 +26,7 @@ FEMALES:
   - "Vanessa"
 
 MATCHING_NIGHTS:
-  - Pairs:  # Night 1
+  - Pairs:  # Night 1, ep 3/4. Pascal w/o match.
     - ["Sasa", "Vanessa"]
     - ["Ken", "Carina"]
     - ["Kenneth", "Henna"]
@@ -38,14 +38,33 @@ MATCHING_NIGHTS:
     - ["Cris", "Steffi"]
     - ["Barkin", "Caro"]
     Matches: 3
+  - Pairs:  # Night 2, ep 5/6. Denniz w/o match.
+    - ["Joel", "Larissa"]
+    - ["Kenneth", "Henna"]
+    - ["Ken", "Carina"]
+    - ["Sasa", "Vanessa"]
+    - ["Cris", "Steffi"]
+    - ["Marwin", "Dorna"]
+    - ["Pascal", "Valeria"]
+    - ["Max", "Caro"]
+    - ["Burim", "Aurelia"]
+    - ["Barkin", "Juliette"]  # Instead of Denniz
+    Matches: 3
 
 TRUTH_BOOTH:
-  - Pair: # Match box ep 1
+  - Pair: # Match box ep 1/2
     - "Marwin"
     - "Valeria"
     Match: False
-  - Pair: # Match box ep 2
+  - Pair: # Match box ep 2/3
     - "Kenneth"
     - "Dorna"
     Match: False
-
+  - Pair: # Match box ep 4/5
+    - "Burim"
+    - "Carina"
+    Match: False
+  # - Pair: # Match box ep 6/7
+  #   - "Cris"
+  #   - "Steffi"
+  #   Match: ?
