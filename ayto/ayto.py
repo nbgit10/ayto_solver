@@ -24,7 +24,7 @@ class AYTO:
         self.X_binary = np.zeros((self.n_1, self.n_2))
 
         # CONSTRAINT WE HAVE COLUMN/ROWSUM is 1
-        #if self.n_2 == self.n_1:
+        # if self.n_2 == self.n_1:
         n3 = min(self.n_1, self.n_2)
         for i in range(n3):
             # every (first set of) females has exactly one match with first set of males
@@ -32,7 +32,7 @@ class AYTO:
             matches[0, :n3, i] = 1
             self.A3D = np.concatenate((self.A3D, matches), axis=0)
             self.b = np.append(self.b, 1)
- 
+
             # Every first set of males has exactly one match with first set of females
             matches = np.zeros((1, self.n_1, self.n_2))
             matches[0, i, :n3] = 1
@@ -115,7 +115,9 @@ class AYTO:
         m = result["Pair"][0]
         f = result["Pair"][1]
         if m not in self.males or f not in self.females:
-            raise ValueError("Check your truth booth couple. One or several names are invalid.")
+            raise ValueError(
+                "Check your truth booth couple. One or several names are invalid."
+            )
         matches = np.zeros((1, len(self.males), len(self.females)))
         matches[0, self.males.index(m), self.females.index(f)] = 1
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
@@ -136,7 +138,9 @@ class AYTO:
         model.emphasis = 2
         model.verbose = 0
         model.optimize(max_seconds=2)
-        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
+        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(
+            self.n_1, self.n_2
+        )
 
     def print_matches(self):
         """Pretty print solutions found."""
@@ -160,7 +164,9 @@ class AYTO:
         A2D = self.A3D.reshape((self.A3D.shape[0], -1))
         _, inds = Matrix(A2D).T.rref()
         self.A3D = self.A3D[inds, :, :]
-        self.b = self.b[inds, ]
+        self.b = self.b[
+            inds,
+        ]
 
 
 class AYTO_SEASON4(AYTO):
@@ -175,7 +181,7 @@ class AYTO_SEASON4(AYTO):
         self.n_2 = len(self.females)
 
         # Equality constraints:
-        self.A3D = np.zeros((0, self.n_1, self.n_2))  # measurement matrix     
+        self.A3D = np.zeros((0, self.n_1, self.n_2))  # measurement matrix
         self.b = np.zeros((0, 1))  # measurements
 
         # Inequality constraints:
@@ -222,7 +228,9 @@ class AYTO_SEASON4(AYTO):
         model.emphasis = 2
         model.verbose = 0
         model.optimize(max_seconds=5)
-        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
+        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(
+            self.n_1, self.n_2
+        )
 
 
 def main():
