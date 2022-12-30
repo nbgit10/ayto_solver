@@ -1,4 +1,4 @@
-# AYTO SEASON 4 DE Episode 6
+# AYTO SEASON 4 DE Episode 8
 MALES:
   - "Burim"
   - "Barkin"
@@ -50,6 +50,18 @@ MATCHING_NIGHTS:
     - ["Burim", "Aurelia"]
     - ["Barkin", "Juliette"]  # Instead of Denniz
     Matches: 3
+  - Pairs:  # Night 3, ep 7/8. Burim w/o match.
+    - ["Cris", "Steffi"]
+    - ["Kenneth", "Aurelia"]
+    - ["Max", "Valeria"]
+    - ["Sasa", "Carina"]
+    - ["Marwin", "Vanessa"]
+    - ["Denniz", "Dorna"]
+    - ["Joel", "Larissa"]
+    - ["Barkin", "Juliette"]
+    - ["Ken", "Henna"]
+    - ["Pascal", "Caro"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair: # Match box ep 1/2
@@ -64,7 +76,16 @@ TRUTH_BOOTH:
     - "Burim"
     - "Carina"
     Match: False
-  # - Pair: # Match box ep 6/7
-  #   - "Cris"
-  #   - "Steffi"
-  #   Match: ?
+  - Pair: # Match box ep 6/7
+    - "Cris"
+    - "Steffi"
+    Match: True
+  # - Pair: # Match box ep 8/9
+  #   - "Max"
+  #   - "Valeria"
+  #   Match: True
+  # - Pair: # In case Pascal also matches Valeria
+  #   - "Pascal"
+  #   - "Valeria"
+  #   Match: True
+

@@ -21,19 +21,19 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 6:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 8:</summary>
 
 Solution:
 
-- Burim + Juliette
-- Barkin + Carina
+- Burim + Vanessa
+- Barkin + Aurelia
 - Cris + Steffi
-- Denniz + Dorna
-- Ken + Vanessa
-- Kenneth + Henna
-- Joel + Caro
-- Marwin + Aurelia
-- Max + Larissa
+- Denniz + Juliette
+- Ken + Carina
+- Kenneth + Larissa
+- Joel + Dorna
+- Marwin + Caro
+- Max + Valeria
 - Pascal + Valeria
-- Sasa + Aurelia
+- Sasa + Henna
 </details>

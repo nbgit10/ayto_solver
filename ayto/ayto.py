@@ -170,7 +170,7 @@ class AYTO:
 
 
 class AYTO_SEASON4(AYTO):
-    """Class for German season four where"""
+    """Class for German season four."""
 
     def __init__(self, MALES, FEMALES):
         """Init."""
