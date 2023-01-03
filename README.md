@@ -25,15 +25,15 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 
 Solution:
 
-- Burim + Vanessa
-- Barkin + Aurelia
-- Cris + Steffi
-- Denniz + Juliette
-- Ken + Carina
-- Kenneth + Larissa
-- Joel + Dorna
-- Marwin + Caro
-- Max + Valeria
-- Pascal + Valeria
-- Sasa + Henna
+- Burim + Juliette
+- Barkin + Larissa
+- Cris + Steffi  ✅
+- Denniz + Dorna
+- Ken + Valeria
+- Kenneth + Carina
+- Joel + Aurelia
+- Marwin + Henna
+- Max + Caro
+- Pascal + Juliette
+- Sasa + Vanessa
 </details>
