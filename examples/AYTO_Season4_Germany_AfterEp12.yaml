@@ -1,4 +1,4 @@
-# AYTO SEASON 4 DE Episode 8
+# AYTO SEASON 4 DE Episode 12
 MALES:
   - "Burim"
   - "Barkin"
@@ -74,7 +74,19 @@ MATCHING_NIGHTS:
     - ["Pascal", "Carina"]
     - ["Burim", "Dorna"]
     Matches: 3
-
+  - Pairs:  # Night 5, ep 11/12
+    - ["Cris", "Steffi"]
+    - ["Ken", "Caro"]
+   # - ["Max", "Caro"]  # We comment because of our sanity check
+    - ["Sasa", "Vanessa"]
+    - ["Barkin", "Juliette"]
+    - ["Pascal", "Carina"]
+    - ["Kenneth", "Henna"]
+    - ["Marwin", "Aurelia"]
+    - ["Burim", "Dorna"]
+    - ["Joel", "Valeria"]
+    - ["Denniz", "Larissa"]
+    Matches: 4  # we increment by one for Max
 
 TRUTH_BOOTH:
   - Pair: # Match box ep 1/2
@@ -97,8 +109,15 @@ TRUTH_BOOTH:
     - "Max"
     - "Valeria"
     Match: False
-  # - Pair:
-  #   - "Ken"
-  #   - "Caro"
-  #   Match: False
-
+  - Pair:  # Match box ep 10/11
+    - "Ken"
+    - "Caro"
+    Match: True
+  - Pair:  # Also has to leave
+    - "Max"
+    - "Caro"
+    Match: True
+  - Pair:  # Ep 12/13
+    - "Burim"
+    - "Dorna"
+    Match: False
