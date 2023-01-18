@@ -1,4 +1,4 @@
-# AYTO SEASON 4 DE Episode 12
+# AYTO SEASON 4 DE Episode 14
 MALES:
   - "Burim"
   - "Barkin"
@@ -51,7 +51,7 @@ MATCHING_NIGHTS:
     - ["Barkin", "Juliette"]  # Instead of Denniz
     Matches: 3
   - Pairs:  # Night 3, ep 7/8. Burim w/o match.
-    - ["Cris", "Steffi"]
+    - ["Cris", "Steffi"]  # Confirmed
     - ["Kenneth", "Aurelia"]
     - ["Max", "Valeria"]
     - ["Sasa", "Carina"]
@@ -63,7 +63,7 @@ MATCHING_NIGHTS:
     - ["Pascal", "Caro"]
     Matches: 2
   - Pairs:  # Night 4, ep 9/10. Barkin w/o match.
-    - ["Cris", "Steffi"]
+    - ["Cris", "Steffi"]  # Confirmed
     - ["Kenneth", "Juliette"]  # Instead of Barkin
     - ["Max", "Caro"]
     - ["Sasa", "Vanessa"]
@@ -75,8 +75,8 @@ MATCHING_NIGHTS:
     - ["Burim", "Dorna"]
     Matches: 3
   - Pairs:  # Night 5, ep 11/12
-    - ["Cris", "Steffi"]
-    - ["Ken", "Caro"]
+    - ["Cris", "Steffi"]  # Confirmed
+    - ["Ken", "Caro"]  # Confirmed
    # - ["Max", "Caro"]  # We comment because of our sanity check
     - ["Sasa", "Vanessa"]
     - ["Barkin", "Juliette"]
@@ -87,6 +87,19 @@ MATCHING_NIGHTS:
     - ["Joel", "Valeria"]
     - ["Denniz", "Larissa"]
     Matches: 4  # we increment by one for Max
+  - Pairs:  # Night 6, ep 13/14
+    - ["Cris", "Steffi"]  # Confirmed
+    - ["Ken", "Caro"]  # Confirmed
+   # - ["Max", "Caro"]  # We comment because of our sanity check
+    - ["Sasa", "Carina"]
+    - ["Barkin", "Juliette"]
+    - ["Joel", "Vanessa"]
+    - ["Kenneth", "Henna"]
+    - ["Denniz", "Dorna"]
+    - ["Marwin", "Larissa"]
+    - ["Burim", "Aurelia"]
+    - ["Pascal", "Valeria"]
+    Matches: 3  # we increment by one for Max
 
 TRUTH_BOOTH:
   - Pair: # Match box ep 1/2
@@ -121,3 +134,7 @@ TRUTH_BOOTH:
     - "Burim"
     - "Dorna"
     Match: False
+  # - Pair:  # Ep 14/15
+  #   - "Joel"
+  #   - "Juliette"
+  #   Match: False
