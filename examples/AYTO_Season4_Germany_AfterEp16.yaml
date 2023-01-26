@@ -86,7 +86,7 @@ MATCHING_NIGHTS:
     - ["Burim", "Dorna"]
     - ["Joel", "Valeria"]
     - ["Denniz", "Larissa"]
-    Matches: 4  # we increment by one for Max
+    Matches: 4 
   - Pairs:  # Night 6, ep 13/14
     - ["Cris", "Steffi"]  # Confirmed
     - ["Ken", "Caro"]  # Confirmed
@@ -99,7 +99,20 @@ MATCHING_NIGHTS:
     - ["Marwin", "Larissa"]
     - ["Burim", "Aurelia"]
     - ["Pascal", "Valeria"]
-    Matches: 3  # we increment by one for Max
+    Matches: 3
+  - Pairs:  # Night 7, ep 15/16
+    - ["Cris", "Steffi"]  # Confirmed
+    - ["Ken", "Caro"]  # Confirmed
+   # - ["Max", "Caro"]  # We comment because of our sanity check
+    - ["Marwin", "Carina"]
+    - ["Kenneth", "Juliette"]
+    - ["Denniz", "Vanessa"]
+    - ["Burim", "Henna"]
+    - ["Barkin", "Dorna"]
+    - ["Sasa", "Larissa"]
+    - ["Joel", "Aurelia"]
+    - ["Pascal", "Valeria"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair: # Match box ep 1/2
@@ -134,7 +147,7 @@ TRUTH_BOOTH:
     - "Burim"
     - "Dorna"
     Match: False
-  # - Pair:  # Ep 14/15
-  #   - "Joel"
-  #   - "Juliette"
-  #   Match: False
+  - Pair:  # Ep 14/15
+    - "Joel"
+    - "Juliette"
+    Match: False

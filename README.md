@@ -21,7 +21,7 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 14:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 16:</summary>
 
 Proposed solution:
 
