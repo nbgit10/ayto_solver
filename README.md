@@ -21,19 +21,21 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 16:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 18:</summary>
+
+Since they keep matching in the same constellations over and over again we have very few information on how to match actually. We don't know if the proposed solution is already optimal. It seems plausible but unlikely despite being in matching night 9 already.
 
 Proposed solution:
 
-- Burim + Larissa
-- Barkin + Carina
+- Burim + Juliette
+- Barkin + Larissa
 - Cris + Steffi  ✅
-- Denniz + Aurelia
+- Denniz + Carina
 - Ken + Caro  ✅
 - Kenneth + Henna
 - Joel + Valeria
 - Marwin + Vanessa
 - Max + Caro  ✅
-- Pascal + Juliette
+- Pascal + Aurelia
 - Sasa + Dorna
 </details>

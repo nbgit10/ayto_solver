@@ -1,4 +1,4 @@
-# AYTO SEASON 4 DE Episode 14
+# AYTO SEASON 4 DE Episode 18
 MALES:
   - "Burim"
   - "Barkin"
@@ -11,7 +11,6 @@ MALES:
   - "Max"
   - "Pascal"
   - "Sasa"
-
 
 FEMALES:
   - "Aurelia"
@@ -113,6 +112,19 @@ MATCHING_NIGHTS:
     - ["Joel", "Aurelia"]
     - ["Pascal", "Valeria"]
     Matches: 2
+  - Pairs:  # Night 8, ep 17/18
+    - ["Cris", "Steffi"]  # Confirmed
+    - ["Ken", "Caro"]  # Confirmed
+   # - ["Max", "Caro"]  # We comment because of our sanity check
+    - ["Burim", "Valeria"]
+    - ["Kenneth", "Carina"]
+    - ["Barkin", "Juliette"]
+    - ["Pascal", "Larissa"]
+    - ["Denniz", "Henna"]
+    - ["Joel", "Dorna"]
+    - ["Sasa", "Vanessa"]
+    - ["Marwin", "Aurelia"]
+    Matches: 2
 
 TRUTH_BOOTH:
   - Pair: # Match box ep 1/2
@@ -151,3 +163,11 @@ TRUTH_BOOTH:
     - "Joel"
     - "Juliette"
     Match: False
+  - Pair:  # Ep 16/17
+    - "Marwin"
+    - "Dorna"
+    Match: False
+  # - Pair:  # Ep 18/19
+  #   - "Pascal"
+  #   - "Carina"
+  #   Match: False
