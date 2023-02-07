@@ -167,7 +167,7 @@ TRUTH_BOOTH:
     - "Marwin"
     - "Dorna"
     Match: False
-  # - Pair:  # Ep 18/19
-  #   - "Pascal"
-  #   - "Carina"
-  #   Match: False
+  - Pair:  # Ep 18/19
+    - "Pascal"
+    - "Carina"
+    Match: False

@@ -21,9 +21,9 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY CURRENT GUESSES AFTER EPISODE 18:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 GERMANY AFTER EPISODE 20:</summary>
 
-Since they keep matching in the same constellations over and over again we have very few information on how to match actually. We don't know if the proposed solution is already optimal. It seems plausible but unlikely despite being in matching night 9 already.
+They win 200000€, they found all matches.
 
 Proposed solution:
 
