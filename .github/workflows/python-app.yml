@@ -15,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: 3.10
     - name: build        
       run: |
         # Check python version
@@ -38,4 +38,4 @@ jobs:
         python -m pip check
     - name: Get current solution
       run: |
-        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_SeasonVIP2_Germany_AfterEP20.yaml
+        python ./ayto/ayto.py --yaml_file_path ./examples/AYTO_SeasonVIP3_Germany_AfterEP12.yaml
