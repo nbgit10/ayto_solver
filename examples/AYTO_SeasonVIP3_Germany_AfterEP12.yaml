@@ -1,0 +1,115 @@
+# AYTO SEASON VIP 3 DE
+MALES:
+  - "Danilo"
+  - "Paco"
+  - "Steffen"
+  - "Marvin"
+  - "Mike"
+  - "Emanuell"
+  - "Elia"
+  - "Fabio"
+  - "Martini"
+  - "Peter"
+  - "Max"
+
+FEMALES:
+  - "Darya"
+  - "Sandra"
+  - "Paulina"
+  - "Shakira"
+  - "Kim"
+  - "Sabrina"
+  - "Jennifer"
+  - "Marie"
+  - "Stefanie"
+  - "Alicia"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Danilo", "Darya"]
+    - ["Paco", "Sandra"]
+    - ["Steffen", "Paulina"]
+    - ["Marvin", "Shakira"]
+    - ["Mike", "Kim"]
+    - ["Emanuell", "Sabrina"]
+    - ["Elia", "Jennifer"]
+    - ["Fabio", "Marie"]
+    - ["Martini", "Stefanie"]
+    - ["Peter", "Alicia"]
+    Matches: 3
+  - Pairs:  # Night 2
+    - ["Danilo", "Paulina"]
+    - ["Paco", "Kim"]
+    - ["Steffen", "Alicia"]
+    - ["Marvin", "Jennifer"]
+    - ["Mike", "Sabrina"]
+    - ["Emanuell", "Darya"]
+    - ["Elia", "Sandra"]
+    - ["Fabio", "Marie"]
+    - ["Martini", "Stefanie"]
+    - ["Peter", "Shakira"]
+    Matches: 2
+  - Pairs:  # Night 3
+    - ["Danilo", "Darya"]
+    - ["Paco", "Sandra"]
+    - ["Steffen", "Alicia"]
+    - ["Marvin", "Stefanie"]
+    - ["Mike", "Paulina"]
+    - ["Emanuell", "Jennifer"]
+    - ["Elia", "Marie"]
+    - ["Fabio", "Shakira"]
+    - ["Martini", "Kim"]
+    - ["Peter", "Sabrina"]
+    Matches: 2
+  - Pairs:  # Night 4, Mike not paired
+    - ["Danilo", "Darya"]
+    - ["Paco", "Sabrina"]
+    - ["Steffen", "Sandra"]
+    - ["Marvin", "Jennifer"]
+    - ["Emanuell", "Stefanie"]
+    - ["Elia", "Marie"]
+    - ["Fabio", "Shakira"]
+    - ["Martini", "Alicia"]
+    - ["Peter", "Kim"]
+    - ["Max", "Paulina"]
+    Matches: 4
+  - Pairs:  # Night 5, Peter not paired
+    - ["Danilo", "Darya"]
+    - ["Paco", "Shakira"]
+    - ["Steffen", "Alicia"]
+    - ["Marvin", "Jennifer"]
+    - ["Mike", "Paulina"]
+    - ["Emanuell", "Sabrina"]
+    - ["Elia", "Stefanie"]
+    - ["Fabio", "Marie"]
+    - ["Martini", "Kim"]
+    - ["Max", "Sandra"]
+    Matches: 2
+    
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Danilo"
+      - "Jennifer"
+    Match: False # ep 3
+  - Pair:
+      - "Elia"
+      - "Jennifer"
+    Match: False # ep 5
+  - Pair:
+      - "Elia"
+      - "Darya"
+    Match: False # ep7
+  - Pair:
+       - "Mike"
+       - "Kim"
+    Match: False # ep 9
+  - Pair:
+      - "Danilo"
+      - "Darya"
+    Match: True # ep 11
+  - Pair: # Added as bug workaround
+      - "Paco"
+      - "Darya"
+    Match: False
+  

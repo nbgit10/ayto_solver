@@ -122,6 +122,18 @@ class AYTO:
         matches[0, self.males.index(m), self.females.index(f)] = 1
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
         self.b = np.append(self.b, int(result["Match"]))
+        if bool(result["Match"]):
+            # If they are a match, they cannot match any others.
+            # Explicitly add this in case we have inequal number of males and females
+            matches2 = np.zeros((1, len(self.males), len(self.females)))
+            matches3 = np.zeros((1, len(self.males), len(self.females)))
+            matches2[0, self.males.index(m), :] = 1
+            matches3[0, :, self.females.index(f)] = 1
+            self.b = np.append(self.b, 1)
+            self.A3D = np.concatenate((self.A3D, matches2), axis=0)
+            self.b = np.append(self.b, 1)
+            self.A3D = np.concatenate((self.A3D, matches3), axis=0)
+
 
     def solve(self):
         """Try to solve the problem and identify possible matches."""
@@ -240,8 +252,7 @@ def main():
     args = parser.parse_args()
     with open(args.yaml_file_path, "r", encoding="utf-8") as f:
         progress = yaml.load(f, Loader=yaml.SafeLoader)
-    ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
-    ayto = AYTO_SEASON4(progress["MALES"], progress["FEMALES"])
+    ayto = AYTO(progress["MALES"], progress["FEMALES"])
     for _, val in enumerate(progress["MATCHING_NIGHTS"]):
         ayto.add_matchingnight(val)
     for _, val in enumerate(progress["TRUTH_BOOTH"]):
