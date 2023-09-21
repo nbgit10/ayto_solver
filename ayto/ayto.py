@@ -115,9 +115,7 @@ class AYTO:
         m = result["Pair"][0]
         f = result["Pair"][1]
         if m not in self.males or f not in self.females:
-            raise ValueError(
-                "Check your truth booth couple. One or several names are invalid."
-            )
+            raise ValueError("Check your truth booth couple. One or several names are invalid.")
         matches = np.zeros((1, len(self.males), len(self.females)))
         matches[0, self.males.index(m), self.females.index(f)] = 1
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
@@ -134,7 +132,6 @@ class AYTO:
             self.b = np.append(self.b, 1)
             self.A3D = np.concatenate((self.A3D, matches3), axis=0)
 
-
     def solve(self):
         """Try to solve the problem and identify possible matches."""
         self._check_linear_dependency()
@@ -150,9 +147,7 @@ class AYTO:
         model.emphasis = 2
         model.verbose = 0
         model.optimize(max_seconds=2)
-        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(
-            self.n_1, self.n_2
-        )
+        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
     def print_matches(self):
         """Pretty print solutions found."""
@@ -184,7 +179,7 @@ class AYTO:
 class AYTO_SEASON4(AYTO):
     """Class for German season four."""
 
-    def __init__(self, MALES, FEMALES):
+    def __init__(self, MALES, FEMALES):  # pylint: disable=super-init-not-called
         """Init."""
         self.males = MALES
         self.females = FEMALES
@@ -240,9 +235,7 @@ class AYTO_SEASON4(AYTO):
         model.emphasis = 2
         model.verbose = 0
         model.optimize(max_seconds=5)
-        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(
-            self.n_1, self.n_2
-        )
+        self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
 
 def main():
