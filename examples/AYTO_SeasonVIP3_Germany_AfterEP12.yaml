@@ -85,6 +85,18 @@ MATCHING_NIGHTS:
     - ["Martini", "Kim"]
     - ["Max", "Sandra"]
     Matches: 2
+  - Pairs:  # Night 6, Max not paired
+    - ["Danilo", "Darya"]
+    - ["Paco", "Alicia"]
+    - ["Steffen", "Sandra"]
+    - ["Marvin", "Jennifer"]
+    - ["Mike", "Paulina"]
+    - ["Peter", "Sabrina"]
+    - ["Elia", "Marie"]
+    - ["Fabio", "Shakira"]
+    - ["Martini", "Kim"]
+    - ["Emanuell", "Stefanie"]
+    Matches: 4
     
 
 TRUTH_BOOTH:
@@ -111,5 +123,9 @@ TRUTH_BOOTH:
   - Pair: # Added as bug workaround
       - "Paco"
       - "Darya"
+    Match: False
+  - Pair:
+      - "Martini"
+      - "Alicia"
     Match: False
   
