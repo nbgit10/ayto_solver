@@ -103,8 +103,8 @@ class AYTO:
             if m not in self.males or f not in self.females:
                 raise ValueError("Check your pairs. One or several names are invalid.")
             matches[0, self.males.index(m), self.females.index(f)] = 1
-        if np.any(np.sum(matches, axis=-2) > 1) or np.any(np.sum(matches, axis=-1) > 1):
-            raise ValueError("One or many people have multiple matches in this night.")
+        # if np.any(np.sum(matches, axis=-2) > 1) or np.any(np.sum(matches, axis=-1) > 1):
+        #     raise ValueError("One or many people have multiple matches in this night.")
         self.b = np.append(self.b, results["Matches"])
         self.A3D = np.concatenate((self.A3D, matches), axis=0)
 
@@ -146,7 +146,7 @@ class AYTO:
             model += xsum(int(row[j]) * x[j] for j in range(n)) == int(self.b[i])
         model.emphasis = 2
         model.verbose = 0
-        model.optimize(max_seconds=2)
+        model.optimize(max_seconds=5)
         self.X_binary = np.asarray([x[i].x for i in range(n)]).reshape(self.n_1, self.n_2)
 
     def print_matches(self):
@@ -174,6 +174,10 @@ class AYTO:
         self.b = self.b[
             inds,
         ]
+
+    def _add_fixed_pair(self, result):
+        """Special constraints for ensuring certain people match the same person."""
+        return NotImplementedError
 
 
 class AYTO_SEASON4(AYTO):

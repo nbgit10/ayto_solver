@@ -21,21 +21,22 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 14:</summary>
+<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 18:</summary>
 
 Proposed solution:
 
 - Danilo + Darya ✅
-- Paco + Alicia
-- Steffen + Paulina
-- Marvin + Jennifer
-- Mike + Sandra
-- Emanuell + Kim
-- Elia + Sabrina
-- Fabio + Shakira
-- Martini + Stefanie
-- Peter + Marie
-- Max + Paulina
+- Paco + Jennifer
+- Steffen + Sandra
+- Marvin + Shakira
+- Mike + Sabrina
+- Emanuell + Stefanie
+- Elia + Alicia
+- Fabio + Marie
+- Martini + Kim
+- Peter + Paulina
+- Max + Stefanie
 
-In this proposal Paulina has two matches.
+In this proposal stefanie has two matches. We know Peter and Max need ot match the same person but we cannot enforce this yet. Hence, we take this as indiciation that our solution is not yet optimal.
+However, we note that our solution already proposes Mike + Sabrina and Emanuell + Stefanie as perfect matches. Hence, RTL likely gave again two perfect matches away to help them.
 </details>
