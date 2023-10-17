@@ -21,21 +21,21 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 12:</summary>
+<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 14:</summary>
 
 Proposed solution:
 
 - Danilo + Darya ✅
-- Paco + Kim
-- Steffen + Sandra
-- Marvin + Shakira
-- Mike + Sabrina
-- Emanuell + Stefanie
-- Elia + Marie
-- Fabio + Jennifer
-- Martini + Paulina
-- Peter + Alicia
-- Max + Sandra
+- Paco + Alicia
+- Steffen + Paulina
+- Marvin + Jennifer
+- Mike + Sandra
+- Emanuell + Kim
+- Elia + Sabrina
+- Fabio + Shakira
+- Martini + Stefanie
+- Peter + Marie
+- Max + Paulina
 
-In this proposal Sandra has two matches.
+In this proposal Paulina has two matches.
 </details>
