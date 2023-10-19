@@ -37,7 +37,7 @@ MATCHING_NIGHTS:
     - ["Martini", "Stefanie"]
     - ["Peter", "Alicia"]
     Matches: 3
-  - Pairs:  # FAKE Night 1
+  - Pairs:  # Fake Night 1
     - ["Danilo", "Darya"]
     - ["Paco", "Sandra"]
     - ["Steffen", "Paulina"]
@@ -61,7 +61,7 @@ MATCHING_NIGHTS:
     - ["Martini", "Stefanie"]
     - ["Peter", "Shakira"]
     Matches: 2
-  - Pairs:  # FAKE Night 2
+  - Pairs:  # Fake Night 2
     - ["Danilo", "Paulina"]
     - ["Paco", "Kim"]
     - ["Steffen", "Alicia"]
@@ -85,7 +85,7 @@ MATCHING_NIGHTS:
     - ["Martini", "Kim"]
     - ["Peter", "Sabrina"]
     Matches: 2
-  - Pairs:  # Night 3
+  - Pairs:  # Fake Night 3
     - ["Danilo", "Darya"]
     - ["Paco", "Sandra"]
     - ["Steffen", "Alicia"]
@@ -108,7 +108,17 @@ MATCHING_NIGHTS:
     - ["Martini", "Alicia"]
     - ["Peter", "Kim"]
     - ["Max", "Paulina"]
-    - ["Max", "Kim"]  # No fake night needed, we can keep both.
+    Matches: 4
+  - Pairs:  # Fake Night 4, Mike not paired
+    - ["Danilo", "Darya"]
+    - ["Paco", "Sabrina"]
+    - ["Steffen", "Sandra"]
+    - ["Marvin", "Jennifer"]
+    - ["Emanuell", "Stefanie"]
+    - ["Elia", "Marie"]
+    - ["Fabio", "Shakira"]
+    - ["Martini", "Alicia"]
+    - ["Max", "Kim"]
     - ["Peter", "Paulina"]
     Matches: 4
   - Pairs:  # Night 5, Peter not paired
@@ -196,6 +206,30 @@ MATCHING_NIGHTS:
     - ["Martini", "Paulina"]
     - ["Mike", "Stefanie"]
     Matches: 1
+  - Pairs:  # Night 9
+    - ["Danilo", "Darya"]
+    - ["Emanuell", "Stefanie"]
+    - ["Mike","Sabrina"]
+    - ["Max", "Jennifer"]
+    - ["Paco", "Paulina"]
+    - ["Fabio","Marie"]
+    - ["Marvin", "Shakira"]
+    - ["Steffen", "Alicia"]
+    - ["Martini", "Kim"]
+    - ["Elia", "Sandra"]
+    Matches: 6
+  - Pairs:  # Fake Night 9
+    - ["Danilo", "Darya"]
+    - ["Emanuell", "Stefanie"]
+    - ["Mike","Sabrina"]
+    - ["Peter", "Jennifer"]
+    - ["Paco", "Paulina"]
+    - ["Fabio","Marie"]
+    - ["Marvin", "Shakira"]
+    - ["Steffen", "Alicia"]
+    - ["Martini", "Kim"]
+    - ["Elia", "Sandra"]
+    Matches: 6
 
 TRUTH_BOOTH:
   - Pair:
@@ -230,14 +264,14 @@ TRUTH_BOOTH:
       - "Peter"
       - "Sabrina"
     Match: False
-  # - Pair: # ep 19, one of the "random" matches, we assume they are all matches
+  # - Pair: # ep 19, RTL likely gave them two perfect matches but we can savely comment it because we know optimal solution anyhow
   #     - "Mike"
   #     - "Sabrina"
   #   Match: True
-  # - Pair:  # ep 19, one of the "random" matches, we assume they are all matches
-  #     - "Emanuell"
-  #     - "Stefanie"
-  #   Match: True
+  - Pair:  # ep 19
+      - "Emanuell"
+      - "Stefanie"
+    Match: True
 
 FIXED_PAIRS:  # NOT YET IMPLEMENTED
   - ["Males", "Max", "Peter"]

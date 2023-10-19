@@ -7,7 +7,7 @@ You can then call the script to solve the matching problem with `python ./ayto/a
 
 ## Remarks
 
-This code is untested and rather a PoC than production ready code. It was developed for the German season 2 of AYTO currently airing on TVNow/RTL. It silently assumes that we have "Males" and "Females" and we only match a Male with a Female. Furthermore, all matches and truth booth couples need to be defined in the yaml file, first with the male name followed by the female name. This was done because of pure laziness and should in no way be meant to discriminate anyone. Code modifications would be needed to enable a season like "Come one, Come all" (season 8 AYTO US), where anyone can match with anyone. This also makes the optimization problem more complex and, hence, harder to solve.
+This code is untested and rather a PoC than production ready code. It was developed for the German seasons of AYTO airing on RTL. It silently assumes that we have "Males" and "Females" and we only match a Male with a Female. Furthermore, all matches and truth booth couples need to be defined in the yaml file, first with the male name followed by the female name. This was done because of pure laziness and should in no way be meant to discriminate anyone. Code modifications would be needed to enable a season like "Come one, Come all" (season 8 AYTO US), where anyone can match with anyone. This also makes the optimization problem more complex and, hence, harder to solve.
 
 ## Optimization details
 
@@ -15,13 +15,14 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 
 ## Known Issues
 
-- We do not check for uniqueness of solution
-- Therefore, we do not show all possible combinations but just a single one
+- We do not check for uniqueness of solution.
+- Therefore, we do not show all possible combinations but just a single one and we don't know once there is just one feasible solution left.
+- We cannot enforce two specific people to match to the same person.
 
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 18:</summary>
+<summary>SPOILER ARE YOU THE ONE REALITY STARS IN LOVE SEASON 3 GERMANY AFTER EPISODE 20:</summary>
 
 Proposed solution:
 
@@ -30,13 +31,13 @@ Proposed solution:
 - Steffen + Sandra
 - Marvin + Shakira
 - Mike + Sabrina
-- Emanuell + Stefanie
+- Emanuell + Stefanie  ✅
 - Elia + Alicia
 - Fabio + Marie
 - Martini + Kim
 - Peter + Paulina
-- Max + Stefanie
+- Max + Paulina
 
-In this proposal stefanie has two matches. We know Peter and Max need ot match the same person but we cannot enforce this yet. Hence, we take this as indiciation that our solution is not yet optimal.
-However, we note that our solution already proposes Mike + Sabrina and Emanuell + Stefanie as perfect matches. Hence, RTL likely gave again two perfect matches away to help them.
+In this proposal Paulina has two matches, being Peter and Max. We know Peter and Max need to match the same person but we cannot enforce this yet. That our solution finds this anyhow is a good sign we foung a unique solutiion.
+We also note that our solution already proposed Mike + Sabrina and Emanuell + Stefanie as perfect matches. Hence, RTL likely gave again two perfect matches away to help them for 9th truth booth result.
 </details>
