@@ -1,0 +1,181 @@
+# AYTO SEASON 5 DE
+MALES:
+  - "Eti"
+  - "Gerrit"
+  - "Kevin"
+  - "Martin"
+  - "Paddy"
+  - "Paulo"
+  - "Ryan"
+  - "Sandro"
+  - "Sidar"
+  - "Wilson"
+
+FEMALES:
+  - "Afra"
+  - "Edda"
+  - "Jana"
+  - "Julia"
+  - "Lisa-Marie"
+  - "Maya"
+  - "Shelly"
+  - "Sina"
+  - "Lina"
+  - "Tais"
+  # - "Pia"
+  # - "Melanie"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1
+    - ["Eti", "Lisa-Marie"]
+    # - ["Gerrit", "Pia"]
+    - ["Kevin", "Sina"]
+    - ["Martin", "Julia"]
+    - ["Paddy", "Maya"]
+    - ["Paulo", "Tais"]
+    - ["Ryan", "Lina"]
+    - ["Sandro", "Edda"]
+    - ["Sidar", "Jana"]
+    - ["Wilson", "Shelly"]
+    Matches: 1
+  - Pairs:  # Night 2
+    - ["Eti", "Afra"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Sina"]
+    - ["Martin", "Lina"]
+    - ["Paddy", "Shelly"]
+    - ["Paulo", "Lisa-Marie"]
+    # - ["Ryan", "Pia"]
+    - ["Sandro", "Edda"]
+    - ["Sidar", "Jana"]
+    - ["Wilson", "Maya"]
+    Matches: 2
+  - Pairs:  # Night 3
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Martin", "Lisa-Marie"]
+    - ["Paddy", "Julia"]
+    - ["Paulo", "Edda"]
+    - ["Ryan", "Jana"]
+    - ["Sandro", "Sina"]
+    - ["Sidar", "Afra"]
+    - ["Wilson", "Shelly"]
+    Matches: 4
+  - Pairs:  # Night 4
+    - ["Eti", "Afra"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Sina"]
+    - ["Martin", "Julia"]
+    - ["Paddy", "Lina"]
+    - ["Paulo", "Lisa-Marie"]
+    - ["Ryan", "Edda"]
+    # - ["Sandro", "Pia"]
+    - ["Sidar", "Jana"]
+    - ["Wilson", "Shelly"]
+    Matches: 3
+  - Pairs:  # Night 5
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Julia"]
+    - ["Martin", "Lisa-Marie"]
+    - ["Paddy", "Lina"]
+    - ["Paulo", "Edda"]
+    - ["Ryan", "Jana"]
+    - ["Sandro", "Sina"]
+    - ["Sidar", "Afra"]
+    - ["Wilson", "Shelly"]
+    Matches: 4
+  - Pairs:  # Night 6
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Lina"]
+    - ["Martin", "Lisa-Marie"]
+    - ["Paddy", "Edda"]
+    - ["Paulo", "Sina"]
+    - ["Ryan", "Jana"]
+    - ["Sandro", "Afra"]
+    - ["Sidar", "Julia"]
+    - ["Wilson", "Shelly"]
+    Matches: 5
+  - Pairs:  # Night 7
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Lina"]
+    - ["Martin", "Afra"]
+    - ["Paddy", "Jana"]
+    - ["Paulo", "Sina"]
+    - ["Ryan", "Edda"]
+    - ["Sandro", "Julia"]
+    - ["Sidar", "Lisa-Marie"]
+    - ["Wilson", "Shelly"]
+    Matches: 5
+  - Pairs:  # Night 8
+    - ["Eti", "Afra"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Lina"]
+    - ["Martin", "Lisa-Marie"]
+    - ["Paddy", "Jana"]
+    - ["Paulo", "Sina"]
+    - ["Ryan", "Edda"]
+    - ["Sandro", "Julia"]
+    - ["Sidar", "Maya"]
+    - ["Wilson", "Shelly"]
+    Matches: 4
+  - Pairs:  # Night 9
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Lina"]
+    - ["Martin", "Lisa-Marie"]
+    - ["Paddy", "Sina"]
+    - ["Paulo", "Edda"]
+    - ["Ryan", "Jana"]
+    - ["Sandro", "Julia"]
+    - ["Sidar", "Afra"]
+    - ["Wilson", "Shelly"]
+    Matches: 6  # according to current solution. will know in ep19
+  
+TRUTH_BOOTH:
+  - Pair:
+      - "Paulo"
+      - "Jana"
+    Match: False
+  - Pair:
+      - "Ryan"
+      - "Lina"
+    Match: False
+  - Pair:
+      - "Kevin"
+      - "Maya"
+    Match: False
+  # - Pair:
+  #      - "Eti"
+  #      - "Melanie"
+  #   Match: False
+  - Pair:
+      - "Wilson"
+      - "Shelly"
+    Match: True
+  - Pair:
+      - "Gerrit"
+      - "Tais"
+    Match: True
+  # - Pair:
+  #     - "Gerrit"
+  #     - "Melanie"
+  #   Match: True
+  # - Pair:
+  #     - "Gerrit"
+  #     - "Pia"
+  #   Match: True
+  - Pair:
+    - "Paulo"
+    - "Julia"
+    Match: False
+  - Pair:
+      - "Sandro"
+      - "Sina"
+    Match: False
+  - Pair:
+      - "Sandro"
+      - "Afra"
+    Match: False

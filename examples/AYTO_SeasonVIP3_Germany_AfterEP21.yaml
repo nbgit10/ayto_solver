@@ -272,6 +272,10 @@ TRUTH_BOOTH:
       - "Emanuell"
       - "Stefanie"
     Match: True
+  - Pair:  # ep 21
+      - "Elia"
+      - "Alicia"
+    Match: True
 
 FIXED_PAIRS:  # NOT YET IMPLEMENTED
   - ["Males", "Max", "Peter"]
