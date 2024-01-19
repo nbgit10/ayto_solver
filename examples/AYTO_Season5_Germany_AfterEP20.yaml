@@ -28,16 +28,16 @@ FEMALES:
 MATCHING_NIGHTS:
   - Pairs:  # Night 1
     - ["Eti", "Lisa-Marie"]
-    # - ["Gerrit", "Pia"]
+    - ["Gerrit", "Tais"]  # Was actually Pia
     - ["Kevin", "Sina"]
     - ["Martin", "Julia"]
     - ["Paddy", "Maya"]
-    - ["Paulo", "Tais"]
+  #  - ["Paulo", "Tais"]
     - ["Ryan", "Lina"]
     - ["Sandro", "Edda"]
     - ["Sidar", "Jana"]
     - ["Wilson", "Shelly"]
-    Matches: 1
+    Matches: 2
   - Pairs:  # Night 2
     - ["Eti", "Afra"]
     - ["Gerrit", "Tais"]
@@ -60,6 +60,7 @@ MATCHING_NIGHTS:
     - ["Sandro", "Sina"]
     - ["Sidar", "Afra"]
     - ["Wilson", "Shelly"]
+  #  - ["Kevin", "Melanie"]
     Matches: 4
   - Pairs:  # Night 4
     - ["Eti", "Afra"]
@@ -132,7 +133,19 @@ MATCHING_NIGHTS:
     - ["Sandro", "Julia"]
     - ["Sidar", "Afra"]
     - ["Wilson", "Shelly"]
-    Matches: 6  # according to current solution. will know in ep19
+    Matches: 6
+  - Pairs:  # Night 10
+    - ["Eti", "Maya"]
+    - ["Gerrit", "Tais"]
+    - ["Kevin", "Lina"]
+    - ["Martin", "Afra"]
+    - ["Paddy", "Edda"]
+    - ["Paulo", "Lisa-Marie"]
+    - ["Ryan", "Jana"]
+    - ["Sandro", "Julia"]
+    - ["Sidar", "Sina"]
+    - ["Wilson", "Shelly"]
+    Matches: 7
   
 TRUTH_BOOTH:
   - Pair:
@@ -179,3 +192,23 @@ TRUTH_BOOTH:
       - "Sandro"
       - "Afra"
     Match: False
+  - Pair:
+      - "Kevin"
+      - "Lina"
+    Match: True
+  - Pair:  # Confirmed in matching night 10
+      - "Ryan"
+      - "Jana"
+    Match: True
+  - Pair:  # Confirmed in matching night 10
+      - "Eti"
+      - "Maya"
+    Match: True
+  - Pair:  # Confirmed in matching night 10
+      - "Sandro"
+      - "Julia"
+    Match: True
+  - Pair:  # Confirmed in matching night 10
+      - "Paulo"
+      - "Lisa-Marie"
+    Match: True
