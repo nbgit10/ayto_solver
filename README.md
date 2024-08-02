@@ -22,21 +22,21 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 5 GERMANY AFTER EPISODE 20:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 VIP GERMANY AFTER EPISODE 4:</summary>
 
 Proposed solution:
 
-- Eti + Maya ✓
-- Gerrit + Tais ✅ (and Pia and Melanie)
-- Kevin + Lina ✅
-- Martin + Sina
-- Paddy + Afra
-- Paulo + Lisa-Marie ✓
-- Ryan + Sina ✓
-- Sandro + Julia ✓
-- Sidar + Edda
-- Wilson + Shelly ✅
+- Tim and Asena
+- Lucas and Jennifer
+- Nicola and Laura L
+- Lars and Nadia + Dana
+- Khan and Emmy
+- Chris and Tara
+- Alex and Laura
+- Marc Robin and Linda
+- Ozan and Anastassua
+- Antonino and Gabriela
 
-They only find 7 matches and do not win the money.
+We note that this solution is a random guess since we do not have a lot of information available. We expect more meaningful results after about episode 10.
 
 </details>
