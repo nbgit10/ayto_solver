@@ -1,0 +1,141 @@
+# AYTO SEASON VIP 4 DE
+MALES:
+  - "Tim"
+  - "Lucas"
+  - "Nicola"
+  - "Lars"
+  - "Khan"
+  - "Chris"
+  - "Alex"
+  - "Marc Robin"
+  - "Ozan"
+  - "Antonino"
+
+FEMALES:
+  - "Linda"
+  - "Jennifer"
+  - "Tara"
+  - "Nadia"
+  - "Asena"
+  - "Emmy"
+  - "Laura L"  # Laura L is Laura Blond
+  - "Anastassia"
+  - "Gabriela"
+  - "Laura"
+  - "Dana"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, Ep. 4, Dana not present
+    - ["Tim", "Linda"]
+    - ["Lucas", "Jennifer"]
+    - ["Nicola", "Tara"]
+    - ["Lars", "Nadia"]
+    - ["Khan", "Asena"]
+    - ["Chris", "Emmy"]
+    - ["Alex", "Laura L"]
+    - ["Marc Robin", "Anastassia"]
+    - ["Ozan", "Gabriela"]
+    - ["Antonino", "Laura"]
+    Matches: 2
+  - Pairs:  # Night 2, Ep. 6, Gabriela not matched
+    - ["Tim", "Linda"]
+    - ["Lucas", "Laura"]
+    - ["Nicola", "Tara"]
+    - ["Lars", "Anastassia"]
+    - ["Khan", "Nadia"]
+    - ["Chris", "Emmy"]
+    - ["Alex", "Jennifer"]
+    - ["Marc Robin", "Asena"]
+    - ["Ozan", "Laura L"]
+    - ["Antonino", "Dana"]
+    Matches: 3
+  - Pairs:  # Night 3, Ep. 8, Tara not matched
+    - ["Tim", "Dana"]
+    - ["Lucas", "Linda"]
+    - ["Nicola", "Laura L"]
+    - ["Lars", "Gabriela"]
+    - ["Khan", "Jennifer"]
+    - ["Chris", "Emmy"]
+    - ["Alex", "Anastassia"]
+    - ["Marc Robin", "Asena"]
+    - ["Ozan", "Laura"]
+    - ["Antonino", "Nadia"]
+    Matches: 3
+  - Pairs:  # Night 4, Ep. 10, Dana not matched
+    - ["Khan", "Asena"]  # First chosen by Dana but denied by Khan later
+    - ["Lucas", "Gabriela"]
+    - ["Tim", "Laura L"]
+    - ["Lars", "Tara"]
+    - ["Alex", "Jennifer"]
+    - ["Chris", "Emmy"]
+    - ["Nicola", "Anastassia"]
+    - ["Marc Robin", "Linda"]
+    - ["Ozan", "Laura"]
+    - ["Antonino", "Nadia"]
+    Matches: 1  # Blackout. They loose 50k. No matches besides Chris and Emmy found.
+  - Pairs:  # Night 5, Ep. 12, Laura (M/Brown) not matched
+    - ["Khan", "Tara"]
+    - ["Lucas", "Jennifer"]
+    - ["Tim", "Linda"]
+    - ["Lars", "Nadia"]
+    - ["Alex", "Gabriela"]
+    - ["Chris", "Emmy"]
+    - ["Nicola", "Laura L"]
+    - ["Marc Robin", "Anastassia"]
+    - ["Ozan", "Dana"]
+    - ["Antonino", "Asena"]
+    Matches: 5
+  - Pairs:  # Night 6, Ep. 14, Laura L not matched
+    - ["Khan", "Tara"]
+    - ["Lucas", "Jennifer"]
+    - ["Tim", "Linda"]
+    - ["Lars", "Dana"]
+    - ["Alex", "Gabriela"]
+    - ["Chris", "Emmy"]
+    - ["Nicola", "Nadia"]
+    - ["Marc Robin", "Laura"]
+    - ["Ozan", "Anastassia"]
+    - ["Antonino", "Asena"]
+    Matches: 6
+  - Pairs:  # Night 7, Ep. 16, xyz not matched
+    - ["Khan", "Tara"]
+    - ["Lucas", "Dana"]
+    - ["Tim", "Linda"]
+    - ["Lars", "Laura L"]
+    - ["Alex", "Gabriela"]
+    - ["Chris", "Emmy"]
+    - ["Nicola", "Nadia"]
+    - ["Marc Robin", "Laura"]
+    - ["Ozan", "Anastassia"]
+    - ["Antonino", "Asena"]
+    Matches: 6
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Marc Robin"
+      - "Laura L"
+    Match: False  # Ep. 3
+  - Pair:
+      - "Chris"
+      - "Emmy"
+    Match: True  # Ep. 5
+  # - Pair:
+  #     - "Alex"
+  #     - "Anastassia"
+    # Match: True  # Ep. 7. Sold.
+  - Pair:
+    - "Marc Robin"
+    - "Asena"
+    Match: False  # Ep. 9
+  # - Pair:
+  #   - "Tim"
+  #   - "Linda"
+  #   Match: False  # Ep. 11  # Sold.
+  - Pair:
+    - "Ozan"
+    - "Anastassia"
+    Match: True  # Ep. 13
+  - Pair:
+    - "Lucas"
+    - "Jennifer"
+    Match: False  # Ep. 15

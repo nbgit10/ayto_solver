@@ -22,21 +22,19 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 VIP GERMANY AFTER EPISODE 4:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 VIP GERMANY AFTER EPISODE 16:</summary>
 
 Proposed solution:
 
-- Tim and Asena
-- Lucas and Jennifer
+- Tim and Linda + Dana
+- Lucas and Tara
 - Nicola and Laura L
-- Lars and Nadia + Dana
-- Khan and Emmy
-- Chris and Tara
-- Alex and Laura
-- Marc Robin and Linda
-- Ozan and Anastassua
-- Antonino and Gabriela
-
-We note that this solution is a random guess since we do not have a lot of information available. We expect more meaningful results after about episode 10.
+- Lars and Jennifer
+- Khan and Nadia
+- Chris and Emmy ✅ 
+- Alex and Gabriela
+- Marc Robin and Laura
+- Ozan and Anastassia ✅ 
+- Antonino and Asena
 
 </details>
