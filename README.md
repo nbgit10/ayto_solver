@@ -22,11 +22,11 @@ We use a MIP solver to solve the problem. We solve `min norm(x,1) s.t. Ax=b, x i
 ## SPOILER ALERT
 
 <details>
-<summary>SPOILER ARE YOU THE ONE SEASON 4 VIP GERMANY AFTER EPISODE 16:</summary>
+<summary>SPOILER ARE YOU THE ONE SEASON 4 VIP GERMANY AFTER EPISODE 18:</summary>
 
 Proposed solution:
 
-- Tim and Linda + Dana
+- Tim and Linda + Dana ✅ 
 - Lucas and Tara
 - Nicola and Laura L
 - Lars and Jennifer
@@ -36,5 +36,7 @@ Proposed solution:
 - Marc Robin and Laura
 - Ozan and Anastassia ✅ 
 - Antonino and Asena
+
+They win the money in the 9th night in episode 20, despite RTL letting Nicola choose first.
 
 </details>

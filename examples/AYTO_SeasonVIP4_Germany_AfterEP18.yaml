@@ -97,7 +97,7 @@ MATCHING_NIGHTS:
     - ["Ozan", "Anastassia"]
     - ["Antonino", "Asena"]
     Matches: 6
-  - Pairs:  # Night 7, Ep. 16, xyz not matched
+  - Pairs:  # Night 7, Ep. 16, Jennifer not matched
     - ["Khan", "Tara"]
     - ["Lucas", "Dana"]
     - ["Tim", "Linda"]
@@ -109,6 +109,18 @@ MATCHING_NIGHTS:
     - ["Ozan", "Anastassia"]
     - ["Antonino", "Asena"]
     Matches: 6
+  - Pairs:  # Night 8, Ep. 18, Dana not matched
+    - ["Lucas", "Tara"]
+    - ["Khan", "Jennifer"]
+    - ["Tim", "Linda"]
+    - ["Lars", "Laura L"]
+    - ["Alex", "Gabriela"]
+    - ["Chris", "Emmy"]
+    - ["Nicola", "Nadia"]
+    - ["Marc Robin", "Laura"]
+    - ["Ozan", "Anastassia"]
+    - ["Antonino", "Asena"]
+    Matches: 7
 
 TRUTH_BOOTH:
   - Pair:
@@ -130,7 +142,7 @@ TRUTH_BOOTH:
   # - Pair:
   #   - "Tim"
   #   - "Linda"
-  #   Match: False  # Ep. 11  # Sold.
+  #   Match: True  # Ep. 11  # Sold. Confirmed in ep 17.
   - Pair:
     - "Ozan"
     - "Anastassia"
@@ -139,3 +151,7 @@ TRUTH_BOOTH:
     - "Lucas"
     - "Jennifer"
     Match: False  # Ep. 15
+  # - Pair:
+  #   - "Tim"
+  #   - "Dana"
+  #   Match: True  # Ep. 17 Also has to leave the show.
