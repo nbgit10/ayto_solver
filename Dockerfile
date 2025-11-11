@@ -10,8 +10,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY ayto_solver/ ayto_solver/
-COPY ayto/ ayto/
 COPY examples/ examples/
+COPY tests/ tests/
+COPY debug_season2.py .
+COPY debug_graph_season2.py .
+COPY debug_season3.py .
+COPY debug_season3_verbose.py .
+COPY analyze_season3.py .
 
 # Expose port for FastAPI
 EXPOSE 8000

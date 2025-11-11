@@ -55,22 +55,53 @@ class MIPMultiSolver(MIPSolver):
             for i, row in enumerate(A_eq):
                 model += xsum(int(row[j]) * x[j] for j in range(n_vars)) == int(self.b[i])
 
+            # Add inequality constraints for n×m cases
+            if self.n_males != self.n_females:
+                # Each person from smaller set must have at least 1 and at most 2 matches
+                if self.n_males < self.n_females:
+                    # More females: constrain males
+                    for i in range(self.n_males):
+                        row_start = i * self.n_females
+                        row_end = (i + 1) * self.n_females
+                        row_sum = xsum(x[j] for j in range(row_start, row_end))
+                        model += row_sum >= 1  # At least 1 match
+                        model += row_sum <= 2  # At most 2 matches
+                else:
+                    # More males: constrain females
+                    for j in range(self.n_females):
+                        col_indices = [i * self.n_females + j for i in range(self.n_males)]
+                        col_sum = xsum(x[idx] for idx in col_indices)
+                        model += col_sum >= 1  # At least 1 match
+                        model += col_sum <= 2  # At most 2 matches
+
             # Add constraints to exclude previous solutions
             for prev_solution in solutions:
                 prev_flat = prev_solution.flatten()
-                # At least one variable must be different
-                # sum of (x_i XOR prev_i) >= 1
-                # This is equivalent to: sum(x_i * (1 - prev_i) + prev_i * (1 - x_i)) >= 1
-                # Simplified: sum(x_i) - 2*sum(x_i * prev_i) + sum(prev_i) >= 1
-                matching_vars = []
-                for j in range(n_vars):
-                    if prev_flat[j] > 0.5:
-                        matching_vars.append(j)
 
-                # Exclude this exact solution by requiring at least one difference
-                # in the matching set
-                if matching_vars:
-                    model += xsum(x[j] for j in matching_vars) <= len(matching_vars) - 1
+                # Identify which variables were 1 in previous solution
+                matching_indices = [j for j in range(n_vars) if prev_flat[j] > 0.5]
+
+                # Identify which variables were 0 in previous solution
+                non_matching_indices = [j for j in range(n_vars) if prev_flat[j] <= 0.5]
+
+                # Exclusion constraint: At least one variable must differ
+                # Either: one previously-1 variable becomes 0, OR one previously-0 variable becomes 1
+                # This is: sum(1 - x[j] for j in matching) + sum(x[j] for j in non_matching) >= 1
+                # Equivalent to: sum(x[j] for j in matching) <= len(matching) - 1 + sum(x[j] for j in non_matching)
+                # Simpler formulation: sum(x[j] for j in matching) + sum(1-x[j] for j in non_matching) <= total_vars - 1
+
+                # Use integer cut: the sum of matching vars cannot equal the previous count
+                # while non-matching vars stay at zero
+                if matching_indices:
+                    # Prevent exact replication: at least one of the matching positions must be 0
+                    # OR at least one non-matching position must be 1
+                    # Combined: total hamming distance >= 1
+                    # sum(x[prev_1]) + sum(1-x[prev_0]) <= n_vars - 1
+                    model += (
+                        xsum(x[j] for j in matching_indices) +
+                        xsum(1 - x[j] for j in non_matching_indices)
+                        <= n_vars - 1
+                    )
 
             # Solve
             model.emphasis = 2
@@ -104,6 +135,10 @@ class MIPMultiSolver(MIPSolver):
 
         if len(solutions) >= max_solutions:
             capped = True
+
+        # Update instance state with first solution (for get_matches() compatibility)
+        if solutions:
+            self.X_binary = solutions[0]
 
         return solutions, capped
 

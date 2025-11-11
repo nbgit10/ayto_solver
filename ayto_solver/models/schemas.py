@@ -156,10 +156,6 @@ class GraphSolutionResponse(BaseModel):
     num_males: int
     num_females: int
     solver_type: str = "graph"
-    example_solutions: Optional[List[SingleSolution]] = Field(
-        default=None,
-        description="Up to 5 example solutions"
-    )
 
 
 class ErrorResponse(BaseModel):

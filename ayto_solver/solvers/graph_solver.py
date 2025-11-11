@@ -30,7 +30,7 @@ class GraphSolver:
         self.n_males = len(males)
         self.n_females = len(females)
 
-        # Create bipartite graph
+        # Create bipartite graph - start EMPTY, add edges as we learn they're possible
         self.graph = nx.Graph()
 
         # Add nodes
@@ -41,14 +41,17 @@ class GraphSolver:
             [(f"F_{f}", {"bipartite": 1}) for f in females]
         )
 
-        # Initially, all pairs are possible (add all edges)
-        for male in males:
-            for female in females:
-                self.graph.add_edge(f"M_{male}", f"F_{female}")
-
-        # Track ruled out pairs
+        # Initially, all pairs are possible - we'll track this separately
+        # and only add edges to graph after applying initial constraints
         self.ruled_out_pairs: Set[Tuple[str, str]] = set()
         self.confirmed_pairs: Set[Tuple[str, str]] = set()
+
+        # Store matching night constraints for validation
+        # Format: List[(pairs, num_matches)]
+        self.matching_night_constraints: List[Tuple[List[Tuple[str, str]], int]] = []
+
+        # Flag to track if graph has been finalized
+        self._graph_finalized = False
 
     def add_truth_booth(self, male: str, female: str, is_match: bool):
         """
@@ -61,66 +64,96 @@ class GraphSolver:
         """
         if is_match:
             self.confirmed_pairs.add((male, female))
-            # Remove all other edges for these two people
+            # Mark all other pairings for these two people as ruled out
             for other_female in self.females:
                 if other_female != female:
-                    edge = (f"M_{male}", f"F_{other_female}")
-                    if self.graph.has_edge(*edge):
-                        self.graph.remove_edge(*edge)
                     self.ruled_out_pairs.add((male, other_female))
 
             for other_male in self.males:
                 if other_male != male:
-                    edge = (f"M_{other_male}", f"F_{female}")
-                    if self.graph.has_edge(*edge):
-                        self.graph.remove_edge(*edge)
                     self.ruled_out_pairs.add((other_male, female))
         else:
-            # Remove this edge
-            edge = (f"M_{male}", f"F_{female}")
-            if self.graph.has_edge(*edge):
-                self.graph.remove_edge(*edge)
+            # Mark this pair as ruled out
             self.ruled_out_pairs.add((male, female))
 
     def add_matching_night(self, pairs: List[Tuple[str, str]], num_matches: int):
         """
         Add matching night constraint.
 
-        For now, we handle special cases:
-        - If num_matches == 0, all pairs are ruled out
-        - If num_matches == len(pairs), all pairs are confirmed
-        - Otherwise, we need more sophisticated constraint handling
+        Special cases for edge pruning:
+        - If num_matches == 0, all pairs are ruled out (can prune edges)
+        - If num_matches == len(pairs), all pairs are confirmed (can prune edges)
+        - Otherwise, store constraint for validation during enumeration
 
         Args:
             pairs: List of (male, female) pairs from that night
             num_matches: Number of correct matches
         """
+        # Always store the constraint for validation
+        self.matching_night_constraints.append((pairs, num_matches))
+
         if num_matches == 0:
-            # All pairs are wrong - remove all edges
+            # All pairs are wrong - mark as ruled out
             for male, female in pairs:
-                edge = (f"M_{male}", f"F_{female}")
-                if self.graph.has_edge(*edge):
-                    self.graph.remove_edge(*edge)
                 self.ruled_out_pairs.add((male, female))
 
         elif num_matches == len(pairs):
-            # All pairs are correct - this determines the solution
+            # All pairs are correct - mark as confirmed
             for male, female in pairs:
                 self.confirmed_pairs.add((male, female))
-                # Remove all other edges
+                # Mark all other pairings as ruled out
                 for other_female in self.females:
                     if other_female != female:
-                        edge = (f"M_{male}", f"F_{other_female}")
-                        if self.graph.has_edge(*edge):
-                            self.graph.remove_edge(*edge)
+                        self.ruled_out_pairs.add((male, other_female))
 
                 for other_male in self.males:
                     if other_male != male:
-                        edge = (f"M_{other_male}", f"F_{female}")
-                        if self.graph.has_edge(*edge):
-                            self.graph.remove_edge(*edge)
-        # For intermediate cases, we can't directly prune edges without
-        # constraint propagation, so we'll handle this during enumeration
+                        self.ruled_out_pairs.add((other_male, female))
+
+    def _finalize_graph(self):
+        """
+        Build the graph with only valid edges after all constraints are added.
+
+        This method adds edges for all pairs that are:
+        1. Not ruled out by truth booths or matching nights
+        2. Part of the feasible solution space
+        """
+        if self._graph_finalized:
+            return
+
+        # Add edges for all pairs that haven't been ruled out
+        for male in self.males:
+            for female in self.females:
+                pair = (male, female)
+                if pair not in self.ruled_out_pairs:
+                    self.graph.add_edge(f"M_{male}", f"F_{female}")
+
+        self._graph_finalized = True
+
+    def _satisfies_matching_night_constraints(self, matching: Set[Tuple[str, str]]) -> bool:
+        """
+        Check if a matching satisfies all matching night constraints.
+
+        Args:
+            matching: Set of (male, female) pairs
+
+        Returns:
+            True if all constraints are satisfied
+        """
+        for night_pairs, expected_matches in self.matching_night_constraints:
+            # Count how many pairs from this night appear in the matching
+            # Convert to tuple if needed (in case pairs come as lists from JSON)
+            actual_matches = 0
+            for pair in night_pairs:
+                # Normalize to tuple
+                normalized_pair = tuple(pair) if isinstance(pair, list) else pair
+                if normalized_pair in matching:
+                    actual_matches += 1
+
+            if actual_matches != expected_matches:
+                return False
+
+        return True
 
     def enumerate_all_matchings(
         self,
@@ -135,19 +168,41 @@ class GraphSolver:
         Returns:
             Tuple of (list of matchings, whether cap was hit)
         """
+        # Finalize graph by adding only valid edges
+        self._finalize_graph()
+
         matchings = []
         capped = False
 
+        # Generate candidates and filter by matching night constraints
+        # We need to generate many more candidates than the target since constraints
+        # will filter most of them out. Use a large multiplier.
+        candidate_multiplier = 10000 if self.matching_night_constraints else 1
+
         # For balanced (n×n) graphs, use standard matching enumeration
         if self.n_males == self.n_females:
-            matchings = list(self._enumerate_perfect_matchings_balanced(max_matchings))
-            if len(matchings) >= max_matchings:
-                capped = True
+            all_matchings = self._enumerate_perfect_matchings_balanced(
+                max_matchings * candidate_multiplier
+            )
+            # Filter by matching night constraints
+            for matching in all_matchings:
+                if self._satisfies_matching_night_constraints(matching):
+                    matchings.append(matching)
+                    if len(matchings) >= max_matchings:
+                        capped = True
+                        break
         else:
             # For unbalanced (n×m) graphs, we need to handle double matches
-            matchings = list(self._enumerate_matchings_unbalanced(max_matchings))
-            if len(matchings) >= max_matchings:
-                capped = True
+            all_matchings = self._enumerate_matchings_unbalanced(
+                max_matchings * candidate_multiplier
+            )
+            # Filter by matching night constraints
+            for matching in all_matchings:
+                if self._satisfies_matching_night_constraints(matching):
+                    matchings.append(matching)
+                    if len(matchings) >= max_matchings:
+                        capped = True
+                        break
 
         return matchings, capped
 

@@ -185,7 +185,13 @@ async def solve_mip(input_data: MatchInput, enumerate_solutions: bool = False):
 
             # Use first solution as the primary solution
             primary_solution = solutions[0]
-            matches = solver.get_matches()  # From last solve
+
+            # Extract matches directly from solution matrix
+            matches = []
+            for i in range(solver.n_males):
+                for j in range(solver.n_females):
+                    if primary_solution[i, j] > 0.5:
+                        matches.append((solver.males[i], solver.females[j]))
 
             # Detect double match in primary solution
             double_match_in_solution = _detect_double_match_in_solution(
@@ -314,14 +320,6 @@ async def solve_graph(input_data: MatchInput):
                 )
             ]
 
-        # Get example solutions (up to 5)
-        example_solutions = None
-        if matchings:
-            example_solutions = [
-                SingleSolution(matches=list(matching))
-                for matching in matchings[:5]
-            ]
-
         return GraphSolutionResponse(
             match_probabilities=match_probabilities,
             double_match_candidates=double_match_candidates,
@@ -329,8 +327,7 @@ async def solve_graph(input_data: MatchInput):
             solutions_capped=capped,
             num_males=solver.n_males,
             num_females=solver.n_females,
-            solver_type="graph",
-            example_solutions=example_solutions
+            solver_type="graph"
         )
 
     except ValueError as e:
