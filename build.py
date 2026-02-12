@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build static JSON data files from AYTO season YAML inputs.
 
-Reads seasons.yaml, runs GraphSolver on each season, writes JSON to
+Reads seasons.json, runs GraphSolver on each season, writes JSON to
 frontend/public/data/ for the Astro static site.
 """
 
