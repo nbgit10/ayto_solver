@@ -1,0 +1,141 @@
+---
+import Base from '../../layouts/Base.astro';
+import CertaintyMeter from '../../components/CertaintyMeter.svelte';
+import ConfirmedMatches from '../../components/ConfirmedMatches.svelte';
+import MatchCard from '../../components/MatchCard.svelte';
+import MatchGrid from '../../components/MatchGrid.svelte';
+import DoubleMatchInfo from '../../components/DoubleMatchInfo.svelte';
+import type { SeasonsIndex, SeasonData } from '../../lib/types';
+import { readFileSync } from 'node:fs';
+
+export function getStaticPaths() {
+  const raw = readFileSync('public/data/seasons.json', 'utf-8');
+  const index: SeasonsIndex = JSON.parse(raw);
+
+  return index.seasons.map((season) => {
+    const dataRaw = readFileSync(`public/data/${season.id}/latest.json`, 'utf-8');
+    const data: SeasonData = JSON.parse(dataRaw);
+    return {
+      params: { slug: season.id },
+      props: { data, season },
+    };
+  });
+}
+
+const { data, season } = Astro.props;
+
+const topPairings = data.pairings
+  .filter((p) => p.probability > 0)
+  .sort((a, b) => b.probability - a.probability)
+  .slice(0, 15);
+---
+
+<Base title={`${data.meta.display_name} — AYTO Solver`}>
+  <!-- Season Header -->
+  <div class="mb-8">
+    <a href="/" class="text-sm text-primary-600 dark:text-primary-400 hover:underline mb-2 inline-block">&larr; Alle Staffeln</a>
+    <div class="flex items-center gap-3 mb-2">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{data.meta.display_name}</h1>
+      {data.meta.type === 'vip' && (
+        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">
+          VIP
+        </span>
+      )}
+    </div>
+    <p class="text-gray-500 dark:text-gray-400">
+      {data.meta.year} &middot; Folge {data.meta.latest_episode} von {data.meta.total_episodes}
+      &middot; {data.contestants.males.length}m / {data.contestants.females.length}f
+    </p>
+  </div>
+
+  {data.solver_result.infeasible ? (
+    <!-- Infeasible Season -->
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-semibold text-red-700 dark:text-red-400 mb-2">Widerspruchliche Daten</h2>
+      <p class="text-red-600 dark:text-red-400 text-sm">
+        Die Daten dieser Staffel enthalten Widerspruche — es gibt keine gueltige Losung.
+        Moglicherweise sind die offiziellen Daten fehlerhaft.
+      </p>
+    </div>
+  ) : (
+    <div class="space-y-8">
+      <!-- Certainty Meter -->
+      <section>
+        <CertaintyMeter
+          totalSolutions={data.solver_result.total_solutions}
+          solved={data.solver_result.solved}
+          confirmedCount={data.confirmed_matches.length}
+          totalPairs={data.contestants.males.length}
+          client:load
+        />
+      </section>
+
+      <!-- Confirmed Matches -->
+      {data.confirmed_matches.length > 0 && (
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Bestatige Matches</h2>
+          <ConfirmedMatches matches={data.confirmed_matches} client:load />
+        </section>
+      )}
+
+      <!-- Top Pairings -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Top-Paarungen</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {topPairings.map((pairing) => (
+            <MatchCard pairing={pairing} client:load />
+          ))}
+        </div>
+      </section>
+
+      <!-- Match Grid -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Alle Wahrscheinlichkeiten</h2>
+        <MatchGrid
+          pairings={data.pairings}
+          males={data.contestants.males}
+          females={data.contestants.females}
+          client:load
+        />
+      </section>
+
+      <!-- Double Match -->
+      {data.double_match.applicable && data.double_match.candidates.length > 0 && (
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Doppel-Match</h2>
+          <DoubleMatchInfo doubleMatch={data.double_match} client:load />
+        </section>
+      )}
+
+      <!-- Matching Nights -->
+      {data.matching_nights.length > 0 && (
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Matching Nights</h2>
+          <div class="space-y-3">
+            {data.matching_nights.map((night) => (
+              <details class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
+                <summary class="px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg">
+                  <span class="font-medium text-gray-900 dark:text-gray-100">Nacht {night.night_number}</span>
+                  <span class="text-sm px-2 py-0.5 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 font-medium">
+                    {night.matches} {night.matches === 1 ? 'Match' : 'Matches'}
+                  </span>
+                </summary>
+                <div class="px-4 pb-3 pt-1">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm">
+                    {night.pairs.map(([male, female]) => (
+                      <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400 py-0.5">
+                        <span class="text-blue-600 dark:text-blue-400">{male}</span>
+                        <span class="text-gray-400">&amp;</span>
+                        <span class="text-pink-600 dark:text-pink-400">{female}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  )}
+</Base>
