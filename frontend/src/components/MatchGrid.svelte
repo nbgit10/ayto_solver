@@ -35,13 +35,13 @@
 </script>
 
 <div class="overflow-x-auto -mx-4 px-4">
-  <table class="text-xs border-collapse min-w-full">
+  <table class="text-xs border-collapse table-fixed w-full">
     <thead>
       <tr>
         <th class="p-1 text-left text-gray-500 dark:text-gray-400 sticky left-0 bg-gray-50 dark:bg-gray-900 z-10"></th>
         {#each females as female}
-          <th class="p-1 text-center font-medium text-pink-600 dark:text-pink-400 whitespace-nowrap max-w-16 truncate" title={female}>
-            {female.length > 8 ? female.slice(0, 7) + '...' : female}
+          <th class="p-1 text-center font-medium text-pink-600 dark:text-pink-400 truncate" title={female}>
+            {female.length > 6 ? female.slice(0, 5) + '..' : female}
           </th>
         {/each}
       </tr>
@@ -49,8 +49,8 @@
     <tbody>
       {#each males as male}
         <tr>
-          <td class="p-1 font-medium text-blue-600 dark:text-blue-400 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-900 z-10" title={male}>
-            {male.length > 10 ? male.slice(0, 9) + '...' : male}
+          <td class="p-1 font-medium text-blue-600 dark:text-blue-400 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-900 z-10 truncate" title={male}>
+            {male.length > 8 ? male.slice(0, 7) + '..' : male}
           </td>
           {#each females as female}
             {@const prob = getProb(male, female)}

@@ -28,11 +28,11 @@ const archiveSeasons = index.seasons.filter((s) => !s.current);
           <div class="flex flex-wrap gap-4 mb-6">
             <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
               <p class="text-2xl font-bold">{currentSeason.total_solutions}</p>
-              <p class="text-xs text-primary-200">{currentSeason.total_solutions === 1 ? 'Losung' : 'Losungen'}</p>
+              <p class="text-xs text-primary-200">{currentSeason.total_solutions === 1 ? 'Lösung' : 'Lösungen'}</p>
             </div>
             <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
               <p class="text-2xl font-bold">{currentSeason.confirmed_matches}</p>
-              <p class="text-xs text-primary-200">Bestatigt</p>
+              <p class="text-xs text-primary-200">Bestätigt</p>
             </div>
             <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
               <p class="text-2xl font-bold">{currentSeason.num_males + currentSeason.num_females}</p>

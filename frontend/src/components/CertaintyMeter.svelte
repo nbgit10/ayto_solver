@@ -15,7 +15,7 @@
   );
 
   let label = $derived(
-    solved ? 'Gelost!' : `${totalSolutions} mogliche Losungen`
+    solved ? 'Gelöst!' : `${totalSolutions} mögliche Lösungen`
   );
 
   let barColor = $derived(
@@ -29,7 +29,7 @@
 <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
   <div class="flex items-center justify-between mb-3">
     <h3 class="font-semibold text-gray-900 dark:text-gray-100">Wie weit gelost?</h3>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{confirmedCount} / {totalPairs} bestatigt</span>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{confirmedCount} / {totalPairs} bestätigt</span>
   </div>
   <div class="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
     <div

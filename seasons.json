@@ -58,8 +58,7 @@
       "input_file": "examples/AYTO_Season4_Germany_AfterEp18.yaml",
       "current": false,
       "latest_episode": 18,
-      "total_episodes": 20,
-      "infeasible": true
+      "total_episodes": 20
     },
     {
       "id": "staffel-3",

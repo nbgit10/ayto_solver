@@ -51,10 +51,10 @@ const topPairings = data.pairings
   {data.solver_result.infeasible ? (
     <!-- Infeasible Season -->
     <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 mb-8">
-      <h2 class="text-lg font-semibold text-red-700 dark:text-red-400 mb-2">Widerspruchliche Daten</h2>
+      <h2 class="text-lg font-semibold text-red-700 dark:text-red-400 mb-2">Widersprüchliche Daten</h2>
       <p class="text-red-600 dark:text-red-400 text-sm">
-        Die Daten dieser Staffel enthalten Widerspruche — es gibt keine gueltige Losung.
-        Moglicherweise sind die offiziellen Daten fehlerhaft.
+        Die Daten dieser Staffel enthalten Widersprüche — es gibt keine gültige Lösung.
+        Möglicherweise sind die offiziellen Daten fehlerhaft.
       </p>
     </div>
   ) : (
@@ -73,7 +73,7 @@ const topPairings = data.pairings
       <!-- Confirmed Matches -->
       {data.confirmed_matches.length > 0 && (
         <section>
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Bestatige Matches</h2>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Bestätigte Matches</h2>
           <ConfirmedMatches matches={data.confirmed_matches} client:load />
         </section>
       )}
