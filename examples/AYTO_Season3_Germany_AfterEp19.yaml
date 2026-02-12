@@ -160,10 +160,6 @@ TRUTH_BOOTH:
     - "Zaira"
     Match: True
   - Pair:
-    - "William"
-    - "Desiree"
-    Match: True  # Not confirmed, but speculating that both options are a perfect match
-  - Pair:
     - "Jordi"
     - "Raphaela"
     Match: False

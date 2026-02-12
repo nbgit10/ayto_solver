@@ -3,6 +3,10 @@ mip
 numpy
 pyyaml
 sympy
+fastapi
+uvicorn[standard]
+pydantic
+networkx
 
 # dDv:
 black
@@ -12,3 +16,4 @@ pylint
 pytest
 pytest-cov
 yapf
+hypothesis

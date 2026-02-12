@@ -1,0 +1,426 @@
+{
+  "males": [
+    "Tim",
+    "Lucas",
+    "Nicola",
+    "Lars",
+    "Khan",
+    "Chris",
+    "Alex",
+    "Marc Robin",
+    "Ozan",
+    "Antonino"
+  ],
+  "females": [
+    "Linda",
+    "Jennifer",
+    "Tara",
+    "Nadia",
+    "Asena",
+    "Emmy",
+    "Laura L",
+    "Anastassia",
+    "Gabriela",
+    "Laura",
+    "Dana"
+  ],
+  "matching_nights": [
+    {
+      "pairs": [
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lucas",
+          "Jennifer"
+        ],
+        [
+          "Nicola",
+          "Tara"
+        ],
+        [
+          "Lars",
+          "Nadia"
+        ],
+        [
+          "Khan",
+          "Asena"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Alex",
+          "Laura L"
+        ],
+        [
+          "Marc Robin",
+          "Anastassia"
+        ],
+        [
+          "Ozan",
+          "Gabriela"
+        ],
+        [
+          "Antonino",
+          "Laura"
+        ]
+      ],
+      "matches": 2
+    },
+    {
+      "pairs": [
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lucas",
+          "Laura"
+        ],
+        [
+          "Nicola",
+          "Tara"
+        ],
+        [
+          "Lars",
+          "Anastassia"
+        ],
+        [
+          "Khan",
+          "Nadia"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Alex",
+          "Jennifer"
+        ],
+        [
+          "Marc Robin",
+          "Asena"
+        ],
+        [
+          "Ozan",
+          "Laura L"
+        ],
+        [
+          "Antonino",
+          "Dana"
+        ]
+      ],
+      "matches": 3
+    },
+    {
+      "pairs": [
+        [
+          "Tim",
+          "Dana"
+        ],
+        [
+          "Lucas",
+          "Linda"
+        ],
+        [
+          "Nicola",
+          "Laura L"
+        ],
+        [
+          "Lars",
+          "Gabriela"
+        ],
+        [
+          "Khan",
+          "Jennifer"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Alex",
+          "Anastassia"
+        ],
+        [
+          "Marc Robin",
+          "Asena"
+        ],
+        [
+          "Ozan",
+          "Laura"
+        ],
+        [
+          "Antonino",
+          "Nadia"
+        ]
+      ],
+      "matches": 3
+    },
+    {
+      "pairs": [
+        [
+          "Khan",
+          "Asena"
+        ],
+        [
+          "Lucas",
+          "Gabriela"
+        ],
+        [
+          "Tim",
+          "Laura L"
+        ],
+        [
+          "Lars",
+          "Tara"
+        ],
+        [
+          "Alex",
+          "Jennifer"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Nicola",
+          "Anastassia"
+        ],
+        [
+          "Marc Robin",
+          "Linda"
+        ],
+        [
+          "Ozan",
+          "Laura"
+        ],
+        [
+          "Antonino",
+          "Nadia"
+        ]
+      ],
+      "matches": 1
+    },
+    {
+      "pairs": [
+        [
+          "Khan",
+          "Tara"
+        ],
+        [
+          "Lucas",
+          "Jennifer"
+        ],
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lars",
+          "Nadia"
+        ],
+        [
+          "Alex",
+          "Gabriela"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Nicola",
+          "Laura L"
+        ],
+        [
+          "Marc Robin",
+          "Anastassia"
+        ],
+        [
+          "Ozan",
+          "Dana"
+        ],
+        [
+          "Antonino",
+          "Asena"
+        ]
+      ],
+      "matches": 5
+    },
+    {
+      "pairs": [
+        [
+          "Khan",
+          "Tara"
+        ],
+        [
+          "Lucas",
+          "Jennifer"
+        ],
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lars",
+          "Dana"
+        ],
+        [
+          "Alex",
+          "Gabriela"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Nicola",
+          "Nadia"
+        ],
+        [
+          "Marc Robin",
+          "Laura"
+        ],
+        [
+          "Ozan",
+          "Anastassia"
+        ],
+        [
+          "Antonino",
+          "Asena"
+        ]
+      ],
+      "matches": 6
+    },
+    {
+      "pairs": [
+        [
+          "Khan",
+          "Tara"
+        ],
+        [
+          "Lucas",
+          "Dana"
+        ],
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lars",
+          "Laura L"
+        ],
+        [
+          "Alex",
+          "Gabriela"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Nicola",
+          "Nadia"
+        ],
+        [
+          "Marc Robin",
+          "Laura"
+        ],
+        [
+          "Ozan",
+          "Anastassia"
+        ],
+        [
+          "Antonino",
+          "Asena"
+        ]
+      ],
+      "matches": 6
+    },
+    {
+      "pairs": [
+        [
+          "Lucas",
+          "Tara"
+        ],
+        [
+          "Khan",
+          "Jennifer"
+        ],
+        [
+          "Tim",
+          "Linda"
+        ],
+        [
+          "Lars",
+          "Laura L"
+        ],
+        [
+          "Alex",
+          "Gabriela"
+        ],
+        [
+          "Chris",
+          "Emmy"
+        ],
+        [
+          "Nicola",
+          "Nadia"
+        ],
+        [
+          "Marc Robin",
+          "Laura"
+        ],
+        [
+          "Ozan",
+          "Anastassia"
+        ],
+        [
+          "Antonino",
+          "Asena"
+        ]
+      ],
+      "matches": 7
+    }
+  ],
+  "truth_booths": [
+    {
+      "pair": [
+        "Marc Robin",
+        "Laura L"
+      ],
+      "match": false
+    },
+    {
+      "pair": [
+        "Chris",
+        "Emmy"
+      ],
+      "match": true
+    },
+    {
+      "pair": [
+        "Marc Robin",
+        "Asena"
+      ],
+      "match": false
+    },
+    {
+      "pair": [
+        "Ozan",
+        "Anastassia"
+      ],
+      "match": true
+    },
+    {
+      "pair": [
+        "Lucas",
+        "Jennifer"
+      ],
+      "match": false
+    }
+  ]
+}

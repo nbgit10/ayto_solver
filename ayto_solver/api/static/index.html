@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYTO Solver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .probability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .probability-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .probability-card.high {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .probability-card.medium {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .probability-card.low {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .probability-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .example-btn {
+            background: #10b981;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .person-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .person-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .match-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .match-item {
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+        }
+
+        .controls {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .checkbox-label input {
+            width: auto;
+            cursor: pointer;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .certain {
+            border-left: 4px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .uncertain {
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Are You The One? Solver</h1>
+        <p class="subtitle">Find perfect matches using MIP and Graph algorithms</p>
+
+        <div class="section">
+            <h2>Input Data (JSON)</h2>
+            <textarea id="jsonInput" rows="15" placeholder='Paste your JSON here or click "Load Example"...'></textarea>
+            <br><br>
+            <button onclick="loadExample()" class="example-btn">Load Example</button>
+            <button onclick="solveMIP(false)">Solve with MIP (Fast)</button>
+            <button onclick="solveMIP(true)">Solve with MIP (Full Analysis)</button>
+            <button onclick="solveGraph()">Solve with Graph (All Solutions)</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; color: #666;">Processing...</p>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function loadExample() {
+            const example = {
+                "males": ["Alex", "Tommy", "Francesco"],
+                "females": ["Jules", "Melina", "Steffi"],
+                "matching_nights": [
+                    {
+                        "pairs": [["Alex", "Jules"], ["Tommy", "Melina"], ["Francesco", "Steffi"]],
+                        "matches": 1
+                    }
+                ],
+                "truth_booths": [
+                    {
+                        "pair": ["Francesco", "Jules"],
+                        "match": true
+                    }
+                ]
+            };
+            document.getElementById('jsonInput').value = JSON.stringify(example, null, 2);
+        }
+
+        async function solveMIP(enumerate = false) {
+            const title = enumerate ? 'MIP Solver Results (Full Analysis)' : 'MIP Solver Results (Fast)';
+            const endpoint = enumerate ? '/solve/mip?enumerate_solutions=true' : '/solve/mip';
+            await solve(endpoint, title);
+        }
+
+        async function solveGraph() {
+            await solve('/solve/graph', 'Graph Solver Results');
+        }
+
+        async function solve(endpoint, title) {
+            const input = document.getElementById('jsonInput').value;
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+
+            try {
+                const data = JSON.parse(input);
+
+                loading.style.display = 'block';
+                results.innerHTML = '';
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                loading.style.display = 'none';
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Server error');
+                }
+
+                const result = await response.json();
+                displayResults(result, title);
+
+            } catch (error) {
+                loading.style.display = 'none';
+                results.innerHTML = `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
+            }
+        }
+
+        function displayResults(result, title) {
+            const results = document.getElementById('results');
+            let html = `<div class="results"><h2>${title}</h2>`;
+
+            // Add view controls for probability results
+            const hasProbs = (result.match_probabilities && result.match_probabilities.length > 0);
+            if (hasProbs) {
+                html += `
+                    <div class="controls">
+                        <div class="tabs" id="viewTabs">
+                            <button class="tab active" onclick="switchView('grid')">Grid View</button>
+                            <button class="tab" onclick="switchView('males')">View by Males</button>
+                            <button class="tab" onclick="switchView('females')">View by Females</button>
+                        </div>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="uncertainOnly" onchange="toggleUncertain()">
+                            Show only uncertain matches (&lt;100%)
+                        </label>
+                        <select id="sortOrder" onchange="updateSort()">
+                            <option value="probability">Sort by Probability</option>
+                            <option value="name">Sort by Name</option>
+                        </select>
+                    </div>
+                `;
+            }
+
+            if (result.solver_type === 'mip') {
+                // Show total solutions if enumeration was enabled
+                if (result.total_solutions !== null && result.total_solutions !== undefined) {
+                    html += `<p><strong>Total Solutions Found:</strong> ${result.total_solutions} ${result.solutions_capped ? '(capped at 1000)' : ''}</p>`;
+                }
+
+                html += '<h3>Solution:</h3>';
+                html += '<div class="probability-grid">';
+                result.solution.matches.forEach(match => {
+                    html += `<div class="probability-card high">
+                        <strong>${match[0]} ❤️ ${match[1]}</strong>
+                    </div>`;
+                });
+                html += '</div>';
+
+                // Show double match in this specific solution
+                if (result.double_match_in_solution && result.double_match_in_solution.length > 0) {
+                    html += '<h3>Double Match in This Solution:</h3>';
+                    html += '<div class="probability-grid">';
+                    result.double_match_in_solution.forEach(pair => {
+                        html += `<div class="probability-card medium">
+                            <strong>${pair[0]} ↔ ${pair[1]}</strong>
+                            <div>Double Match Pair</div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+
+                // Show match probabilities if enumeration was enabled
+                if (result.match_probabilities && result.match_probabilities.length > 0) {
+                    html += '<h3>Match Probabilities:</h3>';
+                    html += '<div class="probability-grid">';
+                    result.match_probabilities.forEach(prob => {
+                        const percentage = (prob.probability * 100).toFixed(1);
+                        const className = prob.probability > 0.7 ? 'high' : prob.probability > 0.3 ? 'medium' : 'low';
+                        html += `<div class="probability-card ${className}">
+                            <strong>${prob.male} ❤️ ${prob.female}</strong>
+                            <div>${percentage}%</div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+
+                // Show double match candidates if enumeration was enabled
+                if (result.double_match_candidates && result.double_match_candidates.length > 0) {
+                    html += '<h3>Double Match Candidates (Across All Solutions):</h3>';
+                    html += '<div class="probability-grid">';
+                    result.double_match_candidates.forEach(candidate => {
+                        const percentage = (candidate.probability * 100).toFixed(1);
+                        html += `<div class="probability-card medium">
+                            <strong>${candidate.name}</strong> (${candidate.gender})
+                            <div>${percentage}% chance of double match</div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+            } else if (result.solver_type === 'graph') {
+                html += `<p><strong>Total Solutions Found:</strong> ${result.total_solutions} ${result.solutions_capped ? '(capped at 1000)' : ''}</p>`;
+
+                html += '<h3>Match Probabilities:</h3>';
+                html += '<div class="probability-grid">';
+                result.match_probabilities.forEach(prob => {
+                    const percentage = (prob.probability * 100).toFixed(1);
+                    const className = prob.probability > 0.7 ? 'high' : prob.probability > 0.3 ? 'medium' : 'low';
+                    html += `<div class="probability-card ${className}">
+                        <strong>${prob.male} ❤️ ${prob.female}</strong>
+                        <div>${percentage}%</div>
+                        <div class="probability-bar">
+                            <div class="probability-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>`;
+                });
+                html += '</div>';
+
+                if (result.double_match_candidates && result.double_match_candidates.length > 0) {
+                    html += '<h3>Double Match Candidates:</h3>';
+                    html += '<div class="probability-grid">';
+                    result.double_match_candidates.forEach(candidate => {
+                        const percentage = (candidate.probability * 100).toFixed(1);
+                        html += `<div class="probability-card medium">
+                            <strong>${candidate.name}</strong> (${candidate.gender})
+                            <div>${percentage}% chance of double match</div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+            }
+
+            html += '</div>';
+            results.innerHTML = html;
+
+            // Store result data for view switching
+            window.currentResult = result;
+            window.currentTitle = title;
+        }
+
+        function switchView(view) {
+            // Update tab active state
+            document.querySelectorAll('#viewTabs .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Regenerate the appropriate view
+            const result = window.currentResult;
+            const container = document.querySelector('.results');
+
+            if (view === 'grid') {
+                // Re-render in grid view (original)
+                displayResults(result, window.currentTitle);
+            } else if (view === 'males' || view === 'females') {
+                renderPersonView(result, view);
+            }
+        }
+
+        function renderPersonView(result, viewType) {
+            const probs = result.match_probabilities || [];
+
+            // Group matches by person
+            const byPerson = {};
+            probs.forEach(prob => {
+                const person = viewType === 'males' ? prob.male : prob.female;
+                const partner = viewType === 'males' ? prob.female : prob.male;
+
+                if (!byPerson[person]) {
+                    byPerson[person] = [];
+                }
+                byPerson[person].push({ partner, probability: prob.probability });
+            });
+
+            // Sort people by name
+            const sortedPeople = Object.keys(byPerson).sort();
+
+            // Generate HTML
+            let html = '';
+            sortedPeople.forEach(person => {
+                const matches = byPerson[person];
+                const allCertain = matches.every(m => m.probability > 0.99);
+                const className = allCertain ? 'certain' : 'uncertain';
+
+                html += `<div class="person-section ${className}">
+                    <div class="person-name">👤 ${person}</div>
+                    <div class="match-list">`;
+
+                // Sort matches by probability
+                matches.sort((a, b) => b.probability - a.probability);
+
+                matches.forEach(match => {
+                    const percentage = (match.probability * 100).toFixed(1);
+                    const cardClass = match.probability > 0.7 ? 'high' : match.probability > 0.3 ? 'medium' : 'low';
+                    html += `<div class="probability-card ${cardClass} match-item">
+                        <strong>${match.partner}</strong>
+                        <div>${percentage}%</div>
+                        <div class="probability-bar">
+                            <div class="probability-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>`;
+                });
+
+                html += `</div></div>`;
+            });
+
+            // Update the results section, preserving controls
+            const resultsDiv = document.querySelector('.results');
+            const controlsHTML = resultsDiv.querySelector('.controls');
+            const title = resultsDiv.querySelector('h2');
+
+            resultsDiv.innerHTML = '';
+            if (title) resultsDiv.appendChild(title);
+            if (controlsHTML) resultsDiv.appendChild(controlsHTML);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.id = 'person-view-content';
+            contentDiv.innerHTML = html;
+            resultsDiv.appendChild(contentDiv);
+
+            // Re-attach event handlers
+            document.querySelectorAll('#viewTabs .tab').forEach((tab, idx) => {
+                tab.onclick = () => {
+                    const views = ['grid', 'males', 'females'];
+                    switchView(views[idx]);
+                };
+            });
+        }
+
+        function toggleUncertain() {
+            const checkbox = document.getElementById('uncertainOnly');
+            const sections = document.querySelectorAll('.person-section');
+            const cards = document.querySelectorAll('.probability-card');
+
+            if (checkbox && checkbox.checked) {
+                // Hide 100% probability items
+                cards.forEach(card => {
+                    const probText = card.querySelector('div:nth-child(2)').textContent;
+                    if (probText === '100.0%') {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide person sections where all matches are certain
+                sections.forEach(section => {
+                    if (section.classList.contains('certain')) {
+                        section.style.display = 'none';
+                    }
+                });
+            } else {
+                // Show all
+                cards.forEach(card => card.style.display = '');
+                sections.forEach(section => section.style.display = '');
+            }
+        }
+
+        function updateSort() {
+            // Sorting logic can be added here if needed
+            console.log('Sort order changed');
+        }
+    </script>
+</body>
+</html>
