@@ -57,6 +57,10 @@ class GraphSolver:
         """
         Add truth booth constraint.
 
+        Supports double/triple matches: if a person is confirmed with multiple
+        partners (e.g., Caro confirmed with both Ken and Max), previously
+        confirmed pairs are preserved rather than ruled out.
+
         Args:
             male: Male contestant name
             female: Female contestant name
@@ -64,16 +68,19 @@ class GraphSolver:
         """
         if is_match:
             self.confirmed_pairs.add((male, female))
-            # Mark all other pairings for these two people as ruled out
+            # Remove from ruled_out in case a previous confirmation ruled it out
+            self.ruled_out_pairs.discard((male, female))
+
+            # Rule out other females for this male, but skip already-confirmed pairs
             for other_female in self.females:
-                if other_female != female:
+                if other_female != female and (male, other_female) not in self.confirmed_pairs:
                     self.ruled_out_pairs.add((male, other_female))
 
+            # Rule out other males for this female, but skip already-confirmed pairs
             for other_male in self.males:
-                if other_male != male:
+                if other_male != male and (other_male, female) not in self.confirmed_pairs:
                     self.ruled_out_pairs.add((other_male, female))
         else:
-            # Mark this pair as ruled out
             self.ruled_out_pairs.add((male, female))
 
     def add_matching_night(self, pairs: List[Tuple[str, str]], num_matches: int):

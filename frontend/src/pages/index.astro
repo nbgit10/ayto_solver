@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import SeasonCard from '../components/SeasonCard.astro';
+import type { SeasonsIndex } from '../lib/types';
+import { seasonUrl } from '../lib/helpers';
+import { readFileSync } from 'node:fs';
+
+const raw = readFileSync('public/data/seasons.json', 'utf-8');
+const index: SeasonsIndex = JSON.parse(raw);
+
+const currentSeason = index.seasons.find((s) => s.current);
+const archiveSeasons = index.seasons.filter((s) => !s.current);
+---
+
+<Base title="AYTO Solver — Match-Vorhersagen">
+  <!-- Hero: Current Season -->
+  {currentSeason && (
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-8 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]"></div>
+        <div class="relative">
+          <p class="text-primary-200 text-sm font-medium uppercase tracking-wide mb-2">Aktuelle Staffel</p>
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">{currentSeason.display_name}</h1>
+          <p class="text-primary-100 mb-6">
+            Folge {currentSeason.latest_episode} von {currentSeason.total_episodes} &middot; {currentSeason.year}
+          </p>
+
+          <div class="flex flex-wrap gap-4 mb-6">
+            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
+              <p class="text-2xl font-bold">{currentSeason.total_solutions}</p>
+              <p class="text-xs text-primary-200">{currentSeason.total_solutions === 1 ? 'Lösung' : 'Lösungen'}</p>
+            </div>
+            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
+              <p class="text-2xl font-bold">{currentSeason.confirmed_matches}</p>
+              <p class="text-xs text-primary-200">Bestätigt</p>
+            </div>
+            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
+              <p class="text-2xl font-bold">{currentSeason.num_males + currentSeason.num_females}</p>
+              <p class="text-xs text-primary-200">Teilnehmer</p>
+            </div>
+          </div>
+
+          <a
+            href={seasonUrl(currentSeason.id)}
+            class="inline-flex items-center gap-2 bg-white text-primary-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-primary-50 transition-colors"
+          >
+            Ergebnisse ansehen
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Archive Grid -->
+  <section>
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Archiv</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {archiveSeasons.map((season) => (
+        <SeasonCard season={season} />
+      ))}
+    </div>
+  </section>
+</Base>

@@ -14,8 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -152,3 +152,9 @@ set_pythonpath.bat
 set_pythonpath.ps1
 .devcontainer
 .DS_Store
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.astro/
+frontend/public/data/

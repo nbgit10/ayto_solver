@@ -123,17 +123,30 @@ class TestSeason3Example:
         validate_solution(solver)
 
 
-@pytest.mark.skip(reason="Season 4 data has contradictory constraints - no valid solution exists")
+@pytest.mark.skip(reason="MIP solver does not yet support multiple confirmed truth booths for the same person (double match)")
 class TestSeason4Example:
-    """Test Season 4 Germany example (11 males × 10 females).
+    """Test Season 4 Germany example (11 males × 10 females) with MIP solver.
 
-    NOTE: This example has contradictory constraints and no valid solution.
-    Both MIP and Graph solvers return 0 solutions.
+    Season 4 has a double match (Caro matched with both Ken and Max).
+    MIP add_truth_booth adds sum(column)=1 constraint which conflicts with double match.
     """
 
     def test_season4_loads_and_solves(self):
-        """SKIPPED: Season 4 data is infeasible."""
-        pass
+        """Test that Season 4 example loads and produces valid solution."""
+        data = load_yaml_example("AYTO_Season4_Germany_AfterEp18.yaml")
+
+        solver = MIPSolver(data["MALES"], data["FEMALES"])
+
+        for night in data["MATCHING_NIGHTS"]:
+            pairs = [(p[0], p[1]) for p in night["Pairs"]]
+            solver.add_matching_night(pairs, night["Matches"])
+
+        for tb in data["TRUTH_BOOTH"]:
+            solver.add_truth_booth(tb["Pair"][0], tb["Pair"][1], tb["Match"])
+
+        solver.solve()
+
+        validate_solution(solver)
 
 
 class TestSeason5Example:

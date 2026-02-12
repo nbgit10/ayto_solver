@@ -1,0 +1,84 @@
+{
+  "seasons": [
+    {
+      "id": "vip-4",
+      "display_name": "VIP Staffel 4",
+      "year": 2024,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
+      "current": true,
+      "latest_episode": 18,
+      "total_episodes": 20
+    },
+    {
+      "id": "vip-3",
+      "display_name": "VIP Staffel 3",
+      "year": 2023,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP3_Germany_AfterEP21.yaml",
+      "current": false,
+      "latest_episode": 21,
+      "total_episodes": 21
+    },
+    {
+      "id": "vip-2",
+      "display_name": "VIP Staffel 2",
+      "year": 2022,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP2_Germany_AfterEP20.yaml",
+      "current": false,
+      "latest_episode": 20,
+      "total_episodes": 20
+    },
+    {
+      "id": "vip-1",
+      "display_name": "VIP Staffel 1",
+      "year": 2021,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP_Germany_AfterEP20.yaml",
+      "current": false,
+      "latest_episode": 20,
+      "total_episodes": 20
+    },
+    {
+      "id": "staffel-5",
+      "display_name": "Staffel 5",
+      "year": 2021,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season5_Germany_AfterEP20.yaml",
+      "current": false,
+      "latest_episode": 20,
+      "total_episodes": 20
+    },
+    {
+      "id": "staffel-4",
+      "display_name": "Staffel 4",
+      "year": 2020,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season4_Germany_AfterEp18.yaml",
+      "current": false,
+      "latest_episode": 18,
+      "total_episodes": 20
+    },
+    {
+      "id": "staffel-3",
+      "display_name": "Staffel 3",
+      "year": 2019,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season3_Germany_AfterEp19.yaml",
+      "current": false,
+      "latest_episode": 19,
+      "total_episodes": 20
+    },
+    {
+      "id": "staffel-2",
+      "display_name": "Staffel 2",
+      "year": 2018,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season2_Germany_AfterEp18.yaml",
+      "current": false,
+      "latest_episode": 18,
+      "total_episodes": 20
+    }
+  ]
+}
