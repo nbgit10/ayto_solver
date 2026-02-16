@@ -54,23 +54,26 @@ def validate_matching(matching, males, females):
         for f in females:
             assert female_counts.get(f, 0) == 1, f"{f} should have exactly 1 match"
     else:
-        # Unbalanced: total = max(n,m), one person from smaller set has 2
-        expected_total = max(n_males, n_females)
+        # Unbalanced: one person from smaller set has double match
+        # Total edges = min(n,m) + 1 (the solver's target)
+        expected_total = min(n_males, n_females) + 1
         assert len(matching) == expected_total, \
             f"Expected {expected_total} matches, got {len(matching)}"
 
         if n_males > n_females:
-            # Each male has exactly 1 match
+            # Each male has 0 or 1 matches (some may be unmatched if diff > 1)
             for m in males:
-                assert male_counts.get(m, 0) == 1, f"{m} should have exactly 1 match"
+                c = male_counts.get(m, 0)
+                assert c <= 1, f"{m} has {c} matches, expected 0 or 1"
             # Each female has 1 or 2 matches
             for f in females:
                 c = female_counts.get(f, 0)
                 assert 1 <= c <= 2, f"{f} has {c} matches, expected 1 or 2"
         else:
-            # Each female has exactly 1 match
+            # Each female has 0 or 1 matches (some may be unmatched if diff > 1)
             for f in females:
-                assert female_counts.get(f, 0) == 1, f"{f} should have exactly 1 match"
+                c = female_counts.get(f, 0)
+                assert c <= 1, f"{f} has {c} matches, expected 0 or 1"
             # Each male has 1 or 2 matches
             for m in males:
                 c = male_counts.get(m, 0)
@@ -85,10 +88,13 @@ class TestGraphSolverAllSeasons:
         "AYTO_Season3_Germany_AfterEp19.yaml",
         "AYTO_Season4_Germany_AfterEp18.yaml",
         "AYTO_Season5_Germany_AfterEP20.yaml",
+        "AYTO_Season6_Germany_AfterEp20.yaml",
+        "AYTO_Season7_Germany_AfterEp8.yaml",
         "AYTO_SeasonVIP_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP2_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP3_Germany_AfterEP21.yaml",
         "AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
+        "AYTO_SeasonVIP5_Germany_AfterEP20.yaml",
     ])
     def test_season_produces_solutions(self, filename):
         data = load_yaml_example(filename)
@@ -104,10 +110,13 @@ class TestGraphSolverAllSeasons:
         "AYTO_Season3_Germany_AfterEp19.yaml",
         "AYTO_Season4_Germany_AfterEp18.yaml",
         "AYTO_Season5_Germany_AfterEP20.yaml",
+        "AYTO_Season6_Germany_AfterEp20.yaml",
+        "AYTO_Season7_Germany_AfterEp8.yaml",
         "AYTO_SeasonVIP_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP2_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP3_Germany_AfterEP21.yaml",
         "AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
+        "AYTO_SeasonVIP5_Germany_AfterEP20.yaml",
     ])
     def test_confirmed_matches_in_all_solutions(self, filename):
         data = load_yaml_example(filename)
@@ -146,3 +155,62 @@ class TestSeason4DoubleMatch:
 
         dm_probs = solver.calculate_double_match_probabilities(matchings)
         assert dm_probs.get("Caro", 0) == 1.0, "Caro should be double match in 100% of solutions"
+
+
+class TestSeason6DoubleMatch:
+    """Season 6: Tano has double match (Joanna + Sophia). 3 solutions remain."""
+
+    def test_solution_count(self):
+        data = load_yaml_example("AYTO_Season6_Germany_AfterEp20.yaml")
+        matchings, capped, _ = solve_with_graph(data)
+        assert not capped
+        assert len(matchings) == 3
+
+    def test_tano_double_match_in_solutions(self):
+        data = load_yaml_example("AYTO_Season6_Germany_AfterEp20.yaml")
+        matchings, _, _ = solve_with_graph(data)
+
+        # Tano/Joanna+Sophia should be one of the 3 solutions
+        for matching in matchings:
+            tano_partners = {f for m, f in matching if m == "Tano"}
+            if tano_partners == {"Joanna", "Sophia"}:
+                return  # Found it
+        pytest.fail("Expected Tano/Joanna+Sophia solution not found")
+
+
+class TestVIP5:
+    """VIP 5: 12 men, 10 women. Jimi Blue latecomer with no match."""
+
+    def test_solution_count(self):
+        data = load_yaml_example("AYTO_SeasonVIP5_Germany_AfterEP20.yaml")
+        matchings, capped, _ = solve_with_graph(data)
+        assert not capped
+        assert len(matchings) == 28
+
+    def test_confirmed_pms_present(self):
+        """Xander/Elissia, Lennert/Sandra, Calvin O./Nelly in all solutions."""
+        data = load_yaml_example("AYTO_SeasonVIP5_Germany_AfterEP20.yaml")
+        matchings, _, _ = solve_with_graph(data)
+
+        expected = {
+            ("Xander", "Elissia"),
+            ("Lennert", "Sandra"),
+            ("Calvin O.", "Nelly"),
+        }
+        for i, matching in enumerate(matchings):
+            for pair in expected:
+                assert pair in matching, \
+                    f"Solution {i}: confirmed pair {pair} not found"
+
+    def test_double_match_is_female(self):
+        """Double match should always be on a female (12M > 10F)."""
+        data = load_yaml_example("AYTO_SeasonVIP5_Germany_AfterEP20.yaml")
+        matchings, _, solver = solve_with_graph(data)
+
+        for i, matching in enumerate(matchings):
+            female_counts = {}
+            for m, f in matching:
+                female_counts[f] = female_counts.get(f, 0) + 1
+            doubles = [f for f, c in female_counts.items() if c > 1]
+            assert len(doubles) == 1, \
+                f"Solution {i}: expected 1 double match, got {len(doubles)}"
