@@ -30,7 +30,10 @@ const topPairings = data.pairings
   .slice(0, 15);
 ---
 
-<Base title={`${data.meta.display_name} — AYTO Solver`}>
+<Base
+  title={`${data.meta.display_name} — AYTO Solver`}
+  description={`Match-Vorhersagen für ${data.meta.display_name} (${data.meta.year}) — Folge ${data.meta.latest_episode} von ${data.meta.total_episodes}`}
+>
   <!-- Season Header -->
   <div class="mb-8">
     <a href="/" class="text-sm text-primary-600 dark:text-primary-400 hover:underline mb-2 inline-block">&larr; Alle Staffeln</a>

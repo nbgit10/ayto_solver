@@ -1,0 +1,10 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: *
+Disallow: /data/
+
+Sitemap: https://ayto-matches.net/sitemap-index.xml

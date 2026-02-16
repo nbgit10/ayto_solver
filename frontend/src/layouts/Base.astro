@@ -6,9 +6,11 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  canonicalUrl?: string;
 }
 
-const { title = 'AYTO Solver', description = 'Match-Vorhersagen für Are You The One? Deutschland' } = Astro.props;
+const { title = 'AYTO Solver', description = 'Match-Vorhersagen für Are You The One? Deutschland', canonicalUrl } = Astro.props;
+const canonical = canonicalUrl || Astro.url.href;
 ---
 
 <!doctype html>
@@ -17,7 +19,28 @@ const { title = 'AYTO Solver', description = 'Match-Vorhersagen für Are You The
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="AYTO Solver" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Security -->
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
