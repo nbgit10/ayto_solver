@@ -158,3 +158,4 @@ frontend/node_modules/
 frontend/dist/
 frontend/.astro/
 frontend/public/data/
+frontend/README.md
