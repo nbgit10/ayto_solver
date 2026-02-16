@@ -1,12 +1,32 @@
 {
   "seasons": [
     {
+      "id": "staffel-7",
+      "display_name": "Staffel 7",
+      "year": 2026,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season7_Germany_AfterEp8.yaml",
+      "current": true,
+      "latest_episode": 8,
+      "total_episodes": 22
+    },
+    {
+      "id": "vip-5",
+      "display_name": "VIP Staffel 5",
+      "year": 2025,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP5_Germany_AfterEP20.yaml",
+      "current": false,
+      "latest_episode": 20,
+      "total_episodes": 20
+    },
+    {
       "id": "vip-4",
       "display_name": "VIP Staffel 4",
       "year": 2024,
       "type": "vip",
       "input_file": "examples/AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
-      "current": true,
+      "current": false,
       "latest_episode": 18,
       "total_episodes": 20
     },
@@ -41,9 +61,19 @@
       "total_episodes": 20
     },
     {
+      "id": "staffel-6",
+      "display_name": "Staffel 6",
+      "year": 2025,
+      "type": "regular",
+      "input_file": "examples/AYTO_Season6_Germany_AfterEp20.yaml",
+      "current": false,
+      "latest_episode": 20,
+      "total_episodes": 20
+    },
+    {
       "id": "staffel-5",
       "display_name": "Staffel 5",
-      "year": 2021,
+      "year": 2023,
       "type": "regular",
       "input_file": "examples/AYTO_Season5_Germany_AfterEP20.yaml",
       "current": false,
@@ -53,7 +83,7 @@
     {
       "id": "staffel-4",
       "display_name": "Staffel 4",
-      "year": 2020,
+      "year": 2022,
       "type": "regular",
       "input_file": "examples/AYTO_Season4_Germany_AfterEp18.yaml",
       "current": false,
@@ -63,7 +93,7 @@
     {
       "id": "staffel-3",
       "display_name": "Staffel 3",
-      "year": 2019,
+      "year": 2021,
       "type": "regular",
       "input_file": "examples/AYTO_Season3_Germany_AfterEp19.yaml",
       "current": false,
@@ -73,7 +103,7 @@
     {
       "id": "staffel-2",
       "display_name": "Staffel 2",
-      "year": 2018,
+      "year": 2021,
       "type": "regular",
       "input_file": "examples/AYTO_Season2_Germany_AfterEp18.yaml",
       "current": false,

@@ -1,0 +1,83 @@
+# AYTO SEASON 7 DE (2026)
+# 11 Women, 10 Men — 1 woman goes unmatched (no double match)
+# Current season, through Episode 8
+MALES:
+  - "Chris"
+  - "Ema"
+  - "Evi"
+  - "Jeronymo"
+  - "Jerry"
+  - "Julian M."
+  - "Julian S."
+  - "Luke"
+  - "Meji"
+  - "Noel"
+
+FEMALES:
+  - "Adrianna"
+  - "Alicia"
+  - "Aurora"
+  - "Elena"
+  - "Ella"
+  - "Laura"
+  - "Linda"
+  - "Marla"
+  - "Michelle"
+  - "Tiziana"
+  - "Tonia"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, Alicia loner
+    - ["Julian S.", "Aurora"]
+    - ["Julian M.", "Adrianna"]
+    - ["Jerry", "Elena"]
+    - ["Jeronymo", "Tiziana"]
+    - ["Luke", "Marla"]
+    - ["Noel", "Tonia"]
+    - ["Ema", "Michelle"]
+    - ["Evi", "Laura"]
+    - ["Meji", "Ella"]
+    - ["Chris", "Linda"]
+    Matches: 3
+  - Pairs:  # Night 2, Aurora loner
+    - ["Chris", "Tonia"]
+    - ["Jeronymo", "Tiziana"]
+    - ["Julian S.", "Adrianna"]
+    - ["Ema", "Ella"]
+    - ["Julian M.", "Alicia"]
+    - ["Noel", "Linda"]
+    - ["Meji", "Elena"]
+    - ["Luke", "Marla"]
+    - ["Jerry", "Michelle"]
+    - ["Evi", "Laura"]
+    Matches: 2
+  - Pairs:  # Night 3, Ella loner
+    - ["Luke", "Marla"]
+    - ["Julian S.", "Alicia"]
+    - ["Julian M.", "Adrianna"]
+    - ["Noel", "Tonia"]
+    - ["Jerry", "Aurora"]
+    - ["Meji", "Elena"]
+    - ["Chris", "Linda"]
+    - ["Evi", "Laura"]
+    - ["Jeronymo", "Tiziana"]
+    - ["Ema", "Michelle"]
+    Matches: 2
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Evi"
+      - "Tiziana"
+    Match: False
+  # - Pair:  # Matchbox 2, Sold
+  #     - "Evi"
+  #     - "Laura"
+  #   Match: ???
+  - Pair:
+      - "Julian S."
+      - "Linda"
+    Match: False
+  # - Pair:  # Matchbox 4, Pending (revealed in Ep. 9)
+  #     - "Julian M."
+  #     - "Marla"
+  #   Match: ???

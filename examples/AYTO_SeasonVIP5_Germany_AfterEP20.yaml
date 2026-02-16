@@ -1,0 +1,196 @@
+# AYTO SEASON VIP 5 DE (2025)
+# 10 Women, 12 Men — double match on one woman
+# Jimi Blue is a latecomer (enters at MN5), absent from MN7 onwards
+# Elissia & Xander confirmed PM, leave after MN6
+# Sandra & Lennert confirmed PM, leave after MN7
+# They LOST — 7/10 lights in final MN10 (seating not available)
+MALES:
+  - "Calvin O."
+  - "Calvin S."
+  - "Jimi Blue"
+  - "Jonny"
+  - "Kevin"
+  - "Leandro"
+  - "Lennert"
+  - "Nico"
+  - "Oliver"
+  - "Rob"
+  - "Sidar"
+  - "Xander"
+
+FEMALES:
+  - "Antonia"
+  - "Ariel"
+  - "Beverly"
+  - "Elissia"
+  - "Hati"
+  - "Henna"
+  - "Joanna"
+  - "Nelly"
+  - "Sandra"
+  - "Viki"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, Oliver loner, Jimi Blue not yet present
+    - ["Leandro", "Viki"]
+    - ["Calvin O.", "Hati"]
+    - ["Jonny", "Henna"]
+    - ["Sidar", "Nelly"]
+    - ["Kevin", "Sandra"]
+    - ["Nico", "Ariel"]
+    - ["Rob", "Joanna"]
+    - ["Lennert", "Antonia"]
+    - ["Xander", "Elissia"]
+    - ["Calvin S.", "Beverly"]
+    Matches: 2
+  - Pairs:  # Night 2, Lennert loner, Jimi Blue not yet present
+    - ["Calvin S.", "Joanna"]
+    - ["Kevin", "Sandra"]
+    - ["Rob", "Nelly"]
+    - ["Sidar", "Beverly"]
+    - ["Nico", "Ariel"]
+    - ["Oliver", "Henna"]
+    - ["Calvin O.", "Hati"]
+    - ["Leandro", "Viki"]
+    - ["Jonny", "Antonia"]
+    - ["Xander", "Elissia"]
+    Matches: 2
+  - Pairs:  # Night 3, Sidar loner, Jimi Blue not yet present
+    - ["Oliver", "Antonia"]
+    - ["Calvin S.", "Joanna"]
+    - ["Nico", "Beverly"]
+    - ["Jonny", "Viki"]
+    - ["Rob", "Hati"]
+    - ["Kevin", "Sandra"]
+    - ["Leandro", "Henna"]
+    - ["Lennert", "Nelly"]
+    - ["Calvin O.", "Ariel"]
+    - ["Xander", "Elissia"]
+    Matches: 2
+  - Pairs:  # Night 4, Jonny loner, Jimi Blue not yet present
+    - ["Calvin S.", "Joanna"]
+    - ["Calvin O.", "Nelly"]
+    - ["Leandro", "Sandra"]
+    - ["Nico", "Ariel"]
+    - ["Sidar", "Beverly"]
+    - ["Lennert", "Henna"]
+    - ["Kevin", "Viki"]
+    - ["Rob", "Hati"]
+    - ["Oliver", "Antonia"]
+    - ["Xander", "Elissia"]
+    Matches: 3
+  - Pairs:  # Night 5, Jonny+Leandro loners, Jimi Blue enters
+    - ["Jimi Blue", "Henna"]
+    - ["Oliver", "Antonia"]
+    - ["Calvin O.", "Nelly"]
+    - ["Lennert", "Sandra"]
+    - ["Sidar", "Beverly"]
+    - ["Rob", "Hati"]
+    - ["Calvin S.", "Joanna"]
+    - ["Nico", "Ariel"]
+    - ["Kevin", "Viki"]
+    - ["Xander", "Elissia"]
+    Matches: 4
+  - Pairs:  # Night 6, Rob+Nico loners
+    - ["Jimi Blue", "Hati"]
+    - ["Oliver", "Henna"]
+    - ["Leandro", "Beverly"]
+    - ["Jonny", "Viki"]
+    - ["Kevin", "Ariel"]
+    - ["Calvin S.", "Antonia"]
+    - ["Sidar", "Joanna"]
+    - ["Calvin O.", "Nelly"]
+    - ["Lennert", "Sandra"]
+    - ["Xander", "Elissia"]
+    Matches: 4
+  - Pairs:  # Night 7, Calvin O. loner, Elissia+Xander out (confirmed PM), Jimi Blue absent
+    - ["Jonny", "Hati"]
+    - ["Calvin S.", "Antonia"]
+    - ["Sidar", "Joanna"]
+    - ["Rob", "Nelly"]
+    - ["Leandro", "Ariel"]
+    - ["Oliver", "Henna"]
+    - ["Kevin", "Viki"]
+    - ["Nico", "Beverly"]
+    - ["Lennert", "Sandra"]
+    Matches: 4  # Show said 5, minus 1 confirmed PM out (Elissia/Xander)
+  - Pairs:  # Night 8, Sidar loner, Elissia+Xander out, Sandra+Lennert out, Jimi Blue absent
+    - ["Oliver", "Henna"]
+    - ["Kevin", "Ariel"]
+    - ["Nico", "Beverly"]
+    - ["Leandro", "Viki"]
+    - ["Jonny", "Hati"]
+    - ["Calvin S.", "Antonia"]
+    - ["Rob", "Nelly"]
+    - ["Calvin O.", "Joanna"]
+    Matches: 2  # Show said 4, minus 2 confirmed PMs out (Elissia/Xander + Sandra/Lennert)
+  - Pairs:  # Night 9, Nico loner, Elissia+Xander out, Sandra+Lennert out, Jimi Blue absent
+    - ["Calvin O.", "Nelly"]
+    - ["Rob", "Viki"]
+    - ["Oliver", "Henna"]
+    - ["Leandro", "Ariel"]
+    - ["Kevin", "Hati"]
+    - ["Sidar", "Beverly"]
+    - ["Jonny", "Antonia"]
+    - ["Calvin S.", "Joanna"]
+    Matches: 2  # Show said 4, minus 2 confirmed PMs out
+  - Pairs:  # Night 10 (Final), Jonny loner, Nelly/Calvin O.+Sandra/Lennert+Elissia/Xander out
+    - ["Rob", "Joanna"]
+    - ["Calvin S.", "Antonia"]
+    - ["Leandro", "Henna"]
+    - ["Kevin", "Viki"]
+    - ["Nico", "Beverly"]
+    - ["Sidar", "Hati"]
+    - ["Oliver", "Ariel"]
+    Matches: 4  # Show said 7, minus 3 confirmed PMs out (Elissia/Xander + Sandra/Lennert + Nelly/Calvin O.)
+  # They LOST with 7/10 lights.
+
+TRUTH_BOOTH:
+  # - Pair:  # Matchbox 1, Sold (note: source says "Sarah" — likely Sandra?)
+  #     - "Kevin"
+  #     - "Sandra"
+  #   Match: ???
+  - Pair:  # Matchbox 2
+      - "Xander"
+      - "Elissia"
+    Match: True
+  - Pair:  # Matchbox 3
+      - "Calvin S."
+      - "Nelly"
+    Match: False
+  - Pair:  # Matchbox 4
+      - "Jonny"
+      - "Beverly"
+    Match: False
+  - Pair:  # Matchbox 5
+      - "Leandro"
+      - "Sandra"
+    Match: False
+  - Pair:  # Matchbox 6
+      - "Jimi Blue"
+      - "Nelly"
+    Match: False
+  - Pair:  # Matchbox 7
+      - "Lennert"
+      - "Sandra"
+    Match: True
+  - Pair:  # Matchbox 8
+      - "Oliver"
+      - "Antonia"
+    Match: False
+  - Pair:  # Matchbox 9
+      - "Jimi Blue"
+      - "Hati"
+    Match: False
+  - Pair:  # Matchbox 10
+      - "Sidar"
+      - "Henna"
+    Match: False
+  - Pair:  # Matchbox 11, Sold but confirmed PM via special offer (cost 40k)
+      - "Calvin O."
+      - "Nelly"
+    Match: True
+  - Pair:  # Matchbox 12
+      - "Calvin S."
+      - "Joanna"
+    Match: False

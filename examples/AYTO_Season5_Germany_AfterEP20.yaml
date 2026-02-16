@@ -196,19 +196,3 @@ TRUTH_BOOTH:
       - "Kevin"
       - "Lina"
     Match: True
-  - Pair:  # Confirmed in matching night 10
-      - "Ryan"
-      - "Jana"
-    Match: True
-  - Pair:  # Confirmed in matching night 10
-      - "Eti"
-      - "Maya"
-    Match: True
-  - Pair:  # Confirmed in matching night 10
-      - "Sandro"
-      - "Julia"
-    Match: True
-  - Pair:  # Confirmed in matching night 10
-      - "Paulo"
-      - "Lisa-Marie"
-    Match: True

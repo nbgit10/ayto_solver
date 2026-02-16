@@ -1,0 +1,180 @@
+# AYTO SEASON 6 DE
+MALES:
+  - "Danish"
+  - "Dino"
+  - "Dion"
+  - "Enes"
+  - "Josh"
+  - "Joshua"
+  - "Kaan"
+  - "Levin"
+  - "Sinan"
+  - "Tano"
+
+FEMALES:
+  - "Anna"
+  - "Camelia"
+  - "Chiara"
+  - "Deisy"
+  - "Ina"
+  - "Joanna"
+  - "Nadja"
+  - "Nasti"
+  - "Selina"
+  - "Sophia"
+  - "Tori"
+
+MATCHING_NIGHTS:
+  - Pairs:  # Night 1, Nasti not matched
+    - ["Danish", "Sophia"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Tori"]
+    - ["Enes", "Anna"]
+    - ["Josh", "Nadja"]
+    - ["Joshua", "Selina"]
+    - ["Kaan", "Joanna"]
+    - ["Levin", "Camelia"]
+    - ["Sinan", "Ina"]
+    - ["Tano", "Chiara"]
+    Matches: 2
+  - Pairs:  # Night 2, Sophia not matched
+    - ["Danish", "Camelia"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Selina"]
+    - ["Enes", "Nasti"]
+    - ["Josh", "Nadja"]
+    - ["Joshua", "Joanna"]
+    - ["Kaan", "Anna"]
+    - ["Levin", "Chiara"]
+    - ["Sinan", "Ina"]
+    - ["Tano", "Tori"]
+    Matches: 3
+  - Pairs:  # Night 3, Ina not matched
+    - ["Danish", "Sophia"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Chiara"]
+    - ["Enes", "Selina"]
+    - ["Josh", "Nadja"]
+    - ["Joshua", "Joanna"]
+    - ["Kaan", "Anna"]
+    - ["Levin", "Camelia"]
+    - ["Sinan", "Nasti"]
+    - ["Tano", "Tori"]
+    Matches: 4
+  - Pairs:  # Night 4, Chiara not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Nasti"]
+    - ["Enes", "Selina"]
+    - ["Josh", "Ina"]
+    - ["Joshua", "Joanna"]
+    - ["Kaan", "Anna"]
+    - ["Levin", "Camelia"]
+    - ["Sinan", "Sophia"]
+    - ["Tano", "Tori"]
+    Matches: 4
+  - Pairs:  # Night 5, Anna not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Chiara"]
+    - ["Enes", "Selina"]
+    - ["Josh", "Ina"]
+    - ["Joshua", "Joanna"]
+    - ["Kaan", "Sophia"]
+    - ["Levin", "Camelia"]
+    - ["Sinan", "Nasti"]
+    - ["Tano", "Tori"]
+    Matches: 4
+  - Pairs:  # Night 6, Joanna not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Anna"]
+    - ["Enes", "Selina"]
+    - ["Josh", "Nasti"]
+    - ["Joshua", "Ina"]
+    - ["Kaan", "Sophia"]
+    - ["Levin", "Chiara"]
+    - ["Sinan", "Camelia"]
+    - ["Tano", "Tori"]
+    Matches: 5
+  - Pairs:  # Night 7, Ina not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Tori"]
+    - ["Enes", "Sophia"]
+    - ["Josh", "Camelia"]
+    - ["Joshua", "Joanna"]
+    - ["Kaan", "Selina"]
+    - ["Levin", "Chiara"]
+    - ["Sinan", "Nasti"]
+    - ["Tano", "Anna"]
+    Matches: 6
+  - Pairs:  # Night 8, Tori not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Chiara"]
+    - ["Enes", "Sophia"]
+    - ["Josh", "Camelia"]
+    - ["Joshua", "Anna"]
+    - ["Kaan", "Selina"]
+    - ["Levin", "Ina"]
+    - ["Sinan", "Nasti"]
+    - ["Tano", "Joanna"]
+    Matches: 5
+  - Pairs:  # Night 9, Selina not matched
+    - ["Danish", "Nadja"]
+    - ["Dino", "Deisy"]
+    - ["Dion", "Sophia"]
+    - ["Enes", "Ina"]
+    - ["Josh", "Camelia"]
+    - ["Joshua", "Tori"]
+    - ["Kaan", "Anna"]
+    - ["Levin", "Chiara"]
+    - ["Sinan", "Nasti"]
+    - ["Tano", "Joanna"]
+    Matches: 7
+  # Night 10 (Final) omitted — they solved it (10 beams).
+  # Sophia not matched in ceremony (double match with Tano).
+  # Solution: the Tano/Joanna+Sophia double-match variant from the 3 remaining.
+
+TRUTH_BOOTH:
+  - Pair:
+      - "Josh"
+      - "Anna"
+    Match: False
+  # - Pair:  # Truth Booth Deal (sold for prize money)
+  #     - "Levin"
+  #     - "Camelia"
+  #   Match: ???
+  - Pair:
+      - "Sinan"
+      - "Ina"
+    Match: False
+  - Pair:
+      - "Danish"
+      - "Nadja"
+    Match: True
+  - Pair:
+      - "Dino"
+      - "Deisy"
+    Match: True
+  # - Pair:  # Truth Booth Deal (sold for prize money)
+  #     - "Tano"
+  #     - "Tori"
+  #   Match: ???
+  - Pair:
+      - "Kaan"
+      - "Sophia"
+    Match: False
+  - Pair:
+      - "Joshua"
+      - "Joanna"
+    Match: False
+  - Pair:
+      - "Sinan"
+      - "Nasti"
+    Match: True
+  - Pair:
+      - "Josh"
+      - "Camelia"
+    Match: True
