@@ -42,7 +42,7 @@ def solve_season(data: dict) -> dict:
         pairs = [(p[0], p[1]) for p in night["Pairs"]]
         solver.add_matching_night(pairs, night["Matches"])
 
-    matchings, capped = solver.enumerate_all_matchings(max_matchings=10000)
+    matchings, capped = solver.enumerate_all_matchings(max_matchings=100000)
     probabilities = solver.calculate_probabilities(matchings)
     double_match_probs = solver.calculate_double_match_probabilities(matchings)
 

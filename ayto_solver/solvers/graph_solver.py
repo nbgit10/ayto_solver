@@ -1,4 +1,5 @@
 """Graph-based solver for AYTO matching problem using bipartite graph matching."""
+import random
 import networkx as nx
 from networkx.algorithms import bipartite
 import numpy as np
@@ -217,10 +218,12 @@ class GraphSolver:
         """
         Enumerate perfect matchings for balanced bipartite graph.
 
-        Uses recursive backtracking.
+        Uses recursive backtracking with randomized candidate ordering
+        to avoid systematic bias when capping results.
         """
         n = min(self.n_males, self.n_females)
         males_list = list(self.males)
+        random.shuffle(males_list)
 
         def backtrack(
             male_idx: int,
@@ -240,15 +243,14 @@ class GraphSolver:
             male = males_list[male_idx]
             male_node = f"M_{male}"
 
-            # Try each female this male can match with
-            for female in self.females:
-                if female in used_females:
-                    continue
+            # Try each female this male can match with (randomized order)
+            candidates = [
+                f for f in self.females
+                if f not in used_females and self.graph.has_edge(male_node, f"F_{f}")
+            ]
+            random.shuffle(candidates)
 
-                female_node = f"F_{female}"
-                if not self.graph.has_edge(male_node, female_node):
-                    continue
-
+            for female in candidates:
                 # Add this pair to matching
                 current_matching.add((male, female))
                 used_females.add(female)
@@ -282,132 +284,148 @@ class GraphSolver:
             yield from self._enumerate_with_double_match_female(max_count, target_matches)
 
     def _enumerate_with_double_match_male(self, max_count: int, target_matches: int):
-        """Enumerate matchings where one male has 2 matches."""
-        count = [0]
+        """Enumerate matchings where one male has 2 matches.
 
-        # Try each male as the one with double match
-        for double_male in self.males:
-            if count[0] >= max_count:
-                return
+        Uses round-robin across double-match candidates to ensure each
+        candidate gets fair representation when results are capped.
+        """
+        males_shuffled = list(self.males)
+        random.shuffle(males_shuffled)
 
-            # Find all pairs of females this male can match with
+        # Build a generator per candidate
+        generators = []
+        for dm in males_shuffled:
             possible_females = [
                 f for f in self.females
-                if self.graph.has_edge(f"M_{double_male}", f"F_{f}")
+                if self.graph.has_edge(f"M_{dm}", f"F_{f}")
             ]
+            if len(possible_females) >= 2:
+                generators.append(
+                    self._gen_matchings_for_double_male(dm, possible_females, target_matches)
+                )
 
-            if len(possible_females) < 2:
-                continue
+        # Round-robin: pull one matching from each candidate in turn
+        yield from self._round_robin(generators, max_count)
 
-            # Try each pair of females for the double match
-            for female1, female2 in combinations(possible_females, 2):
-                if count[0] >= max_count:
+    def _gen_matchings_for_double_male(
+        self, double_male: str, possible_females: List[str], target_matches: int
+    ):
+        """Yield all matchings for a specific male as double-match candidate."""
+        female_pairs = list(combinations(possible_females, 2))
+        random.shuffle(female_pairs)
+
+        for female1, female2 in female_pairs:
+            current_matching = {(double_male, female1), (double_male, female2)}
+            used_males = {double_male}
+            used_females = {female1, female2}
+
+            remaining_males = [m for m in self.males if m != double_male]
+            random.shuffle(remaining_males)
+            remaining_females = [f for f in self.females if f not in {female1, female2}]
+
+            def backtrack(idx: int):
+                if idx == len(remaining_males):
+                    if len(current_matching) == target_matches:
+                        yield current_matching.copy()
                     return
 
-                # Start matching with this double match
-                current_matching = {(double_male, female1), (double_male, female2)}
-                used_males = {double_male}
-                used_females = {female1, female2}
+                male = remaining_males[idx]
+                male_node = f"M_{male}"
+                candidates = [
+                    f for f in remaining_females
+                    if f not in used_females and self.graph.has_edge(male_node, f"F_{f}")
+                ]
+                random.shuffle(candidates)
 
-                # Match remaining males with remaining females (1-to-1)
-                remaining_males = [m for m in self.males if m != double_male]
-                remaining_females = [f for f in self.females if f not in {female1, female2}]
+                for female in candidates:
+                    current_matching.add((male, female))
+                    used_females.add(female)
+                    yield from backtrack(idx + 1)
+                    current_matching.remove((male, female))
+                    used_females.remove(female)
 
-                # Use backtracking for remaining 1-to-1 matches
-                def backtrack_remaining(idx: int):
-                    if count[0] >= max_count:
-                        return
-
-                    if idx == len(remaining_males):
-                        if len(current_matching) == target_matches:
-                            yield current_matching.copy()
-                            count[0] += 1
-                        return
-
-                    male = remaining_males[idx]
-                    male_node = f"M_{male}"
-
-                    for female in remaining_females:
-                        if female in used_females:
-                            continue
-
-                        female_node = f"F_{female}"
-                        if not self.graph.has_edge(male_node, female_node):
-                            continue
-
-                        current_matching.add((male, female))
-                        used_females.add(female)
-
-                        yield from backtrack_remaining(idx + 1)
-
-                        current_matching.remove((male, female))
-                        used_females.remove(female)
-
-                yield from backtrack_remaining(0)
+            yield from backtrack(0)
 
     def _enumerate_with_double_match_female(self, max_count: int, target_matches: int):
-        """Enumerate matchings where one female has 2 matches."""
-        count = [0]
+        """Enumerate matchings where one female has 2 matches.
 
-        # Try each female as the one with double match
-        for double_female in self.females:
-            if count[0] >= max_count:
-                return
+        Uses round-robin across double-match candidates to ensure each
+        candidate gets fair representation when results are capped.
+        """
+        females_shuffled = list(self.females)
+        random.shuffle(females_shuffled)
 
-            # Find all pairs of males this female can match with
+        # Build a generator per candidate
+        generators = []
+        for df in females_shuffled:
             possible_males = [
                 m for m in self.males
-                if self.graph.has_edge(f"M_{m}", f"F_{double_female}")
+                if self.graph.has_edge(f"M_{m}", f"F_{df}")
             ]
+            if len(possible_males) >= 2:
+                generators.append(
+                    self._gen_matchings_for_double_female(df, possible_males, target_matches)
+                )
 
-            if len(possible_males) < 2:
-                continue
+        # Round-robin: pull one matching from each candidate in turn
+        yield from self._round_robin(generators, max_count)
 
-            # Try each pair of males for the double match
-            for male1, male2 in combinations(possible_males, 2):
-                if count[0] >= max_count:
+    def _gen_matchings_for_double_female(
+        self, double_female: str, possible_males: List[str], target_matches: int
+    ):
+        """Yield all matchings for a specific female as double-match candidate."""
+        male_pairs = list(combinations(possible_males, 2))
+        random.shuffle(male_pairs)
+
+        for male1, male2 in male_pairs:
+            current_matching = {(male1, double_female), (male2, double_female)}
+            used_males = {male1, male2}
+            used_females = {double_female}
+
+            remaining_females = [f for f in self.females if f != double_female]
+            random.shuffle(remaining_females)
+            remaining_males = [m for m in self.males if m not in {male1, male2}]
+
+            def backtrack(idx: int):
+                if idx == len(remaining_females):
+                    if len(current_matching) == target_matches:
+                        yield current_matching.copy()
                     return
 
-                # Start matching with this double match
-                current_matching = {(male1, double_female), (male2, double_female)}
-                used_males = {male1, male2}
-                used_females = {double_female}
+                female = remaining_females[idx]
+                female_node = f"F_{female}"
+                candidates = [
+                    m for m in remaining_males
+                    if m not in used_males and self.graph.has_edge(f"M_{m}", female_node)
+                ]
+                random.shuffle(candidates)
 
-                # Match remaining females with remaining males (1-to-1)
-                remaining_females = [f for f in self.females if f != double_female]
-                remaining_males = [m for m in self.males if m not in {male1, male2}]
+                for male in candidates:
+                    current_matching.add((male, female))
+                    used_males.add(male)
+                    yield from backtrack(idx + 1)
+                    current_matching.remove((male, female))
+                    used_males.remove(male)
 
-                # Use backtracking for remaining 1-to-1 matches
-                def backtrack_remaining(idx: int):
-                    if count[0] >= max_count:
-                        return
+            yield from backtrack(0)
 
-                    if idx == len(remaining_females):
-                        if len(current_matching) == target_matches:
-                            yield current_matching.copy()
-                            count[0] += 1
-                        return
-
-                    female = remaining_females[idx]
-                    female_node = f"F_{female}"
-
-                    for male in remaining_males:
-                        if male in used_males:
-                            continue
-
-                        male_node = f"M_{male}"
-                        if not self.graph.has_edge(male_node, female_node):
-                            continue
-
-                        current_matching.add((male, female))
-                        used_males.add(male)
-
-                        yield from backtrack_remaining(idx + 1)
-
-                        current_matching.remove((male, female))
-                        used_males.remove(male)
-
-                yield from backtrack_remaining(0)
+    @staticmethod
+    def _round_robin(generators: list, max_count: int):
+        """Yield items from generators in round-robin order up to max_count."""
+        count = 0
+        active = list(range(len(generators)))
+        while active and count < max_count:
+            still_active = []
+            for i in active:
+                if count >= max_count:
+                    break
+                try:
+                    yield next(generators[i])
+                    count += 1
+                    still_active.append(i)
+                except StopIteration:
+                    pass  # This candidate exhausted
+            active = still_active
 
     def calculate_probabilities(
         self,
