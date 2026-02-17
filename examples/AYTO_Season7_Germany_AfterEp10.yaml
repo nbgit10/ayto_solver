@@ -63,6 +63,17 @@ MATCHING_NIGHTS:
     - ["Jeronymo", "Tiziana"]
     - ["Ema", "Michelle"]
     Matches: 2
+  - Pairs: # Night 4, Tiziana Loner
+    - ["Luke", "Tonia"]
+    - ["Julian S.", "Alicia"]
+    - ["Noel", "Adrianna"]
+    - ["Jerry", "Elena"]
+    - ["Meji", "Laura"]
+    - ["Chris", "Aurora"]
+    - ["Evi", "Ella"]
+    - ["Jeronymo", "Linda"]
+    - ["Ema", "Michelle"]
+    Matches: 0
 
 TRUTH_BOOTH:
   - Pair:
@@ -77,7 +88,7 @@ TRUTH_BOOTH:
       - "Julian S."
       - "Linda"
     Match: False
-  # - Pair:  # Matchbox 4, Pending (revealed in Ep. 9)
-  #     - "Julian M."
-  #     - "Marla"
-  #   Match: ???
+  - Pair:  # Matchbox 4
+      - "Julian M."
+      - "Marla"
+    Match: True

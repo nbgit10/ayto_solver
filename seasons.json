@@ -5,9 +5,9 @@
       "display_name": "Staffel 7",
       "year": 2026,
       "type": "regular",
-      "input_file": "examples/AYTO_Season7_Germany_AfterEp8.yaml",
+      "input_file": "examples/AYTO_Season7_Germany_AfterEp10.yaml",
       "current": true,
-      "latest_episode": 8,
+      "latest_episode": 10,
       "total_episodes": 22
     },
     {
