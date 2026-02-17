@@ -24,10 +24,7 @@ export function getStaticPaths() {
 
 const { data, season } = Astro.props;
 
-const topPairings = data.pairings
-  .filter((p) => p.probability > 0)
-  .sort((a, b) => b.probability - a.probability)
-  .slice(0, 15);
+const topMatching = data.top_matching ?? [];
 ---
 
 <Base
@@ -81,12 +78,12 @@ const topPairings = data.pairings
         </section>
       )}
 
-      <!-- Top Pairings -->
+      <!-- Top Matching -->
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Top-Paarungen</h2>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Top-Matching</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {topPairings.map((pairing) => (
-            <MatchCard pairing={pairing} client:load />
+          {topMatching.map((entry) => (
+            <MatchCard pairing={entry} isDoubleMatch={entry.is_double} client:load />
           ))}
         </div>
       </section>

@@ -54,6 +54,13 @@ export interface ConfirmedMatch {
   female: string;
 }
 
+export interface TopMatchEntry {
+  male: string;
+  female: string;
+  probability: number;
+  is_double: boolean;
+}
+
 export interface DoubleMatchCandidate {
   name: string;
   probability: number;
@@ -78,6 +85,7 @@ export interface SeasonData {
   confirmed_matches: ConfirmedMatch[];
   ruled_out: ConfirmedMatch[];
   pairings: Pairing[];
+  top_matching: TopMatchEntry[];
   double_match: DoubleMatch;
   matching_nights: MatchingNight[];
 }

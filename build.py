@@ -80,6 +80,51 @@ def build_matching_nights(data: dict) -> list[dict]:
     return nights
 
 
+def build_top_matching(
+    males: list[str],
+    females: list[str],
+    matchings: list[set[tuple[str, str]]],
+    probabilities: dict,
+) -> list[dict]:
+    """Find the most probable feasible matching.
+
+    Scores each enumerated solution by the sum of its pair probabilities,
+    then returns the highest-scoring one. Guaranteed to be a valid solution.
+    """
+    if not matchings:
+        return []
+
+    # Score each solution: sum of marginal probabilities of its pairs
+    best_matching = None
+    best_score = -1.0
+    for matching in matchings:
+        score = sum(probabilities.get(pair, 0.0) for pair in matching)
+        if score > best_score:
+            best_score = score
+            best_matching = matching
+
+    # Detect double-match person (appears in 2+ pairs)
+    name_counts: dict[str, int] = defaultdict(int)
+    for male, female in best_matching:
+        name_counts[male] += 1
+        name_counts[female] += 1
+    doubled_names = {name for name, count in name_counts.items() if count > 1}
+
+    result = []
+    for male, female in best_matching:
+        prob = probabilities.get((male, female), 0.0)
+        is_double = male in doubled_names or female in doubled_names
+        result.append({
+            "male": male,
+            "female": female,
+            "probability": round(prob, 6),
+            "is_double": is_double,
+        })
+
+    result.sort(key=lambda p: -p["probability"])
+    return result
+
+
 def build_pairings(
     males: list[str],
     females: list[str],
@@ -173,6 +218,10 @@ def build_season_json(season: dict, now: str) -> dict | None:
         }
 
     pairings = build_pairings(males, females, result["probabilities"], confirmed_set)
+    is_unbalanced = len(males) != len(females)
+    top_matching = build_top_matching(
+        males, females, matchings, result["probabilities"]
+    )
 
     # A season is "solved" if there's exactly 1 solution
     solved = total_solutions == 1
@@ -201,6 +250,7 @@ def build_season_json(season: dict, now: str) -> dict | None:
         "confirmed_matches": confirmed,
         "ruled_out": ruled_out,
         "pairings": pairings,
+        "top_matching": top_matching,
         "double_match": build_double_match(solver, result["double_match_probs"]),
         "matching_nights": build_matching_nights(data),
     }
