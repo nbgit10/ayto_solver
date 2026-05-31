@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import type { Pairing } from '../lib/types';
-  import { getProbabilityTier, formatProbability } from '../lib/helpers';
+  import { getProbabilityTier, formatProbability, heatColor, heatRgb } from '../lib/helpers';
 
   interface Props {
     pairing: Pairing;
@@ -9,31 +10,47 @@
 
   let { pairing, isDoubleMatch = false }: Props = $props();
 
-  let tier = $derived(getProbabilityTier(pairing.probability, 'de'));
-  let pct = $derived(formatProbability(pairing.probability));
+  const tier = getProbabilityTier(pairing.probability, 'de');
+  const pct = formatProbability(pairing.probability);
+  const heat = heatColor(pairing.probability);
+  const [hr, hg, hb] = heatRgb(pairing.probability);
+
+  let w = $state(0);
+  onMount(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { w = pairing.probability * 100; return; }
+    requestAnimationFrame(() => { w = pairing.probability * 100; });
+  });
 </script>
 
-<div class="rounded-lg border p-4 transition-all duration-200 hover:shadow-md {tier.bgClass} {pairing.confirmed ? 'border-emerald-400 dark:border-emerald-600 ring-2 ring-emerald-200 dark:ring-emerald-800' : isDoubleMatch ? 'border-purple-400 dark:border-purple-600 ring-1 ring-purple-200 dark:ring-purple-800' : 'border-gray-200 dark:border-gray-700'}">
-  <div class="flex items-center justify-between mb-2">
-    <div class="flex items-center gap-2">
-      <span class="text-blue-700 dark:text-blue-400 font-medium text-sm">{pairing.male}</span>
-      <span class="text-gray-400 text-xs">&</span>
-      <span class="text-pink-700 dark:text-pink-400 font-medium text-sm">{pairing.female}</span>
+<div
+  class="group relative p-4 bg-[var(--color-ink-2)] border border-[var(--color-line)] transition-all duration-300 hover:-translate-y-0.5"
+  style={`border-left:3px solid ${heat};${pairing.confirmed ? 'box-shadow:0 0 0 1px rgba(255,209,102,0.4),0 0 22px -8px rgba(255,209,102,0.5)' : ''}`}
+>
+  <!-- heat wash on hover -->
+  <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+       style={`background:radial-gradient(120% 100% at 0% 0%, rgba(${hr},${hg},${hb},0.14), transparent 70%)`}></div>
+
+  <div class="relative flex items-center justify-between">
+    <div class="flex items-center gap-1.5 text-sm font-semibold min-w-0">
+      <span class="text-[var(--color-him)] truncate">{pairing.male}</span>
+      <span class="text-[var(--color-bone-mut)] text-xs">×</span>
+      <span class="text-[var(--color-her)] truncate">{pairing.female}</span>
     </div>
     {#if pairing.confirmed}
-      <span class="text-emerald-600 dark:text-emerald-400">&#x2713;</span>
+      <span class="font-mono text-[0.55rem] uppercase tracking-wider px-1.5 py-0.5 text-[var(--color-gold)] border border-[var(--color-gold)]/50">fix ✓</span>
     {:else if isDoubleMatch}
-      <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400">2x</span>
+      <span class="font-mono text-[0.55rem] uppercase tracking-wider px-1.5 py-0.5 text-[var(--color-match-hi)] border border-[var(--color-match)]/50">2×</span>
     {/if}
   </div>
-  <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-    <div
-      class="h-full rounded-full transition-all duration-500 {tier.barClass}"
-      style="width: {pairing.probability * 100}%"
-    ></div>
+
+  <div class="relative mt-3 flex items-end justify-between gap-3">
+    <span class="font-mono text-[0.62rem] uppercase tracking-[0.12em]" style={`color:${tier.accent}`}>{tier.label}</span>
+    <span class="font-mono font-bold text-2xl leading-none" style={`color:${heat}`}>{pct}</span>
   </div>
-  <div class="flex items-center justify-between mt-1.5">
-    <span class="text-xs {tier.textClass}">{tier.label}</span>
-    <span class="text-xs font-medium {tier.textClass}">{pct}</span>
+
+  <div class="relative mt-2 h-1.5 w-full bg-[var(--color-line)] overflow-hidden">
+    <div class="h-full transition-[width] duration-700 ease-out"
+         style={`width:${w}%;background:linear-gradient(90deg,#3a5fb0,${heat})`}></div>
   </div>
 </div>

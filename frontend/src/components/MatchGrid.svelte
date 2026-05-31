@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Pairing } from '../lib/types';
-  import { formatProbability } from '../lib/helpers';
+  import { formatProbability, heatColor, heatTextColor, getProbabilityTier } from '../lib/helpers';
 
   interface Props {
     pairings: Pairing[];
@@ -10,59 +10,98 @@
 
   let { pairings, males, females }: Props = $props();
 
-  // Build probability lookup
-  let probMap = $derived(() => {
-    const map = new Map<string, number>();
-    for (const p of pairings) {
-      map.set(`${p.male}|${p.female}`, p.probability);
-    }
-    return map;
-  });
-
-  function getProb(male: string, female: string): number {
-    return probMap().get(`${male}|${female}`) ?? 0;
+  const probMap = new Map<string, number>();
+  const confirmedSet = new Set<string>();
+  for (const p of pairings) {
+    probMap.set(`${p.male}|${p.female}`, p.probability);
+    if (p.confirmed) confirmedSet.add(`${p.male}|${p.female}`);
   }
+  const getProb = (m: string, f: string) => probMap.get(`${m}|${f}`) ?? 0;
 
-  function cellColor(prob: number): string {
-    if (prob >= 1.0) return 'bg-emerald-500 text-white font-bold';
-    if (prob >= 0.7) return 'bg-green-400 text-white';
-    if (prob >= 0.5) return 'bg-green-300 text-green-900';
-    if (prob >= 0.3) return 'bg-amber-200 text-amber-900';
-    if (prob >= 0.1) return 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400';
-    if (prob > 0) return 'bg-rose-50 text-rose-400 dark:bg-rose-950/20 dark:text-rose-600';
-    return 'bg-gray-100 text-gray-300 dark:bg-gray-800 dark:text-gray-700';
-  }
+  let hr = $state(-1); // hovered row (male index)
+  let hc = $state(-1); // hovered col (female index)
+
+  let active = $derived(hr >= 0 && hc >= 0);
+  let activeProb = $derived(active ? getProb(males[hr], females[hc]) : 0);
+  let activeTier = $derived(getProbabilityTier(activeProb, 'de'));
+
+  function enter(r: number, c: number) { hr = r; hc = c; }
+  function clear() { hr = -1; hc = -1; }
+
+  const short = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
 </script>
 
-<div class="overflow-x-auto -mx-4 px-4">
-  <table class="text-xs border-collapse table-fixed w-full">
-    <thead>
-      <tr>
-        <th class="p-1 text-left text-gray-500 dark:text-gray-400 sticky left-0 bg-gray-50 dark:bg-gray-900 z-10"></th>
-        {#each females as female}
-          <th class="p-1 text-center font-medium text-pink-600 dark:text-pink-400 truncate" title={female}>
-            {female.length > 6 ? female.slice(0, 5) + '..' : female}
-          </th>
-        {/each}
-      </tr>
-    </thead>
-    <tbody>
-      {#each males as male}
+<div class="card overflow-hidden">
+  <!-- live readout -->
+  <div class="flex items-center justify-between gap-4 px-5 py-4 border-b border-[var(--color-line)] min-h-[68px]">
+    {#if active}
+      <div class="flex items-center gap-2 text-lg font-semibold">
+        <span class="text-[var(--color-him)]">{males[hr]}</span>
+        <span class="font-display italic text-[var(--color-bone-mut)]">&amp;</span>
+        <span class="text-[var(--color-her)]">{females[hc]}</span>
+      </div>
+      <div class="text-right">
+        <div class="font-mono font-bold text-2xl leading-none" style={`color:${heatColor(activeProb)}`}>{formatProbability(activeProb)}</div>
+        <div class="font-mono text-[0.6rem] uppercase tracking-[0.12em] mt-1" style={`color:${activeTier.accent}`}>{activeTier.label}</div>
+      </div>
+    {:else}
+      <p class="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">
+        Fahre über eine Zelle &mdash; Mann <span class="text-[var(--color-him)]">↓</span> trifft Frau <span class="text-[var(--color-her)]">→</span>
+      </p>
+    {/if}
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="border-separate border-spacing-1 p-3" onmouseleave={clear} role="grid">
+      <thead>
         <tr>
-          <td class="p-1 font-medium text-blue-600 dark:text-blue-400 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-900 z-10 truncate" title={male}>
-            {male.length > 8 ? male.slice(0, 7) + '..' : male}
-          </td>
-          {#each females as female}
-            {@const prob = getProb(male, female)}
-            <td
-              class="p-1 text-center rounded-sm {cellColor(prob)}"
-              title="{male} & {female}: {formatProbability(prob)}"
-            >
-              {prob > 0 ? formatProbability(prob) : '\u2014'}
-            </td>
+          <th class="sticky left-0 z-20 bg-[var(--color-ink-2)]"></th>
+          {#each females as female, c}
+            <th class="px-1 pb-1 align-bottom">
+              <div class="font-mono text-[0.62rem] tracking-wide whitespace-nowrap transition-all duration-200 origin-bottom"
+                   style={`color:${hc === c ? 'var(--color-her)' : 'var(--color-bone-mut)'};transform:rotate(-45deg) translateX(2px)${hc === c ? ' scale(1.12)' : ''}`}
+                   title={female}>
+                {short(female, 8)}
+              </div>
+            </th>
           {/each}
         </tr>
-      {/each}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {#each males as male, r}
+          <tr>
+            <th class="sticky left-0 z-10 bg-[var(--color-ink-2)] pr-2 text-right">
+              <span class="font-mono text-[0.7rem] whitespace-nowrap transition-all duration-200 inline-block"
+                    style={`color:${hr === r ? 'var(--color-him)' : 'var(--color-bone-dim)'}${hr === r ? ';transform:scale(1.08)' : ''}`}
+                    title={male}>{short(male, 9)}</span>
+            </th>
+            {#each females as female, c}
+              {@const prob = getProb(male, female)}
+              {@const confirmed = confirmedSet.has(`${male}|${female}`)}
+              {@const isAxis = hr === r || hc === c}
+              {@const isCell = hr === r && hc === c}
+              <td class="p-0">
+                <button
+                  type="button"
+                  onmouseenter={() => enter(r, c)}
+                  onfocus={() => enter(r, c)}
+                  aria-label={`${male} & ${female}: ${formatProbability(prob)}`}
+                  class="relative block h-9 w-11 sm:w-12 transition-all duration-150 outline-none"
+                  style={`
+                    background:${heatColor(prob)};
+                    color:${heatTextColor(prob)};
+                    opacity:${active && !isAxis ? 0.38 : 1};
+                    transform:${isCell ? 'scale(1.18)' : 'scale(1)'};
+                    z-index:${isCell ? 30 : 1};
+                    box-shadow:${isCell ? '0 0 0 2px var(--color-bone),0 6px 20px -4px rgba(0,0,0,0.7)' : confirmed ? '0 0 0 2px var(--color-gold) inset' : 'none'};
+                  `}>
+                  <span class="font-mono text-[0.62rem] font-bold">{prob > 0 ? formatProbability(prob) : ''}</span>
+                </button>
+              </td>
+            {/each}
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
 </div>

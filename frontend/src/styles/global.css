@@ -1,34 +1,152 @@
 @import "tailwindcss";
 
+/* ============================================================
+   MATCH THEORY — editorial noir × electric heat
+   A probability oracle for "Are You The One?"
+   Concept: him (blue) + her (pink) = a match (violet).
+   ============================================================ */
+
 @theme {
-  --color-primary-50: #fff1f2;
-  --color-primary-100: #ffe4e6;
-  --color-primary-200: #fecdd3;
-  --color-primary-300: #fda4af;
-  --color-primary-400: #fb7185;
-  --color-primary-500: #f43f5e;
-  --color-primary-600: #e11d48;
-  --color-primary-700: #be123c;
-  --color-primary-800: #9f1239;
-  --color-primary-900: #881337;
+  /* Canvas — near-black with a faint violet bias */
+  --color-ink:      #0a090f;
+  --color-ink-2:    #100e17;
+  --color-ink-3:    #18151f;
+  --color-ink-4:    #221d2c;
+  --color-line:     #2a2435;
+  --color-line-2:   #38303f;
 
-  --color-surface: #ffffff;
-  --color-surface-dim: #f9fafb;
-  --color-surface-dark: #111827;
-  --color-surface-dark-dim: #1f2937;
+  /* Bone — warm off-white type */
+  --color-bone:     #f3efe9;
+  --color-bone-dim: #b7b0bf;
+  --color-bone-mut: #6f6878;
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  /* The three pigments of the show */
+  --color-him:      #4d8dff;   /* the men */
+  --color-her:      #ff5599;   /* the women */
+  --color-match:    #b026ff;   /* a perfect match = blue + pink */
+  --color-match-hi: #c86bff;
+
+  /* Heat ramp anchors (cold → hot) */
+  --color-heat-0:   #2a2435;   /* ruled out / zero */
+  --color-heat-1:   #3a5fb0;   /* faint */
+  --color-heat-2:   #7b3fd6;   /* possible */
+  --color-heat-3:   #b026ff;   /* likely */
+  --color-heat-4:   #ff3d8b;   /* near-certain */
+
+  --color-gold:     #ffd166;   /* confirmed accent */
+
+  /* Type */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans:    "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
 }
+
+/* ---------- base ---------- */
+* { -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-surface-dim);
-  color: #1f2937;
+  background-color: var(--color-ink);
+  color: var(--color-bone);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--color-surface-dark);
-    color: #f3f4f6;
-  }
+::selection {
+  background: var(--color-match);
+  color: #fff;
 }
+
+/* Atmosphere: violet bleed from the top */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 70% at 78% -10%, rgba(176,38,255,0.20), transparent 55%),
+    radial-gradient(90% 60% at 10% 0%, rgba(77,141,255,0.10), transparent 50%),
+    radial-gradient(140% 100% at 50% 120%, rgba(255,85,153,0.07), transparent 60%);
+}
+
+/* Film grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* keep real content above the atmosphere layers */
+body > * { position: relative; z-index: 2; }
+
+/* ---------- type helpers ---------- */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-bone-mut);
+}
+
+/* Big editorial headline gradient */
+.ink-grad {
+  background: linear-gradient(100deg, var(--color-bone) 28%, var(--color-match-hi) 72%, var(--color-her));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* drop-shadow works on gradient-clipped text where text-shadow does not */
+.glow-text { filter: drop-shadow(0 0 26px rgba(176,38,255,0.5)); }
+
+/* ---------- surfaces ---------- */
+.card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0) 40%),
+    var(--color-ink-2);
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+}
+
+.glow-ring {
+  box-shadow: 0 0 0 1px rgba(176,38,255,0.5), 0 0 30px -6px rgba(176,38,255,0.55);
+}
+
+/* ---------- entrance motion ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes glowpulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(176,38,255,0.40), 0 0 22px -10px rgba(176,38,255,0.5); }
+  50%     { box-shadow: 0 0 0 1px rgba(176,38,255,0.75), 0 0 34px -4px rgba(176,38,255,0.85); }
+}
+
+.reveal {
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar { height: 10px; width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb { background: var(--color-line-2); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-match); }

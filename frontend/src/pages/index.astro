@@ -8,57 +8,148 @@ import { readFileSync } from 'node:fs';
 const raw = readFileSync('public/data/seasons.json', 'utf-8');
 const index: SeasonsIndex = JSON.parse(raw);
 
-const currentSeason = index.seasons.find((s) => s.current);
-const archiveSeasons = index.seasons.filter((s) => !s.current);
+const currentSeason = index.seasons.find((s) => s.current) ?? index.seasons[0];
+const archiveSeasons = index.seasons.filter((s) => s.id !== currentSeason.id);
+
+const fmt = (n: number) => n.toLocaleString('de-DE');
+const cur = currentSeason;
+const curParticipants = cur.num_males + cur.num_females;
+const solvedSeasons = index.seasons.filter((s) => s.total_solutions === 1 && !s.infeasible).length;
 ---
 
-<Base title="AYTO Solver — Match-Vorhersagen">
-  <!-- Hero: Current Season -->
-  {currentSeason && (
-    <section class="mb-12">
-      <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-8 text-white relative overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]"></div>
-        <div class="relative">
-          <p class="text-primary-200 text-sm font-medium uppercase tracking-wide mb-2">Aktuelle Staffel</p>
-          <h1 class="text-3xl md:text-4xl font-bold mb-2">{currentSeason.display_name}</h1>
-          <p class="text-primary-100 mb-6">
-            Folge {currentSeason.latest_episode} von {currentSeason.total_episodes} &middot; {currentSeason.year}
-          </p>
+<Base title="AYTO Matches — Wer ist das perfekte Match?">
+  <!-- ============ HERO / MASTHEAD ============ -->
+  <section class="mx-auto max-w-[1180px] px-5 sm:px-8 pt-16 sm:pt-24 pb-10">
+    <p class="kicker reveal" style="animation-delay:.05s">
+      Are You The One? &middot; Deutschland &middot; Das Wahrscheinlichkeits-Orakel
+    </p>
 
-          <div class="flex flex-wrap gap-4 mb-6">
-            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
-              <p class="text-2xl font-bold">{currentSeason.total_solutions}</p>
-              <p class="text-xs text-primary-200">{currentSeason.total_solutions === 1 ? 'Lösung' : 'Lösungen'}</p>
-            </div>
-            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
-              <p class="text-2xl font-bold">{currentSeason.confirmed_matches}</p>
-              <p class="text-xs text-primary-200">Bestätigt</p>
-            </div>
-            <div class="bg-white/15 backdrop-blur rounded-lg px-4 py-2">
-              <p class="text-2xl font-bold">{currentSeason.num_males + currentSeason.num_females}</p>
-              <p class="text-xs text-primary-200">Teilnehmer</p>
-            </div>
+    <h1 class="reveal font-display font-black leading-[0.92] tracking-[-0.02em] mt-5
+               text-[clamp(2.7rem,8.5vw,6.6rem)]" style="animation-delay:.12s">
+      <span class="text-[var(--color-bone)]">Wer ist das</span><br />
+      <span class="ink-grad glow-text italic">perfekte Match</span><span class="text-[var(--color-her)]">?</span>
+    </h1>
+
+    <p class="reveal mt-7 max-w-2xl text-lg sm:text-xl leading-relaxed text-[var(--color-bone-dim)]"
+       style="animation-delay:.2s">
+      Jede Matching Night, jede Matchbox &mdash; in Mathematik übersetzt. Wir berechnen aus allen
+      gültigen Konstellationen, <em class="font-display italic text-[var(--color-bone)]">wie wahrscheinlich</em>
+      jedes Paar ein echtes Match ist. Keine Spekulation. Nur die Zahlen.
+    </p>
+
+    <div class="reveal mt-8 flex flex-wrap items-center gap-x-7 gap-y-2 font-mono text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-bone-mut)]"
+         style="animation-delay:.28s">
+      <span><span class="text-[var(--color-him)]">{index.seasons.length}</span> Staffeln</span>
+      <span class="text-[var(--color-line-2)]">/</span>
+      <span><span class="text-[var(--color-match-hi)]">{solvedSeasons}</span> vollständig gelöst</span>
+      <span class="text-[var(--color-line-2)]">/</span>
+      <span><span class="text-[var(--color-her)]">100%</span> datengetrieben</span>
+    </div>
+  </section>
+
+  <!-- ============ CURRENT SEASON FEATURE ============ -->
+  <section class="mx-auto max-w-[1180px] px-5 sm:px-8 mt-6">
+    <a href={seasonUrl(cur.id)}
+       class="reveal group relative block overflow-hidden card p-7 sm:p-10 hover:glow-ring transition-shadow duration-500"
+       style="animation-delay:.34s">
+      <!-- glow wash -->
+      <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full blur-3xl opacity-60"
+           style="background:radial-gradient(circle,rgba(176,38,255,0.5),transparent 65%)"></div>
+
+      <div class="relative grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-her)] opacity-75 motion-safe:animate-ping"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--color-her)]"></span>
+            </span>
+            <span class="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-her)]">Aktuelle Staffel</span>
+            {cur.type === 'vip' && (
+              <span class="font-mono text-[0.62rem] uppercase tracking-[0.2em] px-2 py-0.5 border border-[var(--color-gold)] text-[var(--color-gold)]">VIP</span>
+            )}
           </div>
 
-          <a
-            href={seasonUrl(currentSeason.id)}
-            class="inline-flex items-center gap-2 bg-white text-primary-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-primary-50 transition-colors"
-          >
-            Ergebnisse ansehen
-            <span>&rarr;</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  )}
+          <h2 class="font-display font-black leading-none mt-4 text-[clamp(2.4rem,6vw,4.5rem)] text-[var(--color-bone)]">
+            {cur.display_name}
+          </h2>
+          <p class="mt-3 font-mono text-sm text-[var(--color-bone-dim)]">
+            {cur.year} &middot; Folge {cur.latest_episode} / {cur.total_episodes}
+          </p>
 
-  <!-- Archive Grid -->
-  <section>
-    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Archiv</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {archiveSeasons.map((season) => (
-        <SeasonCard season={season} />
+          <span class="mt-7 inline-flex items-center gap-2 font-mono text-[0.78rem] uppercase tracking-[0.18em]
+                       text-[var(--color-bone)] border-b border-[var(--color-match)] pb-1
+                       transition-colors group-hover:text-[var(--color-match-hi)]">
+            Wahrscheinlichkeiten ansehen
+            <span class="transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
+          </span>
+        </div>
+
+        <!-- stat ledger -->
+        <dl class="grid grid-cols-3 gap-px bg-[var(--color-line)] border border-[var(--color-line)]">
+          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
+            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-match-hi)]"
+                data-count={cur.total_solutions} data-suffix="">{fmt(cur.total_solutions)}</dd>
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">
+              {cur.total_solutions === 1 ? 'Lösung' : 'Lösungen'}
+            </dt>
+          </div>
+          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
+            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-gold)]"
+                data-count={cur.confirmed_matches}>{cur.confirmed_matches}</dd>
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">Fix-Matches</dt>
+          </div>
+          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
+            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-bone)]"
+                data-count={curParticipants}>{curParticipants}</dd>
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">Singles</dt>
+          </div>
+        </dl>
+      </div>
+    </a>
+  </section>
+
+  <!-- ============ ARCHIVE ============ -->
+  <section id="archiv" class="mx-auto max-w-[1180px] px-5 sm:px-8 mt-24 scroll-mt-24">
+    <div class="flex items-end justify-between border-b border-[var(--color-line)] pb-4">
+      <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-[var(--color-bone)]">Das Archiv</h2>
+      <span class="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--color-bone-mut)]">
+        {archiveSeasons.length} vergangene Staffeln
+      </span>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-line)] border border-[var(--color-line)]">
+      {archiveSeasons.map((season, i) => (
+        <SeasonCard season={season} index={i} />
       ))}
     </div>
   </section>
 </Base>
+
+<script>
+  // Count-up on the hero stat ledger, triggered when scrolled into view.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmtDE = (n: number) => Math.round(n).toLocaleString('de-DE');
+
+  function runCount(el: HTMLElement) {
+    const target = Number(el.dataset.count ?? '0');
+    if (reduce || target <= 0) { el.textContent = fmtDE(target); return; }
+    const dur = 1100;
+    const start = performance.now();
+    function tick(now: number) {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmtDE(target * eased);
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = fmtDE(target);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { runCount(e.target as HTMLElement); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.4 });
+  counters.forEach((c) => io.observe(c));
+</script>

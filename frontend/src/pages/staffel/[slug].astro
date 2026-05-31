@@ -22,120 +22,162 @@ export function getStaticPaths() {
   });
 }
 
-const { data, season } = Astro.props;
-
+const { data } = Astro.props;
 const topMatching = data.top_matching ?? [];
+const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches));
 ---
 
 <Base
-  title={`${data.meta.display_name} — AYTO Solver`}
-  description={`Match-Vorhersagen für ${data.meta.display_name} (${data.meta.year}) — Folge ${data.meta.latest_episode} von ${data.meta.total_episodes}`}
+  title={`${data.meta.display_name} — AYTO Matches`}
+  description={`Match-Wahrscheinlichkeiten für ${data.meta.display_name} (${data.meta.year}) — Folge ${data.meta.latest_episode} von ${data.meta.total_episodes}.`}
 >
-  <!-- Season Header -->
-  <div class="mb-8">
-    <a href="/" class="text-sm text-primary-600 dark:text-primary-400 hover:underline mb-2 inline-block">&larr; Alle Staffeln</a>
-    <div class="flex items-center gap-3 mb-2">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{data.meta.display_name}</h1>
+  <!-- ============ SEASON MASTHEAD ============ -->
+  <header class="mx-auto max-w-[1180px] px-5 sm:px-8 pt-12 sm:pt-16 pb-8">
+    <a href="/" class="reveal inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)] hover:text-[var(--color-bone)] transition-colors">
+      <span class="transition-transform group-hover:-translate-x-1">&larr;</span> Alle Staffeln
+    </a>
+
+    <div class="reveal mt-6 flex items-center gap-3" style="animation-delay:.08s">
+      <span class="kicker">{data.meta.year} &middot; Folge {data.meta.latest_episode} / {data.meta.total_episodes}</span>
       {data.meta.type === 'vip' && (
-        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">
-          VIP
-        </span>
+        <span class="font-mono text-[0.6rem] uppercase tracking-[0.2em] px-2 py-0.5 border border-[var(--color-gold)] text-[var(--color-gold)]">VIP</span>
       )}
     </div>
-    <p class="text-gray-500 dark:text-gray-400">
-      {data.meta.year} &middot; Folge {data.meta.latest_episode} von {data.meta.total_episodes}
-      &middot; {data.contestants.males.length}m / {data.contestants.females.length}f
+
+    <h1 class="reveal font-display font-black tracking-[-0.02em] leading-none mt-3 text-[clamp(2.8rem,9vw,6rem)] text-[var(--color-bone)]"
+        style="animation-delay:.14s">
+      {data.meta.display_name}
+    </h1>
+    <p class="reveal mt-4 font-mono text-sm text-[var(--color-bone-dim)]" style="animation-delay:.2s">
+      {data.contestants.males.length} Männer &times; {data.contestants.females.length} Frauen
+      {data.contestants.is_unbalanced ? '· unbalanciert' : ''}
     </p>
-  </div>
+  </header>
 
-  {data.solver_result.infeasible ? (
-    <!-- Infeasible Season -->
-    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 mb-8">
-      <h2 class="text-lg font-semibold text-red-700 dark:text-red-400 mb-2">Widersprüchliche Daten</h2>
-      <p class="text-red-600 dark:text-red-400 text-sm">
-        Die Daten dieser Staffel enthalten Widersprüche — es gibt keine gültige Lösung.
-        Möglicherweise sind die offiziellen Daten fehlerhaft.
-      </p>
-    </div>
-  ) : (
-    <div class="space-y-8">
-      <!-- Certainty Meter -->
-      <section>
-        <CertaintyMeter
-          totalSolutions={data.solver_result.total_solutions}
-          solved={data.solver_result.solved}
-          confirmedCount={data.confirmed_matches.length}
-          totalPairs={data.contestants.males.length}
-          client:load
-        />
-      </section>
-
-      <!-- Confirmed Matches -->
-      {data.confirmed_matches.length > 0 && (
+  <div class="mx-auto max-w-[1180px] px-5 sm:px-8 pb-8">
+    {data.solver_result.infeasible ? (
+      <div class="card p-8" style="border-color:rgba(255,93,93,0.4);box-shadow:0 0 30px -12px rgba(255,93,93,0.5)">
+        <p class="kicker" style="color:#ff5d5d">Widerspruch</p>
+        <h2 class="font-display text-3xl font-bold text-[var(--color-bone)] mt-3">Keine gültige Lösung</h2>
+        <p class="mt-3 text-[var(--color-bone-dim)] max-w-xl leading-relaxed">
+          Die Daten dieser Staffel enthalten Widersprüche — es existiert keine Konstellation, die alle
+          Matching Nights und Matchboxen erfüllt. Vermutlich sind die öffentlich dokumentierten Daten fehlerhaft.
+        </p>
+      </div>
+    ) : (
+      <div class="space-y-16">
+        <!-- The Oracle -->
         <section>
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Bestätigte Matches</h2>
-          <ConfirmedMatches matches={data.confirmed_matches} client:load />
+          <CertaintyMeter
+            totalSolutions={data.solver_result.total_solutions}
+            solved={data.solver_result.solved}
+            confirmedCount={data.confirmed_matches.length}
+            totalPairs={data.contestants.males.length}
+            client:load
+          />
         </section>
-      )}
 
-      <!-- Top Matching -->
-      <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Top-Matching</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {topMatching.map((entry) => (
-            <MatchCard pairing={entry} isDoubleMatch={entry.is_double} client:load />
-          ))}
-        </div>
-      </section>
+        <!-- Confirmed -->
+        {data.confirmed_matches.length > 0 && (
+          <section>
+            <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Fix-Matches</h2>
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-gold)]">durch Matchbox bestätigt</span>
+            </div>
+            <ConfirmedMatches matches={data.confirmed_matches} client:load />
+          </section>
+        )}
 
-      <!-- Match Grid -->
-      <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Alle Wahrscheinlichkeiten</h2>
-        <MatchGrid
-          pairings={data.pairings}
-          males={data.contestants.males}
-          females={data.contestants.females}
-          client:load
-        />
-      </section>
+        <!-- Top matching -->
+        {topMatching.length > 0 && (
+          <section>
+            <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Das wahrscheinlichste Match</h2>
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">pro Person</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {topMatching.map((entry) => (
+                <MatchCard pairing={entry} isDoubleMatch={entry.is_double} client:load />
+              ))}
+            </div>
+          </section>
+        )}
 
-      <!-- Double Match -->
-      {data.double_match.applicable && data.double_match.candidates.length > 0 && (
+        <!-- The Matrix (centerpiece) -->
         <section>
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Doppel-Match</h2>
-          <DoubleMatchInfo doubleMatch={data.double_match} client:load />
-        </section>
-      )}
-
-      <!-- Matching Nights -->
-      {data.matching_nights.length > 0 && (
-        <section>
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Matching Nights</h2>
-          <div class="space-y-3">
-            {data.matching_nights.map((night) => (
-              <details class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
-                <summary class="px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg">
-                  <span class="font-medium text-gray-900 dark:text-gray-100">Nacht {night.night_number}</span>
-                  <span class="text-sm px-2 py-0.5 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 font-medium">
-                    {night.matches} {night.matches === 1 ? 'Match' : 'Matches'}
-                  </span>
-                </summary>
-                <div class="px-4 pb-3 pt-1">
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm">
-                    {night.pairs.map(([male, female]) => (
-                      <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400 py-0.5">
-                        <span class="text-blue-600 dark:text-blue-400">{male}</span>
-                        <span class="text-gray-400">&amp;</span>
-                        <span class="text-pink-600 dark:text-pink-400">{female}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </details>
-            ))}
+          <div class="flex items-baseline gap-3 mb-2">
+            <span class="kicker">Die Matrix</span>
           </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)] mb-1">Jede Paarung, eingefärbt nach Hitze</h2>
+          <p class="text-sm text-[var(--color-bone-dim)] mb-5 max-w-2xl">
+            Wahrscheinlichkeit über alle gültigen Lösungen. Je heißer die Zelle, desto wahrscheinlicher das Match.
+          </p>
+          <MatchGrid
+            pairings={data.pairings}
+            males={data.contestants.males}
+            females={data.contestants.females}
+            client:load
+          />
         </section>
-      )}
-    </div>
-  )}
+
+        <!-- Double match -->
+        {data.double_match.applicable && data.double_match.candidates.length > 0 && (
+          <section>
+            <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Das Doppel-Match</h2>
+            </div>
+            <DoubleMatchInfo doubleMatch={data.double_match} client:load />
+          </section>
+        )}
+
+        <!-- Matching nights -->
+        {data.matching_nights.length > 0 && (
+          <section>
+            <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Matching Nights</h2>
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">die Beweislage</span>
+            </div>
+            <div class="space-y-2.5">
+              {data.matching_nights.map((night, i) => (
+                <details class="card group" open={i === data.matching_nights.length - 1}>
+                  <summary class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none">
+                    <div class="flex items-center gap-4">
+                      <span class="font-display text-2xl font-bold text-[var(--color-bone-mut)] group-open:text-[var(--color-match-hi)] transition-colors w-10">
+                        {String(night.night_number).padStart(2, '0')}
+                      </span>
+                      <span class="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[var(--color-bone-dim)]">Nacht {night.night_number}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <div class="hidden sm:flex items-center gap-1">
+                        {Array.from({ length: maxNightMatches }).map((_, k) => (
+                          <span class="h-2 w-2 rounded-full" style={`background:${k < night.matches ? 'var(--color-match)' : 'var(--color-line-2)'}`}></span>
+                        ))}
+                      </div>
+                      <span class="font-mono text-sm font-bold text-[var(--color-match-hi)]">{night.matches}</span>
+                      <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">{night.matches === 1 ? 'Licht' : 'Lichter'}</span>
+                    </div>
+                  </summary>
+                  <div class="px-5 pb-5 pt-1 border-t border-[var(--color-line)]">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 mt-3">
+                      {night.pairs.map(([male, female]) => (
+                        <div class="flex items-center gap-2 text-sm py-1 border-b border-[var(--color-line)]/50">
+                          <span class="text-[var(--color-him)] font-medium">{male}</span>
+                          <span class="text-[var(--color-bone-mut)] font-display italic text-xs">&amp;</span>
+                          <span class="text-[var(--color-her)] font-medium">{female}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    )}
+  </div>
 </Base>
+
+<style>
+  details > summary::-webkit-details-marker { display: none; }
+</style>
