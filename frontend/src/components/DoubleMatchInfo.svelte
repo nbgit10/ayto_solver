@@ -20,8 +20,8 @@
 
 <div class="card p-7">
   <p class="text-sm text-[var(--color-bone-dim)] mb-6 max-w-xl leading-relaxed">
-    Die Staffel ist <span class="font-display italic text-[var(--color-bone)]">unbalanciert</span> &mdash; eine Person
-    hat <em class="text-[var(--color-match-hi)] not-italic font-semibold">zwei</em> Matches. Wer trägt am wahrscheinlichsten das Doppel-Match?
+    Die Daten enthalten mindestens eine Person mit <em class="text-[var(--color-match-hi)] not-italic font-semibold">zwei</em>
+    Matches. Wer trägt am wahrscheinlichsten ein Doppel-Match?
   </p>
 
   <div class="space-y-3">

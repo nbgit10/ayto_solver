@@ -1,12 +1,22 @@
 {
   "seasons": [
     {
+      "id": "vip-6",
+      "display_name": "VIP Staffel 6",
+      "year": 2026,
+      "type": "vip",
+      "input_file": "examples/AYTO_SeasonVIP6_Germany_AfterEP10.yaml",
+      "current": true,
+      "latest_episode": 10,
+      "total_episodes": 22
+    },
+    {
       "id": "staffel-7",
       "display_name": "Staffel 7",
       "year": 2026,
       "type": "regular",
       "input_file": "examples/AYTO_Season7_Germany_AfterEp10.yaml",
-      "current": true,
+      "current": false,
       "latest_episode": 10,
       "total_episodes": 22
     },

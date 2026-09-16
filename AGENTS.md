@@ -53,7 +53,7 @@ frontend/                # Astro + Svelte + Tailwind static site
 
 ## Commands
 
-**Always use the venv or Docker — never run bare-metal Python.**
+**Always use uv or Docker — never run bare-metal Python.**
 
 ### Docker (required on ARM Macs for MIP solver / tests)
 
@@ -64,11 +64,11 @@ docker compose exec api pytest tests/ -v
 docker compose down
 ```
 
-### Local (venv at `.venv/`)
+### Local (uv-managed environment)
 
 ```bash
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python build.py       # Generate static JSON data (graph solver, ARM-native)
+uv sync
+uv run python build.py          # Generate static JSON data (graph solver, ARM-native)
 cd frontend && npm run build    # Build static site to frontend/dist/
 cd frontend && npm run dev      # Dev server with hot reload
 ```
@@ -108,6 +108,7 @@ cd frontend && npm run dev      # Dev server with hot reload
 - **MIP** (`mip_solver.py`): Mixed Integer Programming via python-mip/CBC. Fast single solution. AMD64 only.
 - **MIP Multi** (`mip_multi_solver.py`): Enumerates up to 1000 solutions, calculates match probabilities and double-match candidates.
 - **Graph** (`graph_solver.py`): NetworkX-based bipartite matching. Enumerates all valid matchings, computes probabilities. ARM-native.
+- **Explicit graph degree profiles**: Pass `degree_profile={"males": {...}, "females": {...}}` when late entrants or multiple double matches mean roster size cannot infer endpoint degrees. Use `female_double_candidates`/`male_double_candidates` to enumerate unresolved candidates and `female_double_partner` when one partner is known. Both side totals must match.
 
 ## Testing
 

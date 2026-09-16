@@ -1,0 +1,32 @@
+[project]
+name = "ayto-solver"
+version = "2.1.0"
+description = "Are You The One matching problem solver and static frontend data builder"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.141.1",
+    "mip>=2.0.0",
+    "networkx>=3.6.1",
+    "numpy>=2.5.3",
+    "pydantic>=2.13.5",
+    "pyyaml>=6.0.3",
+    "sympy>=1.14.0",
+    "uvicorn[standard]>=0.53.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "flake8>=7.3.0",
+    "hypothesis>=6.168.0",
+    "pip-audit>=2.10.1",
+    "pydocstyle>=6.3.0",
+    "pylint>=4.0.8",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "yapf>=0.43.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

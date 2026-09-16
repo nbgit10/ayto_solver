@@ -20,10 +20,24 @@ def load_yaml_example(filename):
 
 def solve_with_graph(data, max_matchings=10000):
     """Load data into GraphSolver, return (matchings, capped, solver)."""
-    solver = GraphSolver(data["MALES"], data["FEMALES"])
+    solver = GraphSolver(
+        data["MALES"],
+        data["FEMALES"],
+        degree_profile=data.get("DEGREE_PROFILE"),
+    )
 
     for tb in data.get("TRUTH_BOOTH", []):
-        solver.add_truth_booth(tb["Pair"][0], tb["Pair"][1], tb["Match"])
+        if tb["Match"] is not None:
+            solver.add_truth_booth(tb["Pair"][0], tb["Pair"][1], tb["Match"])
+
+    for pair in data.get("ADDITIONAL_CONFIRMED_MATCHES", []):
+        solver.add_truth_booth(pair[0], pair[1], True)
+
+    for alternative in data.get("ALTERNATIVE_MATCHES", []):
+        pairs = alternative.get("Pairs", alternative)
+        solver.add_exclusive_alternative(
+            [(pair[0], pair[1]) for pair in pairs]
+        )
 
     for night in data.get("MATCHING_NIGHTS", []):
         pairs = [(p[0], p[1]) for p in night["Pairs"]]
@@ -33,7 +47,7 @@ def solve_with_graph(data, max_matchings=10000):
     return matchings, capped, solver
 
 
-def validate_matching(matching, males, females):
+def validate_matching(matching, males, females, degree_profiles=None):
     """Validate a single matching satisfies structural constraints."""
     n_males = len(males)
     n_females = len(females)
@@ -46,7 +60,19 @@ def validate_matching(matching, males, females):
         male_counts[m] = male_counts.get(m, 0) + 1
         female_counts[f] = female_counts.get(f, 0) + 1
 
-    if n_males == n_females:
+    if degree_profiles is not None:
+        actual_male_counts = {
+            male: male_counts.get(male, 0) for male in males
+        }
+        actual_female_counts = {
+            female: female_counts.get(female, 0) for female in females
+        }
+        assert any(
+            actual_male_counts == male_degrees
+            and actual_female_counts == female_degrees
+            for male_degrees, female_degrees in degree_profiles
+        ), "Matching does not satisfy any explicit degree profile"
+    elif n_males == n_females:
         # Balanced: each person matched exactly once
         assert len(matching) == n_males
         for m in males:
@@ -89,12 +115,13 @@ class TestGraphSolverAllSeasons:
         "AYTO_Season4_Germany_AfterEp18.yaml",
         "AYTO_Season5_Germany_AfterEP20.yaml",
         "AYTO_Season6_Germany_AfterEp20.yaml",
-        "AYTO_Season7_Germany_AfterEp8.yaml",
+        "AYTO_Season7_Germany_AfterEp10.yaml",
         "AYTO_SeasonVIP_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP2_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP3_Germany_AfterEP21.yaml",
         "AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
         "AYTO_SeasonVIP5_Germany_AfterEP20.yaml",
+        "AYTO_SeasonVIP6_Germany_AfterEP10.yaml",
     ])
     def test_season_produces_solutions(self, filename):
         data = load_yaml_example(filename)
@@ -103,7 +130,12 @@ class TestGraphSolverAllSeasons:
         assert len(matchings) > 0, f"{filename}: no solutions found"
 
         # Validate first matching
-        validate_matching(matchings[0], data["MALES"], data["FEMALES"])
+        validate_matching(
+            matchings[0],
+            data["MALES"],
+            data["FEMALES"],
+            solver.degree_profiles if data.get("DEGREE_PROFILE") else None,
+        )
 
     @pytest.mark.parametrize("filename", [
         "AYTO_Season2_Germany_AfterEp18.yaml",
@@ -111,12 +143,13 @@ class TestGraphSolverAllSeasons:
         "AYTO_Season4_Germany_AfterEp18.yaml",
         "AYTO_Season5_Germany_AfterEP20.yaml",
         "AYTO_Season6_Germany_AfterEp20.yaml",
-        "AYTO_Season7_Germany_AfterEp8.yaml",
+        "AYTO_Season7_Germany_AfterEp10.yaml",
         "AYTO_SeasonVIP_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP2_Germany_AfterEP20.yaml",
         "AYTO_SeasonVIP3_Germany_AfterEP21.yaml",
         "AYTO_SeasonVIP4_Germany_AfterEP18.yaml",
         "AYTO_SeasonVIP5_Germany_AfterEP20.yaml",
+        "AYTO_SeasonVIP6_Germany_AfterEP10.yaml",
     ])
     def test_confirmed_matches_in_all_solutions(self, filename):
         data = load_yaml_example(filename)
@@ -125,8 +158,12 @@ class TestGraphSolverAllSeasons:
         confirmed = {
             (tb["Pair"][0], tb["Pair"][1])
             for tb in data.get("TRUTH_BOOTH", [])
-            if tb["Match"]
+            if tb["Match"] is True
         }
+        confirmed.update(
+            (pair[0], pair[1])
+            for pair in data.get("ADDITIONAL_CONFIRMED_MATCHES", [])
+        )
 
         for i, matching in enumerate(matchings):
             for pair in confirmed:
@@ -214,3 +251,57 @@ class TestVIP5:
             doubles = [f for f, c in female_counts.items() if c > 1]
             assert len(doubles) == 1, \
                 f"Solution {i}: expected 1 double match, got {len(doubles)}"
+
+
+class TestVIP6:
+    """Current 2026 VIP season data sourced from AYTOFANS."""
+
+    def test_solution_count(self):
+        data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
+        matchings, capped, _ = solve_with_graph(data)
+
+        assert not capped
+        assert len(matchings) == 56
+
+    def test_double_match_is_preserved(self):
+        data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
+        matchings, _, solver = solve_with_graph(data)
+
+        for matching in matchings:
+            assert ("Johannes", "Marta") in matching
+            assert ("Johannes", "Janice") in matching
+            female_counts = {}
+            for _, female in matching:
+                female_counts[female] = female_counts.get(female, 0) + 1
+            double_females = [
+                female for female, count in female_counts.items() if count == 2
+            ]
+            assert len(double_females) == 1
+            assert ("Laurenz", double_females[0]) in matching
+
+        double_probs = solver.calculate_double_match_probabilities(matchings)
+        assert double_probs["Johannes"] == 1.0
+
+    def test_matchbox_data(self):
+        data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
+        boxes = data["TRUTH_BOOTH"]
+
+        assert len(boxes) == 6
+        assert boxes[3]["Pair"] == ["Johannes", "Marta"]
+        assert boxes[3]["Match"] is True
+        assert boxes[5]["Pair"] == ["Laurenz", "Emma"]
+        assert boxes[5]["Match"] is None
+        assert boxes[5]["Sold"] is True
+        assert boxes[5]["SoldPrice"] == 10000
+
+    def test_matching_nights_have_source_counts_and_loners(self):
+        data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
+
+        assert [night["Matches"] for night in data["MATCHING_NIGHTS"]] == [3, 3, 3, 4, 3]
+        assert [night["LONERS"] for night in data["MATCHING_NIGHTS"]] == [
+            ["Joena"],
+            ["Francesca"],
+            ["Janice"],
+            [],
+            ["Fabi"],
+        ]

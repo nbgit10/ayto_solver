@@ -50,12 +50,19 @@ class MatchInput(BaseModel):
         example=["Jules", "Melina", "Steffi"]
     )
     matching_nights: List[MatchingNight] = Field(
-        default=[],
+        default_factory=list,
         description="List of matching night results"
     )
     truth_booths: List[TruthBooth] = Field(
-        default=[],
+        default_factory=list,
         description="List of truth booth results"
+    )
+    degree_profile: Optional[Dict[str, Dict[str, int]]] = Field(
+        default=None,
+        description=(
+            "Optional exact per-person degree profile for graph solving. "
+            "Sections are 'males' and 'females'; omitted people default to 1."
+        ),
     )
 
 

@@ -130,6 +130,11 @@ async def solve_mip(input_data: MatchInput, enumerate_solutions: bool = False):
         Single solution (fast) or multiple solutions with probabilities (slower)
     """
     try:
+        if input_data.degree_profile is not None:
+            raise HTTPException(
+                status_code=400,
+                detail="degree_profile is supported by the graph solver only",
+            )
         if enumerate_solutions:
             # Use multi-solver for enumeration and probabilities
             solver = MIPMultiSolver(input_data.males, input_data.females)
@@ -269,7 +274,11 @@ async def solve_graph(input_data: MatchInput):
     """
     try:
         # Create graph solver
-        solver = GraphSolver(input_data.males, input_data.females)
+        solver = GraphSolver(
+            input_data.males,
+            input_data.females,
+            degree_profile=input_data.degree_profile,
+        )
 
         # Add truth booth constraints
         for tb in input_data.truth_booths:

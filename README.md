@@ -7,9 +7,10 @@ A solver for the "Are You The One" matching problem with MIP and Graph-based alg
 - **Two Solving Algorithms**: MIP (fast single solution) and Graph (all solutions + probabilities)
 - **Match Probabilities**: Per-pair probability calculations across all valid solutions
 - **Double Match Support**: Handles n x m scenarios (e.g., 11 men + 10 women)
+- **Explicit Graph Degree Profiles**: Supports late entrants, unmatched people, and multiple simultaneous double matches
 - **Static Frontend**: Pre-computed results served as a modern Astro + Svelte site
 - **REST API**: FastAPI with Swagger docs for programmatic access
-- **8 German Seasons**: Regular + VIP season data included
+- **12 German Seasons**: Regular + VIP season data included
 
 ## Quick Start
 
@@ -17,7 +18,8 @@ A solver for the "Are You The One" matching problem with MIP and Graph-based alg
 
 ```bash
 # Generate solver results as JSON
-.venv/bin/python build.py
+uv sync
+uv run python build.py
 
 # Build the static site
 cd frontend && npm install && npm run build
@@ -37,9 +39,8 @@ docker compose up -d
 ### Local Development
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/uvicorn ayto_solver.api.main:app --reload
+uv sync
+uv run uvicorn ayto_solver.api.main:app --reload
 ```
 
 **Note:** The MIP solver requires AMD64 architecture. Use Docker on ARM Macs. The Graph solver works natively on ARM.
@@ -74,7 +75,7 @@ tests/                    # pytest test suite
 
 1. Update season YAML data in `examples/` after each episode
 2. Update `seasons.json` if needed (new season, episode count)
-3. Run `.venv/bin/python build.py` to regenerate JSON
+3. Run `uv run python build.py` to regenerate JSON
 4. Run `cd frontend && npm run build` to build the static site
 5. Deploy with `./deploy.sh` (rsync to VPS)
 
@@ -97,6 +98,24 @@ tests/                    # pytest test suite
 4. Handles n x m cases by trying each person as the double-match candidate
 5. Calculates probabilities: `P(pair) = count(solutions with pair) / total solutions`
 
+The graph solver also accepts an optional `degree_profile` with exact
+per-person degrees. This is required when roster size no longer describes the
+matching shape, such as a late entrant preserving a prior double match:
+
+```json
+{
+  "males": {"Johannes": 2, "Late entrant": 0},
+  "females": {"Marta": 2}
+}
+```
+
+The two sides must have equal degree totals. The MIP endpoint intentionally
+rejects this field; use `/solve/graph` for explicit degree profiles.
+
+For an unresolved double-match candidate, `female_double_candidates` or
+`male_double_candidates` in the profile enumerates one exact profile per
+candidate and combines the resulting solutions for probability calculations.
+
 ### MIP Solver
 
 Models the problem as a binary optimization: `minimize ||x||_1 subject to: Ax = b, x in {0,1}` using compressed sensing / sparse signal recovery via python-mip/CBC.
@@ -107,8 +126,11 @@ Models the problem as a binary optimization: `minimize ||x||_1 subject to: Ax = 
 # Docker (required on ARM Macs for MIP solver)
 docker compose exec api pytest tests/ -v
 
-# Local (AMD64 only)
-.venv/bin/pytest tests/ -v
+# Local
+uv run pytest tests/ -v
+
+# Python dependency audit
+uv run pip-audit
 ```
 
 ## Platform Constraints
@@ -121,14 +143,18 @@ docker compose exec api pytest tests/ -v
 
 | Season | Year | Type | Status |
 |--------|------|------|--------|
+| VIP Staffel 6 | 2026 | VIP | 56 solutions (current) |
+| Staffel 7 | 2026 | Regular | 20,399 solutions |
+| VIP Staffel 5 | 2025 | VIP | 28 solutions |
 | VIP Staffel 4 | 2024 | VIP | Solved (1 solution) |
 | VIP Staffel 3 | 2023 | VIP | Solved (1 solution) |
 | VIP Staffel 2 | 2022 | VIP | 9 solutions |
 | VIP Staffel 1 | 2021 | VIP | Solved (1 solution) |
-| Staffel 5 | 2021 | Regular | Solved (1 solution) |
-| Staffel 4 | 2020 | Regular | Infeasible (contradictory data) |
-| Staffel 3 | 2019 | Regular | 11 solutions |
-| Staffel 2 | 2018 | Regular | 10 solutions |
+| Staffel 6 | 2025 | Regular | 3 solutions |
+| Staffel 5 | 2023 | Regular | 2 solutions |
+| Staffel 4 | 2022 | Regular | 7 solutions |
+| Staffel 3 | 2021 | Regular | 11 solutions |
+| Staffel 2 | 2021 | Regular | 10 solutions |
 
 ## References
 

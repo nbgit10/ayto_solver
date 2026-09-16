@@ -76,6 +76,18 @@ export interface MatchingNight {
   night_number: number;
   pairs: [string, string][];
   matches: number;
+  loners?: string[];
+  blackout?: boolean;
+  sold?: boolean;
+}
+
+export interface Matchbox {
+  number: number;
+  male: string;
+  female: string;
+  match: boolean | null;
+  sold: boolean;
+  sold_price: number | null;
 }
 
 export interface SeasonData {
@@ -84,6 +96,7 @@ export interface SeasonData {
   solver_result: SolverResult;
   confirmed_matches: ConfirmedMatch[];
   ruled_out: ConfirmedMatch[];
+  matchboxes: Matchbox[];
   pairings: Pairing[];
   top_matching: TopMatchEntry[];
   double_match: DoubleMatch;

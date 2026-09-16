@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo "==> Running build.py (generating JSON data)..."
-.venv/bin/python build.py
+uv run python build.py
 
 echo "==> Building Astro frontend..."
 cd frontend

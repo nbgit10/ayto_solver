@@ -82,9 +82,48 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
           <section>
             <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
               <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Fix-Matches</h2>
-              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-gold)]">durch Matchbox bestätigt</span>
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-gold)]">bestätigte Perfect Matches</span>
             </div>
             <ConfirmedMatches matches={data.confirmed_matches} client:load />
+          </section>
+        )}
+
+        <!-- Matchboxes -->
+        {data.matchboxes.length > 0 && (
+          <section>
+            <div class="flex items-baseline gap-3 mb-5 border-b border-[var(--color-line)] pb-3">
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)]">Matchboxen</h2>
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">die Beweislage</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {data.matchboxes.map((box) => (
+                <div class="card px-5 py-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">
+                      Matchbox #{String(box.number).padStart(2, '0')}
+                    </span>
+                    {box.sold ? (
+                      <span class="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-gold)]">
+                        Verkauft{box.sold_price ? ` · ${box.sold_price.toLocaleString('de-DE')} €` : ''}
+                      </span>
+                    ) : box.match === null ? (
+                      <span class="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-bone-mut)]">
+                        Ergebnis offen
+                      </span>
+                    ) : (
+                      <span class={`font-mono text-[0.62rem] uppercase tracking-[0.14em] ${box.match ? 'text-[var(--color-match-hi)]' : 'text-[var(--color-bone-mut)]'}`}>
+                        {box.match ? 'Perfect Match' : 'Kein Match'}
+                      </span>
+                    )}
+                  </div>
+                  <div class="mt-3 text-base font-semibold">
+                    <span class="text-[var(--color-him)]">{box.male}</span>
+                    <span class="text-[var(--color-bone-mut)] mx-1.5 font-display italic">&amp;</span>
+                    <span class="text-[var(--color-her)]">{box.female}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
         )}
 
@@ -157,8 +196,18 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
                       <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">{night.matches === 1 ? 'Licht' : 'Lichter'}</span>
                     </div>
                   </summary>
-                  <div class="px-5 pb-5 pt-1 border-t border-[var(--color-line)]">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 mt-3">
+                   <div class="px-5 pb-5 pt-1 border-t border-[var(--color-line)]">
+                     {night.loners && night.loners.length > 0 && (
+                       <p class="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">
+                         Ohne Match: {night.loners.join(', ')}
+                       </p>
+                     )}
+                     {night.blackout && (
+                       <p class="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-[#ff5d5d]">
+                         Blackout
+                       </p>
+                     )}
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 mt-3">
                       {night.pairs.map(([male, female]) => (
                         <div class="flex items-center gap-2 text-sm py-1 border-b border-[var(--color-line)]/50">
                           <span class="text-[var(--color-him)] font-medium">{male}</span>

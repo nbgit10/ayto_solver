@@ -1,0 +1,160 @@
+# AYTO SEASON VIP 6 DE (2026)
+# Current public data through Matching Night 5 / Episode 10.
+# Season 6 is scheduled for 22 episodes, including the reunion.
+# Source: https://ayto-fans.de/#matchboxen and https://ayto-fans.de/#matchnights
+# 11 women, 11 men. Matchnight counts exclude the listed loner(s).
+MALES:
+  - "Bennett"
+  - "Brian"
+  - "Cansin"
+  - "Daymian"
+  - "Fabi"
+  - "Germain"
+  - "Johannes"
+  - "Laurenz"
+  - "Marwin"
+  - "Raúl"
+  - "Robin"
+
+FEMALES:
+  - "Alexandra"
+  - "Christin"
+  - "Emma"
+  - "Francesca"
+  - "Janice"
+  - "Jenny"
+  - "Joena"
+  - "Julia"
+  - "Marta"
+  - "Michelle"
+  - "Zoe"
+
+# Johannes is confirmed as a double-match man (Marta + Janice). With the
+# later male entrant, the remaining female double-match candidate is not known
+# yet; enumerate one such candidate at a time rather than guessing it.
+DEGREE_PROFILE:
+  males:
+    Johannes: 2
+  females: {}
+  female_double_partner: "Laurenz"
+  female_double_candidates:
+    - "Alexandra"
+    - "Christin"
+    - "Emma"
+    - "Francesca"
+    - "Jenny"
+    - "Joena"
+    - "Julia"
+    - "Marta"
+    - "Michelle"
+    - "Zoe"
+
+MATCHING_NIGHTS:
+  - LONERS: ["Joena"]
+    Pairs:  # Matchnight 1
+      - ["Robin", "Jenny"]
+      - ["Johannes", "Marta"]
+      - ["Brian", "Christin"]
+      - ["Marwin", "Michelle"]
+      - ["Germain", "Emma"]
+      - ["Raúl", "Alexandra"]
+      - ["Fabi", "Janice"]
+      - ["Daymian", "Julia"]
+      - ["Cansin", "Zoe"]
+      - ["Bennett", "Francesca"]
+    Matches: 3
+    Blackout: false
+    Sold: false
+  - LONERS: ["Francesca"]
+    Pairs:  # Matchnight 2
+      - ["Germain", "Emma"]
+      - ["Brian", "Alexandra"]
+      - ["Fabi", "Julia"]
+      - ["Bennett", "Joena"]
+      - ["Robin", "Christin"]
+      - ["Daymian", "Jenny"]
+      - ["Marwin", "Michelle"]
+      - ["Raúl", "Marta"]
+      - ["Johannes", "Janice"]
+      - ["Cansin", "Zoe"]
+    Matches: 3
+    Blackout: false
+    Sold: false
+  - LONERS: ["Janice"]
+    Pairs:  # Matchnight 3
+      - ["Raúl", "Michelle"]
+      - ["Robin", "Christin"]
+      - ["Germain", "Alexandra"]
+      - ["Fabi", "Emma"]
+      - ["Cansin", "Jenny"]
+      - ["Bennett", "Julia"]
+      - ["Daymian", "Zoe"]
+      - ["Marwin", "Joena"]
+      - ["Brian", "Francesca"]
+      - ["Johannes", "Marta"]
+    Matches: 3
+    Blackout: false
+    Sold: false
+  - LONERS: []
+    Pairs:  # Matchnight 4
+      - ["Fabi", "Zoe"]
+      - ["Cansin", "Julia"]
+      - ["Bennett", "Christin"]
+      - ["Raúl", "Francesca"]
+      - ["Robin", "Joena"]
+      - ["Daymian", "Jenny"]
+      - ["Marwin", "Emma"]
+      - ["Germain", "Michelle"]
+      - ["Brian", "Alexandra"]
+      - ["Johannes", "Marta"]
+    Matches: 4
+    Blackout: false
+    Sold: false
+  - LONERS: ["Fabi"]
+    Pairs:  # Matchnight 5
+      - ["Laurenz", "Zoe"]
+      - ["Brian", "Alexandra"]
+      - ["Germain", "Emma"]
+      - ["Marwin", "Francesca"]
+      - ["Daymian", "Jenny"]
+      - ["Robin", "Joena"]
+      - ["Bennett", "Christin"]
+      - ["Cansin", "Julia"]
+      - ["Raúl", "Michelle"]
+      - ["Johannes", "Marta"]
+    Matches: 3
+    Blackout: false
+    Sold: false
+
+TRUTH_BOOTH:
+  - Number: 1
+    Pair: ["Marwin", "Christin"]
+    Match: false
+    Sold: false
+  - Number: 2
+    Pair: ["Robin", "Marta"]
+    Match: false
+    Sold: false
+  - Number: 3
+    Pair: ["Daymian", "Julia"]
+    Match: false
+    Sold: false
+  - Number: 4
+    Pair: ["Johannes", "Marta"]
+    Match: true
+    Sold: false
+  - Number: 5
+    Pair: ["Bennett", "Julia"]
+    Match: false
+    Sold: false
+  - Number: 6
+    Pair: ["Laurenz", "Emma"]
+    Match: null
+    Sold: true
+    SoldPrice: 10000
+
+# Revealed by the double-match announcement after Marta/Johannes was found;
+# this was not a separate published Matchbox record.
+# Source: https://www.rtl.de/sendungen/are-you-the-one/videos/are-you-the-one-reality-stars-in-love-janice-ist-johannes-zweites-perfect-match-und-stinksauer-6a9191ef1e5bf5f2ba0157f2.html
+ADDITIONAL_CONFIRMED_MATCHES:
+  - ["Johannes", "Janice"]

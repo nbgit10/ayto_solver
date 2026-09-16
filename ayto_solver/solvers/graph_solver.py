@@ -3,7 +3,7 @@ import random
 import networkx as nx
 from networkx.algorithms import bipartite
 import numpy as np
-from typing import List, Tuple, Dict, Set
+from typing import List, Tuple, Dict, Set, Optional
 from collections import defaultdict
 from itertools import combinations
 
@@ -18,7 +18,12 @@ class GraphSolver:
     - Find all maximum matchings to enumerate solutions
     """
 
-    def __init__(self, males: List[str], females: List[str]):
+    def __init__(
+        self,
+        males: List[str],
+        females: List[str],
+        degree_profile: Optional[Dict[str, Dict[str, int]]] = None,
+    ):
         """
         Initialize graph solver.
 
@@ -30,6 +35,9 @@ class GraphSolver:
         self.females = females
         self.n_males = len(males)
         self.n_females = len(females)
+        self._custom_degree_profile = degree_profile is not None
+        self.profile_required_pairs: List[Set[Tuple[str, str]]] = []
+        self.degree_profiles = self._build_degree_profiles(degree_profile)
 
         # Create bipartite graph - start EMPTY, add edges as we learn they're possible
         self.graph = nx.Graph()
@@ -50,9 +58,150 @@ class GraphSolver:
         # Store matching night constraints for validation
         # Format: List[(pairs, num_matches)]
         self.matching_night_constraints: List[Tuple[List[Tuple[str, str]], int]] = []
+        self.alternative_groups: List[Set[Tuple[str, str]]] = []
 
         # Flag to track if graph has been finalized
         self._graph_finalized = False
+
+    def _build_degree_profiles(
+        self,
+        degree_profile: Optional[Dict[str, Dict[str, int]]],
+    ) -> List[Tuple[Dict[str, int], Dict[str, int]]]:
+        """Build exact degree profiles for explicit or legacy matching rules."""
+        if degree_profile is not None:
+            unknown_sides = set(degree_profile) - {
+                "males",
+                "females",
+                "male_double_candidates",
+                "female_double_candidates",
+                "female_double_partner",
+            }
+            if unknown_sides:
+                raise ValueError(
+                    f"Unknown degree profile sections: {sorted(unknown_sides)}"
+                )
+
+            male_overrides = degree_profile.get("males", {})
+            female_overrides = degree_profile.get("females", {})
+            male_candidates = degree_profile.get("male_double_candidates", [])
+            female_candidates = degree_profile.get("female_double_candidates", [])
+            female_double_partner = degree_profile.get("female_double_partner")
+            unknown_males = set(male_overrides) - set(self.males)
+            unknown_females = set(female_overrides) - set(self.females)
+            unknown_male_candidates = set(male_candidates) - set(self.males)
+            unknown_female_candidates = set(female_candidates) - set(self.females)
+            if (
+                unknown_males
+                or unknown_females
+                or unknown_male_candidates
+                or unknown_female_candidates
+            ):
+                raise ValueError(
+                    "Degree profile contains contestants not in the roster: "
+                    f"males={sorted(unknown_males | unknown_male_candidates)}, "
+                    f"females={sorted(unknown_females | unknown_female_candidates)}"
+                )
+            if (
+                female_double_partner is not None
+                and female_double_partner not in self.males
+            ):
+                raise ValueError(
+                    "female_double_partner must be a male in the roster: "
+                    f"{female_double_partner}"
+                )
+
+            profiles = []
+            for double_male in male_candidates or [None]:
+                for double_female in female_candidates or [None]:
+                    male_degrees = {
+                        male: male_overrides.get(male, 1)
+                        for male in self.males
+                    }
+                    female_degrees = {
+                        female: female_overrides.get(female, 1)
+                        for female in self.females
+                    }
+                    if double_male is not None:
+                        male_degrees[double_male] = 2
+                    if double_female is not None:
+                        female_degrees[double_female] = 2
+                    self._validate_degree_profile(male_degrees, female_degrees)
+                    profiles.append((male_degrees, female_degrees))
+                    required_pairs = set()
+                    if (
+                        double_female is not None
+                        and female_double_partner is not None
+                    ):
+                        required_pairs.add((female_double_partner, double_female))
+                    self.profile_required_pairs.append(required_pairs)
+            return profiles
+
+        # Preserve the existing default rules. Explicit profiles are required
+        # for cases where roster size no longer describes the matching shape.
+        if self.n_males == self.n_females:
+            profiles = [
+                (
+                    {male: 1 for male in self.males},
+                    {female: 1 for female in self.females},
+                )
+            ]
+            self.profile_required_pairs = [set()]
+            return profiles
+
+        profiles = []
+        if self.n_females > self.n_males:
+            for double_male in self.males:
+                male_degrees = {male: 1 for male in self.males}
+                male_degrees[double_male] = 2
+                profiles.append((
+                    male_degrees,
+                    {female: 1 for female in self.females},
+                ))
+        else:
+            for double_female in self.females:
+                female_degrees = {female: 1 for female in self.females}
+                female_degrees[double_female] = 2
+                profiles.append((
+                    {male: 1 for male in self.males},
+                    female_degrees,
+                ))
+
+        self.profile_required_pairs = [set() for _ in profiles]
+        return profiles
+
+    def _validate_degree_profile(
+        self,
+        male_degrees: Dict[str, int],
+        female_degrees: Dict[str, int],
+    ) -> None:
+        """Validate degree bounds and the bipartite handshake identity."""
+        for male, degree in male_degrees.items():
+            if not isinstance(degree, int) or degree < 0 or degree > self.n_females:
+                raise ValueError(
+                    f"Invalid degree for male '{male}': {degree}; "
+                    f"expected an integer between 0 and {self.n_females}"
+                )
+        for female, degree in female_degrees.items():
+            if not isinstance(degree, int) or degree < 0 or degree > self.n_males:
+                raise ValueError(
+                    f"Invalid degree for female '{female}': {degree}; "
+                    f"expected an integer between 0 and {self.n_males}"
+                )
+
+        male_total = sum(male_degrees.values())
+        female_total = sum(female_degrees.values())
+        if male_total != female_total:
+            raise ValueError(
+                "Degree profile is impossible: male degree total "
+                f"{male_total} != female degree total {female_total}"
+            )
+
+    def _validate_pair(self, male: str, female: str) -> None:
+        """Raise a useful error for a pair containing an unknown contestant."""
+        if male not in self.males:
+            raise ValueError(f"Male '{male}' not in contestants list")
+        if female not in self.females:
+            raise ValueError(f"Female '{female}' not in contestants list")
 
     def add_truth_booth(self, male: str, female: str, is_match: bool):
         """
@@ -67,22 +216,51 @@ class GraphSolver:
             female: Female contestant name
             is_match: True if they are a perfect match, False otherwise
         """
+        self._validate_pair(male, female)
+
         if is_match:
             self.confirmed_pairs.add((male, female))
             # Remove from ruled_out in case a previous confirmation ruled it out
             self.ruled_out_pairs.discard((male, female))
 
-            # Rule out other females for this male, but skip already-confirmed pairs
-            for other_female in self.females:
-                if other_female != female and (male, other_female) not in self.confirmed_pairs:
-                    self.ruled_out_pairs.add((male, other_female))
+            if self._custom_degree_profile:
+                # A confirmed edge is exclusive only when that endpoint's
+                # declared degree is one. Higher-degree endpoints must retain
+                # possible partners for confirmed simultaneous double matches.
+                male_degrees = [profile[0][male] for profile in self.degree_profiles]
+                female_degrees = [profile[1][female] for profile in self.degree_profiles]
+                if all(degree == 1 for degree in male_degrees):
+                    for other_female in self.females:
+                        if (male, other_female) not in self.confirmed_pairs:
+                            self.ruled_out_pairs.add((male, other_female))
+                if all(degree == 1 for degree in female_degrees):
+                    for other_male in self.males:
+                        if (other_male, female) not in self.confirmed_pairs:
+                            self.ruled_out_pairs.add((other_male, female))
+            else:
+                # Legacy inferred profiles retain the original exclusivity
+                # behaviour, including confirmed double-match pairs.
+                for other_female in self.females:
+                    if other_female != female and (male, other_female) not in self.confirmed_pairs:
+                        self.ruled_out_pairs.add((male, other_female))
 
-            # Rule out other males for this female, but skip already-confirmed pairs
-            for other_male in self.males:
-                if other_male != male and (other_male, female) not in self.confirmed_pairs:
-                    self.ruled_out_pairs.add((other_male, female))
+                for other_male in self.males:
+                    if other_male != male and (other_male, female) not in self.confirmed_pairs:
+                        self.ruled_out_pairs.add((other_male, female))
         else:
             self.ruled_out_pairs.add((male, female))
+        self._graph_finalized = False
+
+    def add_exclusive_alternative(self, pairs: List[Tuple[str, str]]):
+        """Require exactly one pair from an alternative-match group."""
+        normalized_pairs = []
+        for male, female in pairs:
+            self._validate_pair(male, female)
+            normalized_pairs.append((male, female))
+        if len(normalized_pairs) < 2:
+            raise ValueError("An alternative-match group needs at least two pairs")
+        self.alternative_groups.append(set(normalized_pairs))
+        self._graph_finalized = False
 
     def add_matching_night(self, pairs: List[Tuple[str, str]], num_matches: int):
         """
@@ -97,26 +275,26 @@ class GraphSolver:
             pairs: List of (male, female) pairs from that night
             num_matches: Number of correct matches
         """
+        normalized_pairs = []
+        for male, female in pairs:
+            self._validate_pair(male, female)
+            normalized_pairs.append((male, female))
+        if num_matches < 0 or num_matches > len(normalized_pairs):
+            raise ValueError("Matching-night count must be between 0 and pair count")
+
         # Always store the constraint for validation
-        self.matching_night_constraints.append((pairs, num_matches))
+        self.matching_night_constraints.append((normalized_pairs, num_matches))
 
         if num_matches == 0:
             # All pairs are wrong - mark as ruled out
-            for male, female in pairs:
+            for male, female in normalized_pairs:
                 self.ruled_out_pairs.add((male, female))
 
-        elif num_matches == len(pairs):
+        elif num_matches == len(normalized_pairs):
             # All pairs are correct - mark as confirmed
-            for male, female in pairs:
-                self.confirmed_pairs.add((male, female))
-                # Mark all other pairings as ruled out
-                for other_female in self.females:
-                    if other_female != female:
-                        self.ruled_out_pairs.add((male, other_female))
-
-                for other_male in self.males:
-                    if other_male != male:
-                        self.ruled_out_pairs.add((other_male, female))
+            for male, female in normalized_pairs:
+                self.add_truth_booth(male, female, True)
+        self._graph_finalized = False
 
     def _finalize_graph(self):
         """
@@ -129,6 +307,8 @@ class GraphSolver:
         if self._graph_finalized:
             return
 
+        self.graph.remove_edges_from(list(self.graph.edges()))
+
         # Add edges for all pairs that haven't been ruled out
         for male in self.males:
             for female in self.females:
@@ -138,7 +318,11 @@ class GraphSolver:
 
         self._graph_finalized = True
 
-    def _satisfies_matching_night_constraints(self, matching: Set[Tuple[str, str]]) -> bool:
+    def _satisfies_matching_night_constraints(
+        self,
+        matching: Set[Tuple[str, str]],
+        required_pairs: Optional[Set[Tuple[str, str]]] = None,
+    ) -> bool:
         """
         Check if a matching satisfies all matching night constraints.
 
@@ -161,7 +345,129 @@ class GraphSolver:
             if actual_matches != expected_matches:
                 return False
 
+        required_pairs = required_pairs or set()
+        if not (self.confirmed_pairs | required_pairs).issubset(matching):
+            return False
+
+        for alternative_group in self.alternative_groups:
+            if sum(pair in matching for pair in alternative_group) != 1:
+                return False
+
         return True
+
+    def _enumerate_degree_profile(
+        self,
+        male_degrees: Dict[str, int],
+        female_degrees: Dict[str, int],
+        max_count: int,
+        required_pairs: Optional[Set[Tuple[str, str]]] = None,
+    ):
+        """Enumerate matchings for one exact per-person degree profile."""
+        required_pairs = required_pairs or set()
+        males = list(self.males)
+        random.shuffle(males)
+        constrained_males = {
+            male
+            for pairs, _ in self.matching_night_constraints
+            for male, _ in pairs
+        }
+        males.sort(
+            key=lambda male: (
+                male not in constrained_males,
+                -male_degrees[male],
+            )
+        )
+        count = [0]
+        current_matching: Set[Tuple[str, str]] = set()
+        female_counts = defaultdict(int)
+        assigned_males: Set[str] = set()
+        night_counts = [0] * len(self.matching_night_constraints)
+        night_pair_indices = defaultdict(list)
+        for index, (pairs, _) in enumerate(self.matching_night_constraints):
+            for pair in pairs:
+                night_pair_indices[pair].append(index)
+
+        def nights_can_still_match() -> bool:
+            """Prune branches that cannot reach a night's required count."""
+            for index, (pairs, expected_matches) in enumerate(
+                self.matching_night_constraints
+            ):
+                actual_matches = night_counts[index]
+                if actual_matches > expected_matches:
+                    return False
+
+                possible_remaining = actual_matches
+                for male, female in pairs:
+                    if (
+                        male not in assigned_males
+                        and male_degrees[male] > 0
+                        and female_counts[female] < female_degrees[female]
+                        and self.graph.has_edge(f"M_{male}", f"F_{female}")
+                    ):
+                        possible_remaining += 1
+                if possible_remaining < expected_matches:
+                    return False
+            return True
+
+        def backtrack(index: int):
+            if count[0] >= max_count:
+                return
+
+            if index == len(males):
+                if all(
+                    female_counts[female] == female_degrees[female]
+                    for female in self.females
+                ) and self._satisfies_matching_night_constraints(
+                    current_matching, required_pairs
+                ):
+                    count[0] += 1
+                    yield current_matching.copy()
+                return
+
+            male = males[index]
+            target_degree = male_degrees[male]
+            required_females = {
+                female
+                for confirmed_male, female in self.confirmed_pairs | required_pairs
+                if confirmed_male == male
+            }
+            if len(required_females) > target_degree:
+                return
+
+            available = [
+                female
+                for female in self.females
+                if female_counts[female] < female_degrees[female]
+                and self.graph.has_edge(f"M_{male}", f"F_{female}")
+            ]
+            if not required_females.issubset(available):
+                return
+
+            optional = [female for female in available if female not in required_females]
+            optional_needed = target_degree - len(required_females)
+            if optional_needed > len(optional):
+                return
+
+            for selected_optional in combinations(optional, optional_needed):
+                selected = required_females | set(selected_optional)
+                for female in selected:
+                    current_matching.add((male, female))
+                    female_counts[female] += 1
+                    for night_index in night_pair_indices[(male, female)]:
+                        night_counts[night_index] += 1
+                assigned_males.add(male)
+
+                if nights_can_still_match():
+                    yield from backtrack(index + 1)
+
+                assigned_males.remove(male)
+                for female in selected:
+                    for night_index in night_pair_indices[(male, female)]:
+                        night_counts[night_index] -= 1
+                    current_matching.remove((male, female))
+                    female_counts[female] -= 1
+
+        yield from backtrack(0)
 
     def enumerate_all_matchings(
         self,
@@ -181,6 +487,19 @@ class GraphSolver:
 
         matchings = []
         capped = False
+
+        if self._custom_degree_profile:
+            for index, (male_degrees, female_degrees) in enumerate(self.degree_profiles):
+                for matching in self._enumerate_degree_profile(
+                    male_degrees,
+                    female_degrees,
+                    max_matchings,
+                    self.profile_required_pairs[index],
+                ):
+                    matchings.append(matching)
+                    if len(matchings) >= max_matchings:
+                        return matchings, True
+            return matchings, False
 
         # Generate candidates and filter by matching night constraints
         # We need to generate many more candidates than the target since constraints
@@ -449,7 +768,7 @@ class GraphSolver:
         matchings: List[Set[Tuple[str, str]]]
     ) -> Dict[str, float]:
         """Calculate probability each person is in double match."""
-        if self.n_males == self.n_females or not matchings:
+        if not matchings:
             return {}
 
         person_counts = defaultdict(int)

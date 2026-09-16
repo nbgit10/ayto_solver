@@ -33,10 +33,24 @@ def solve_season(data: dict) -> dict:
     """Run GraphSolver on season data, return raw results."""
     males = data["MALES"]
     females = data["FEMALES"]
-    solver = GraphSolver(males, females)
+    solver = GraphSolver(
+        males,
+        females,
+        degree_profile=data.get("DEGREE_PROFILE"),
+    )
 
     for tb in data.get("TRUTH_BOOTH", []):
-        solver.add_truth_booth(tb["Pair"][0], tb["Pair"][1], tb["Match"])
+        if tb["Match"] is not None:
+            solver.add_truth_booth(tb["Pair"][0], tb["Pair"][1], tb["Match"])
+
+    for pair in data.get("ADDITIONAL_CONFIRMED_MATCHES", []):
+        solver.add_truth_booth(pair[0], pair[1], True)
+
+    for alternative in data.get("ALTERNATIVE_MATCHES", []):
+        pairs = alternative.get("Pairs", alternative)
+        solver.add_exclusive_alternative(
+            [(pair[0], pair[1]) for pair in pairs]
+        )
 
     for night in data.get("MATCHING_NIGHTS", []):
         pairs = [(p[0], p[1]) for p in night["Pairs"]]
@@ -61,10 +75,12 @@ def build_confirmed_and_ruled_out(data: dict) -> tuple[list[dict], list[dict]]:
     ruled_out = []
     for tb in data.get("TRUTH_BOOTH", []):
         pair = {"male": tb["Pair"][0], "female": tb["Pair"][1]}
-        if tb["Match"]:
+        if tb["Match"] is True:
             confirmed.append(pair)
-        else:
+        elif tb["Match"] is False:
             ruled_out.append(pair)
+    for pair in data.get("ADDITIONAL_CONFIRMED_MATCHES", []):
+        confirmed.append({"male": pair[0], "female": pair[1]})
     return confirmed, ruled_out
 
 
@@ -72,12 +88,34 @@ def build_matching_nights(data: dict) -> list[dict]:
     """Format matching nights for JSON output."""
     nights = []
     for i, night in enumerate(data.get("MATCHING_NIGHTS", []), 1):
-        nights.append({
+        formatted = {
             "night_number": i,
             "pairs": [[p[0], p[1]] for p in night["Pairs"]],
             "matches": night["Matches"],
-        })
+        }
+        if "LONERS" in night:
+            formatted["loners"] = night["LONERS"]
+        if "Blackout" in night:
+            formatted["blackout"] = bool(night["Blackout"])
+        if "Sold" in night:
+            formatted["sold"] = bool(night["Sold"])
+        nights.append(formatted)
     return nights
+
+
+def build_matchboxes(data: dict) -> list[dict]:
+    """Format matchbox results, including sold-box metadata."""
+    matchboxes = []
+    for i, truth_booth in enumerate(data.get("TRUTH_BOOTH", []), 1):
+        matchboxes.append({
+            "number": truth_booth.get("Number", i),
+            "male": truth_booth["Pair"][0],
+            "female": truth_booth["Pair"][1],
+            "match": truth_booth["Match"],
+            "sold": bool(truth_booth.get("Sold", False)),
+            "sold_price": truth_booth.get("SoldPrice"),
+        })
+    return matchboxes
 
 
 def build_top_matching(
@@ -102,6 +140,8 @@ def build_top_matching(
         if score > best_score:
             best_score = score
             best_matching = matching
+
+    assert best_matching is not None
 
     # Detect double-match person (appears in 2+ pairs)
     name_counts: dict[str, int] = defaultdict(int)
@@ -153,28 +193,25 @@ def build_double_match(
     double_match_probs: dict,
 ) -> dict:
     """Build double match info."""
-    is_unbalanced = solver.n_males != solver.n_females
-    if not is_unbalanced:
+    if not double_match_probs:
         return {"applicable": False, "candidates": []}
-
-    # Determine which gender has double match
-    if solver.n_females > solver.n_males:
-        double_gender = "male"  # a male gets matched twice
-    else:
-        double_gender = "female"  # a female gets matched twice
 
     candidates = []
     for name, prob in sorted(double_match_probs.items(), key=lambda x: -x[1]):
+        if name in solver.males:
+            gender = "male"
+        else:
+            gender = "female"
         candidates.append({
             "name": name,
             "probability": round(prob, 6),
-            "gender": double_gender,
+            "gender": gender,
         })
     return {"applicable": True, "candidates": candidates}
 
 
-def build_season_json(season: dict, now: str) -> dict | None:
-    """Build the full JSON for one season. Returns None if infeasible."""
+def build_season_json(season: dict, now: str) -> dict:
+    """Build the full JSON for one season, including infeasible results."""
     data = load_input(season["input_file"])
     males = data["MALES"]
     females = data["FEMALES"]
@@ -212,6 +249,7 @@ def build_season_json(season: dict, now: str) -> dict | None:
             },
             "confirmed_matches": confirmed,
             "ruled_out": ruled_out,
+            "matchboxes": build_matchboxes(data),
             "pairings": [],
             "double_match": {"applicable": False, "candidates": []},
             "matching_nights": build_matching_nights(data),
@@ -249,6 +287,7 @@ def build_season_json(season: dict, now: str) -> dict | None:
         },
         "confirmed_matches": confirmed,
         "ruled_out": ruled_out,
+        "matchboxes": build_matchboxes(data),
         "pairings": pairings,
         "top_matching": top_matching,
         "double_match": build_double_match(solver, result["double_match_probs"]),
