@@ -17,91 +17,87 @@ const curParticipants = cur.num_males + cur.num_females;
 const solvedSeasons = index.seasons.filter((s) => s.total_solutions === 1 && !s.infeasible).length;
 ---
 
-<Base title="AYTO Matches — Wer ist das perfekte Match?">
+<Base title="AYTO Matches — Wer ist wirklich ein Perfect Match?">
   <!-- ============ HERO / MASTHEAD ============ -->
-  <section class="mx-auto max-w-[1180px] px-5 sm:px-8 pt-16 sm:pt-24 pb-10">
+  <section class="mx-auto max-w-[1180px] px-5 pb-10 pt-14 sm:px-8 sm:pb-12 sm:pt-24">
     <p class="kicker reveal" style="animation-delay:.05s">
-      Are You The One? &middot; Deutschland &middot; Das Wahrscheinlichkeits-Orakel
+      Are You The One? Deutschland · Zahlen statt Bauchgefühl
     </p>
 
     <h1 class="reveal font-display font-black leading-[0.92] tracking-[-0.02em] mt-5
                text-[clamp(2.7rem,8.5vw,6.6rem)]" style="animation-delay:.12s">
-      <span class="text-[var(--color-bone)]">Wer ist das</span><br />
-      <span class="ink-grad glow-text italic">perfekte Match</span><span class="text-[var(--color-her)]">?</span>
+      <span class="text-[var(--color-bone)]">Wer ist wirklich ein</span><br />
+      <span class="ink-grad glow-text italic">Perfect Match</span><span class="text-[var(--color-her)]">?</span>
     </h1>
 
-    <p class="reveal mt-7 max-w-2xl text-lg sm:text-xl leading-relaxed text-[var(--color-bone-dim)]"
+    <p class="reveal mt-7 max-w-2xl text-base leading-relaxed text-[var(--color-bone-dim)] sm:text-lg"
        style="animation-delay:.2s">
-      Jede Matching Night, jede Matchbox &mdash; in Mathematik übersetzt. Wir berechnen aus allen
-      gültigen Konstellationen, <em class="font-display italic text-[var(--color-bone)]">wie wahrscheinlich</em>
-      jedes Paar ein echtes Match ist. Keine Spekulation. Nur die Zahlen.
+      Jede Matching Night und jede Matchbox zählt. Wir zeigen dir, welche Paare laut Daten die besten
+      Chancen haben.
     </p>
 
-    <div class="reveal mt-8 flex flex-wrap items-center gap-x-7 gap-y-2 font-mono text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-bone-mut)]"
+    <div class="reveal mt-8 grid max-w-2xl grid-cols-1 gap-2 text-sm sm:grid-cols-3"
          style="animation-delay:.28s">
-      <span><span class="text-[var(--color-him)]">{index.seasons.length}</span> Staffeln</span>
-      <span class="text-[var(--color-line-2)]">/</span>
-      <span><span class="text-[var(--color-match-hi)]">{solvedSeasons}</span> vollständig gelöst</span>
-      <span class="text-[var(--color-line-2)]">/</span>
-      <span><span class="text-[var(--color-her)]">100%</span> datengetrieben</span>
+      <span class="rounded-xl border border-[var(--color-line)] bg-[rgba(21,17,29,0.72)] px-3 py-2 text-[var(--color-bone-dim)]"><strong class="text-[var(--color-him)]">{index.seasons.length}</strong> Staffeln</span>
+      <span class="rounded-xl border border-[var(--color-line)] bg-[rgba(21,17,29,0.72)] px-3 py-2 text-[var(--color-bone-dim)]"><strong class="text-[var(--color-match-hi)]">{solvedSeasons}</strong> komplett gelöst</span>
+      <span class="rounded-xl border border-[var(--color-line)] bg-[rgba(21,17,29,0.72)] px-3 py-2 text-[var(--color-bone-dim)]"><strong class="text-[var(--color-her)]">100%</strong> Zahlen</span>
     </div>
   </section>
 
   <!-- ============ CURRENT SEASON FEATURE ============ -->
-  <section class="mx-auto max-w-[1180px] px-5 sm:px-8 mt-6">
+  <section class="mx-auto mt-4 max-w-[1180px] px-5 sm:px-8">
     <a href={seasonUrl(cur.id)}
-       class="reveal group relative block overflow-hidden card p-7 sm:p-10 hover:glow-ring transition-shadow duration-500"
+       class="reveal group relative block overflow-hidden card p-5 transition-shadow duration-500 hover:glow-ring sm:p-9"
        style="animation-delay:.34s">
       <!-- glow wash -->
       <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full blur-3xl opacity-60"
            style="background:radial-gradient(circle,rgba(176,38,255,0.5),transparent 65%)"></div>
 
-      <div class="relative grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+      <div class="relative grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-end">
         <div>
           <div class="flex items-center gap-3">
             <span class="relative flex h-2.5 w-2.5">
               <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-her)] opacity-75 motion-safe:animate-ping"></span>
               <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--color-her)]"></span>
             </span>
-            <span class="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-her)]">Aktuelle Staffel</span>
+            <span class="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-her)]">Gerade aktuell</span>
             {cur.type === 'vip' && (
-              <span class="font-mono text-[0.62rem] uppercase tracking-[0.2em] px-2 py-0.5 border border-[var(--color-gold)] text-[var(--color-gold)]">VIP</span>
+              <span class="pill border border-[var(--color-gold)] text-[var(--color-gold)]">VIP</span>
             )}
           </div>
 
-          <h2 class="font-display font-black leading-none mt-4 text-[clamp(2.4rem,6vw,4.5rem)] text-[var(--color-bone)]">
+          <h2 class="mt-4 font-display text-[clamp(2.4rem,6vw,4.5rem)] font-black leading-none text-[var(--color-bone)]">
             {cur.display_name}
           </h2>
           <p class="mt-3 font-mono text-sm text-[var(--color-bone-dim)]">
-            {cur.year} &middot; Folge {cur.latest_episode} / {cur.total_episodes}
+            {cur.year} · Folge {cur.latest_episode} von {cur.total_episodes}
           </p>
 
-          <span class="mt-7 inline-flex items-center gap-2 font-mono text-[0.78rem] uppercase tracking-[0.18em]
-                       text-[var(--color-bone)] border-b border-[var(--color-match)] pb-1
-                       transition-colors group-hover:text-[var(--color-match-hi)]">
-            Wahrscheinlichkeiten ansehen
+          <span class="mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--color-match)] px-4 py-2.5 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.12em]
+                       text-white transition-colors group-hover:bg-[var(--color-her)]">
+            Staffel ansehen
             <span class="transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
           </span>
         </div>
 
         <!-- stat ledger -->
-        <dl class="grid grid-cols-3 gap-px bg-[var(--color-line)] border border-[var(--color-line)]">
-          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
-            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-match-hi)]"
+        <dl class="grid grid-cols-3 gap-2">
+          <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.55)] px-2 py-4 text-center sm:px-3">
+            <dd class="font-mono text-[clamp(1.3rem,3.5vw,2rem)] font-bold text-[var(--color-match-hi)]"
                 data-count={cur.total_solutions} data-suffix="">{fmt(cur.total_solutions)}</dd>
-            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">
-              {cur.total_solutions === 1 ? 'Lösung' : 'Lösungen'}
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase leading-tight tracking-[0.12em] text-[var(--color-bone-mut)]">
+              {cur.total_solutions === 1 ? 'Möglichkeit' : 'Möglichkeiten'}
             </dt>
           </div>
-          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
-            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-gold)]"
+          <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.55)] px-2 py-4 text-center sm:px-3">
+            <dd class="font-mono text-[clamp(1.3rem,3.5vw,2rem)] font-bold text-[var(--color-gold)]"
                 data-count={cur.confirmed_matches}>{cur.confirmed_matches}</dd>
-            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">Fix-Matches</dt>
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase leading-tight tracking-[0.12em] text-[var(--color-bone-mut)]">Fix-Matches</dt>
           </div>
-          <div class="bg-[var(--color-ink-2)] px-3 py-5 text-center">
-            <dd class="font-mono font-bold text-[clamp(1.3rem,3.5vw,2rem)] text-[var(--color-bone)]"
+          <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.55)] px-2 py-4 text-center sm:px-3">
+            <dd class="font-mono text-[clamp(1.3rem,3.5vw,2rem)] font-bold text-[var(--color-bone)]"
                 data-count={curParticipants}>{curParticipants}</dd>
-            <dt class="mt-1 font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">Singles</dt>
+            <dt class="mt-1 font-mono text-[0.58rem] uppercase leading-tight tracking-[0.12em] text-[var(--color-bone-mut)]">Personen</dt>
           </div>
         </dl>
       </div>
@@ -109,15 +105,15 @@ const solvedSeasons = index.seasons.filter((s) => s.total_solutions === 1 && !s.
   </section>
 
   <!-- ============ ARCHIVE ============ -->
-  <section id="archiv" class="mx-auto max-w-[1180px] px-5 sm:px-8 mt-24 scroll-mt-24">
-    <div class="flex items-end justify-between border-b border-[var(--color-line)] pb-4">
-      <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-[var(--color-bone)]">Das Archiv</h2>
-      <span class="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--color-bone-mut)]">
-        {archiveSeasons.length} vergangene Staffeln
+  <section id="archiv" class="mx-auto mt-20 max-w-[1180px] scroll-mt-24 px-5 sm:mt-24 sm:px-8">
+    <div class="flex items-end justify-between gap-4 border-b border-[var(--color-line)] pb-4">
+      <h2 class="font-display text-3xl font-extrabold text-[var(--color-bone)] sm:text-4xl">Alle Staffeln</h2>
+      <span class="max-w-[10rem] text-right font-mono text-[0.66rem] uppercase leading-tight tracking-[0.14em] text-[var(--color-bone-mut)]">
+        {archiveSeasons.length} im Archiv
       </span>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-line)] border border-[var(--color-line)]">
+    <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {archiveSeasons.map((season, i) => (
         <SeasonCard season={season} index={i} />
       ))}

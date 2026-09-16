@@ -10,10 +10,10 @@ interface Props {
 const { season, index = 0 } = Astro.props;
 
 const statusLabel = season.infeasible
-  ? 'Widerspruch'
+  ? 'Passt nicht zusammen'
   : season.total_solutions === 1
-    ? 'Gelöst'
-    : `${season.total_solutions.toLocaleString('de-DE')} Lösungen`;
+    ? 'Komplett gelöst'
+    : `${season.total_solutions.toLocaleString('de-DE')} Möglichkeiten`;
 
 // certainty 0..1 → drives the heat strip width + colour
 const certainty = season.infeasible
@@ -29,25 +29,26 @@ const statusColor = season.infeasible
     : '#c86bff';
 
 const num = String(index + 1).padStart(2, '0');
+const confirmedLabel = season.confirmed_matches === 1 ? '1 Fix-Match' : `${season.confirmed_matches} Fix-Matches`;
 ---
 
 <a
   href={seasonUrl(season.id)}
-  class="reveal group relative block bg-[var(--color-ink-2)] p-6 transition-colors duration-300 hover:bg-[var(--color-ink-3)]"
+  class="reveal group relative block rounded-2xl border border-[var(--color-line)] bg-[var(--color-ink-2)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-match)]/60 hover:bg-[var(--color-ink-3)] sm:p-6"
   style={`animation-delay:${0.05 * index + 0.1}s`}
 >
   <div class="flex items-start justify-between">
     <span class="font-mono text-[0.7rem] text-[var(--color-bone-mut)] tracking-widest">{num}</span>
     {season.type === 'vip' && (
-      <span class="font-mono text-[0.55rem] uppercase tracking-[0.2em] px-1.5 py-0.5 border border-[var(--color-gold)]/60 text-[var(--color-gold)]">VIP</span>
+      <span class="pill border border-[var(--color-gold)]/60 text-[var(--color-gold)]">VIP</span>
     )}
   </div>
 
   <h3 class="font-display text-2xl font-bold mt-3 text-[var(--color-bone)] transition-colors group-hover:text-[var(--color-match-hi)]">
     {season.display_name}
   </h3>
-  <p class="font-mono text-xs text-[var(--color-bone-mut)] mt-1">
-    {season.year} &middot; Ep. {season.latest_episode}/{season.total_episodes} &middot; {season.num_males}m / {season.num_females}w
+  <p class="mt-1 font-mono text-xs text-[var(--color-bone-mut)]">
+    {season.year} · Folge {season.latest_episode} von {season.total_episodes}
   </p>
 
   <!-- heat strip: how close to fully solved -->
@@ -56,12 +57,12 @@ const num = String(index + 1).padStart(2, '0');
          style={`width:${Math.round(certainty * 100)}%;background:linear-gradient(90deg,#3a5fb0,${statusColor})`}></div>
   </div>
 
-  <div class="mt-3 flex items-center justify-between">
-    <span class="font-mono text-[0.68rem] uppercase tracking-[0.12em]" style={`color:${statusColor}`}>
+  <div class="mt-3 flex items-center justify-between gap-3">
+    <span class="font-mono text-[0.68rem] font-medium" style={`color:${statusColor}`}>
       {statusLabel}
     </span>
     {season.confirmed_matches > 0 && (
-      <span class="font-mono text-[0.68rem] text-[var(--color-bone-mut)]">{season.confirmed_matches} fix</span>
+      <span class="font-mono text-[0.68rem] text-[var(--color-bone-mut)]">{confirmedLabel}</span>
     )}
   </div>
 </a>

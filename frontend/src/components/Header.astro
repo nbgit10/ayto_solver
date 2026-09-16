@@ -3,30 +3,30 @@ const path = Astro.url.pathname;
 const onHome = path === '/' || path === '';
 ---
 
-<header class="sticky top-0 z-50 border-b border-[var(--color-line)] bg-[rgba(10,9,15,0.72)] backdrop-blur-xl">
-  <div class="mx-auto max-w-[1180px] px-5 sm:px-8 h-16 flex items-center justify-between">
+<header class="sticky top-0 z-50 border-b border-[var(--color-line)] bg-[rgba(12,10,18,0.82)] backdrop-blur-xl">
+  <div class="mx-auto flex h-[4.5rem] max-w-[1180px] items-center justify-between px-5 sm:px-8">
     <a href="/" class="group flex items-center gap-3" aria-label="AYTO Matches — Startseite">
       <!-- him (blue) + her (pink) overlap → match (violet) -->
-      <svg width="34" height="22" viewBox="0 0 34 22" fill="none" class="shrink-0 transition-transform duration-500 group-hover:scale-110" aria-hidden="true">
-        <circle cx="12" cy="11" r="9" fill="#4d8dff" fill-opacity="0.9" style="mix-blend-mode:screen" />
-        <circle cx="22" cy="11" r="9" fill="#ff5599" fill-opacity="0.9" style="mix-blend-mode:screen" />
+      <svg width="36" height="24" viewBox="0 0 36 24" fill="none" class="shrink-0 transition-transform duration-500 group-hover:scale-110" aria-hidden="true">
+        <circle cx="13" cy="12" r="10" fill="#65a6ff" fill-opacity="0.92" style="mix-blend-mode:screen" />
+        <circle cx="23" cy="12" r="10" fill="#ff6fae" fill-opacity="0.92" style="mix-blend-mode:screen" />
       </svg>
       <span class="leading-none">
-        <span class="font-display text-[1.35rem] font-extrabold tracking-tight text-[var(--color-bone)]">AYTO</span>
-        <span class="font-mono text-[0.62rem] tracking-[0.3em] uppercase text-[var(--color-match-hi)] ml-1">matches</span>
+        <span class="font-display text-[1.45rem] font-extrabold tracking-tight text-[var(--color-bone)]">AYTO</span>
+        <span class="ml-1 font-mono text-[0.6rem] uppercase tracking-[0.22em] text-[var(--color-match-hi)]">matches</span>
       </span>
     </a>
 
-    <nav class="flex items-center gap-6 font-mono text-[0.72rem] uppercase tracking-[0.18em]">
+    <nav class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.14em]">
       <a
         href="/"
-        class={`transition-colors hover:text-[var(--color-bone)] ${onHome ? 'text-[var(--color-bone)]' : 'text-[var(--color-bone-mut)]'}`}
+        class={`rounded-full px-3 py-2 transition-colors hover:bg-[var(--color-ink-3)] hover:text-[var(--color-bone)] ${onHome ? 'bg-[var(--color-ink-3)] text-[var(--color-bone)]' : 'text-[var(--color-bone-mut)]'}`}
       >
         Staffeln
       </a>
       <a
         href="/#archiv"
-        class="hidden sm:inline text-[var(--color-bone-mut)] transition-colors hover:text-[var(--color-bone)]"
+        class="hidden rounded-full px-3 py-2 text-[var(--color-bone-mut)] transition-colors hover:bg-[var(--color-ink-3)] hover:text-[var(--color-bone)] sm:inline"
       >
         Archiv
       </a>

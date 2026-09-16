@@ -1,33 +1,30 @@
 ---
 ---
 
-<footer class="border-t border-[var(--color-line)] mt-24">
-  <div class="mx-auto max-w-[1180px] px-5 sm:px-8 py-12">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+<footer class="mt-20 border-t border-[var(--color-line)]">
+  <div class="mx-auto max-w-[1180px] px-5 py-10 sm:px-8 sm:py-12">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
       <div>
         <p class="font-display text-3xl font-extrabold text-[var(--color-bone)]">AYTO<span class="text-[var(--color-match-hi)]">.</span>matches</p>
-        <p class="mt-2 max-w-md text-sm text-[var(--color-bone-dim)] leading-relaxed">
-          Match-Wahrscheinlichkeiten für <span class="italic font-display">Are You The One? Deutschland</span>,
-          aus jeder Matching Night und Matchbox neu berechnet.
+        <p class="mt-2 max-w-md text-sm leading-relaxed text-[var(--color-bone-dim)]">
+          Zahlen statt Bauchgefühl für <span class="font-display italic">Are You The One? Deutschland</span>.
         </p>
       </div>
-      <div class="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--color-bone-mut)] space-y-1.5 md:text-right">
-        <p>Kein offizielles RTL-Angebot</p>
-        <p>Daten können Fehler enthalten</p>
+      <div class="space-y-1.5 text-sm text-[var(--color-bone-mut)] md:text-right">
+        <p>Unabhängige Fan-Seite · nicht offiziell von RTL</p>
+        <p>Daten können sich ändern</p>
         <p class="pt-1">
-          <span class="text-[var(--color-bone-dim)]">Engine →</span>
-          <a href="https://github.com/nbgit10/ayto-solver" target="_blank" rel="noopener"
-             class="text-[var(--color-match-hi)] hover:text-[var(--color-her)] transition-colors">AYTO Solver</a>
+          <a href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener"
+             class="font-medium text-[var(--color-match-hi)] transition-colors hover:text-[var(--color-her)]">Mehr zum Solver →</a>
         </p>
       </div>
     </div>
 
-    <!-- heat legend strip -->
-    <div class="mt-10 pt-6 border-t border-[var(--color-line)] flex items-center gap-3 flex-wrap">
-      <span class="font-mono text-[0.62rem] uppercase tracking-[0.25em] text-[var(--color-bone-mut)]">kalt</span>
-      <span class="h-2 flex-1 min-w-[140px] max-w-[420px] rounded-full"
-            style="background:linear-gradient(90deg,#2a2435,#3a5fb0,#7b3fd6,#b026ff,#ff3d8b)"></span>
-      <span class="font-mono text-[0.62rem] uppercase tracking-[0.25em] text-[var(--color-bone-mut)]">heiß</span>
+    <div class="mt-8 flex items-center gap-3 border-t border-[var(--color-line)] pt-5">
+      <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">geringe Chance</span>
+      <span class="h-2 min-w-0 flex-1 rounded-full"
+            style="background:linear-gradient(90deg,#2a2435,#3a5fb0,#7b3fd6,#b73cff,#ff6fae)"></span>
+      <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">hohe Chance</span>
     </div>
   </div>
 </footer>

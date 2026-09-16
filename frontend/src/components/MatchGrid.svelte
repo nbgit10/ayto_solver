@@ -33,32 +33,32 @@
 
 <div class="card overflow-hidden">
   <!-- live readout -->
-  <div class="flex items-center justify-between gap-4 px-5 py-4 border-b border-[var(--color-line)] min-h-[68px]">
+  <div class="flex min-h-[76px] items-center justify-between gap-4 border-b border-[var(--color-line)] px-4 py-4 sm:px-5">
     {#if active}
-      <div class="flex items-center gap-2 text-lg font-semibold">
+      <div class="flex min-w-0 items-center gap-2 text-base font-semibold sm:text-lg">
         <span class="text-[var(--color-him)]">{males[hr]}</span>
         <span class="font-display italic text-[var(--color-bone-mut)]">&amp;</span>
         <span class="text-[var(--color-her)]">{females[hc]}</span>
       </div>
       <div class="text-right">
-        <div class="font-mono font-bold text-2xl leading-none" style={`color:${heatColor(activeProb)}`}>{formatProbability(activeProb)}</div>
-        <div class="font-mono text-[0.6rem] uppercase tracking-[0.12em] mt-1" style={`color:${activeTier.accent}`}>{activeTier.label}</div>
+        <div class="font-mono text-2xl font-bold leading-none" style={`color:${heatColor(activeProb)}`}>{formatProbability(activeProb)}</div>
+        <div class="mt-1 font-mono text-[0.62rem] font-medium" style={`color:${activeTier.accent}`}>{activeTier.label}</div>
       </div>
     {:else}
-      <p class="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[var(--color-bone-mut)]">
-        Fahre über eine Zelle &mdash; Mann <span class="text-[var(--color-him)]">↓</span> trifft Frau <span class="text-[var(--color-her)]">→</span>
+      <p class="font-mono text-[0.68rem] leading-relaxed text-[var(--color-bone-mut)] sm:text-[0.72rem]">
+        Tippe auf ein Feld · Männer links, Frauen oben <span class="sm:hidden">· nach rechts wischen</span>
       </p>
     {/if}
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="border-separate border-spacing-1 p-3" onmouseleave={clear} role="grid">
+  <div class="matrix-scroll overflow-x-auto" aria-label="Match-Matrix, horizontal scrollen">
+    <table class="min-w-[700px] w-full border-separate border-spacing-1 p-3" on:mouseleave={clear} role="grid">
       <thead>
         <tr>
-          <th class="sticky left-0 z-20 bg-[var(--color-ink-2)]"></th>
+          <th class="sticky left-0 z-20 w-24 bg-[var(--color-ink-2)]"></th>
           {#each females as female, c}
-            <th class="px-1 pb-1 align-bottom">
-              <div class="font-mono text-[0.62rem] tracking-wide whitespace-nowrap transition-all duration-200 origin-bottom"
+            <th class="h-20 w-[52px] px-1 pb-1 align-bottom">
+              <div class="origin-bottom whitespace-nowrap font-mono text-[0.62rem] tracking-wide transition-all duration-200"
                    style={`color:${hc === c ? 'var(--color-her)' : 'var(--color-bone-mut)'};transform:rotate(-45deg) translateX(2px)${hc === c ? ' scale(1.12)' : ''}`}
                    title={female}>
                 {short(female, 8)}
@@ -70,8 +70,8 @@
       <tbody>
         {#each males as male, r}
           <tr>
-            <th class="sticky left-0 z-10 bg-[var(--color-ink-2)] pr-2 text-right">
-              <span class="font-mono text-[0.7rem] whitespace-nowrap transition-all duration-200 inline-block"
+            <th class="sticky left-0 z-10 w-24 bg-[var(--color-ink-2)] pr-2 text-right">
+              <span class="inline-block whitespace-nowrap font-mono text-[0.7rem] transition-all duration-200"
                     style={`color:${hr === r ? 'var(--color-him)' : 'var(--color-bone-dim)'}${hr === r ? ';transform:scale(1.08)' : ''}`}
                     title={male}>{short(male, 9)}</span>
             </th>
@@ -83,10 +83,11 @@
               <td class="p-0">
                 <button
                   type="button"
-                  onmouseenter={() => enter(r, c)}
-                  onfocus={() => enter(r, c)}
+                  on:click={() => enter(r, c)}
+                  on:mouseenter={() => enter(r, c)}
+                  on:focus={() => enter(r, c)}
                   aria-label={`${male} & ${female}: ${formatProbability(prob)}`}
-                  class="relative block h-9 w-11 sm:w-12 transition-all duration-150 outline-none"
+                  class="relative block h-10 w-full min-w-[52px] rounded-md outline-none transition-all duration-150"
                   style={`
                     background:${heatColor(prob)};
                     color:${heatTextColor(prob)};

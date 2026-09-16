@@ -1,30 +1,28 @@
 @import "tailwindcss";
 
 /* ============================================================
-   MATCH THEORY — editorial noir × electric heat
-   A probability oracle for "Are You The One?"
-   Concept: him (blue) + her (pink) = a match (violet).
+   AYTO MATCHES — warm reality-TV energy with a useful data layer
    ============================================================ */
 
 @theme {
   /* Canvas — near-black with a faint violet bias */
-  --color-ink:      #0a090f;
-  --color-ink-2:    #100e17;
-  --color-ink-3:    #18151f;
-  --color-ink-4:    #221d2c;
-  --color-line:     #2a2435;
-  --color-line-2:   #38303f;
+  --color-ink:      #0c0a12;
+  --color-ink-2:    #15111d;
+  --color-ink-3:    #21182c;
+  --color-ink-4:    #2c203a;
+  --color-line:     #30243c;
+  --color-line-2:   #473657;
 
   /* Bone — warm off-white type */
-  --color-bone:     #f3efe9;
-  --color-bone-dim: #b7b0bf;
-  --color-bone-mut: #6f6878;
+  --color-bone:     #fff8f6;
+  --color-bone-dim: #c9bdca;
+  --color-bone-mut: #8c7d91;
 
   /* The three pigments of the show */
-  --color-him:      #4d8dff;   /* the men */
-  --color-her:      #ff5599;   /* the women */
-  --color-match:    #b026ff;   /* a perfect match = blue + pink */
-  --color-match-hi: #c86bff;
+  --color-him:      #65a6ff;   /* the men */
+  --color-her:      #ff6fae;   /* the women */
+  --color-match:    #b73cff;   /* a perfect match = blue + pink */
+  --color-match-hi: #d47cff;
 
   /* Heat ramp anchors (cold → hot) */
   --color-heat-0:   #2a2435;   /* ruled out / zero */
@@ -61,6 +59,13 @@ body {
   color: #fff;
 }
 
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-match-hi);
+  outline-offset: 3px;
+}
+
 /* Atmosphere: violet bleed from the top */
 body::before {
   content: "";
@@ -69,9 +74,9 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(120% 70% at 78% -10%, rgba(176,38,255,0.20), transparent 55%),
-    radial-gradient(90% 60% at 10% 0%, rgba(77,141,255,0.10), transparent 50%),
-    radial-gradient(140% 100% at 50% 120%, rgba(255,85,153,0.07), transparent 60%);
+    radial-gradient(100% 52% at 82% -5%, rgba(183,60,255,0.26), transparent 62%),
+    radial-gradient(70% 48% at 4% 12%, rgba(101,166,255,0.13), transparent 62%),
+    radial-gradient(100% 75% at 50% 100%, rgba(255,111,174,0.09), transparent 65%);
 }
 
 /* Film grain overlay */
@@ -81,7 +86,7 @@ body::after {
   inset: -50%;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.025;
   mix-blend-mode: screen;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -95,8 +100,8 @@ body > * { position: relative; z-index: 2; }
 
 .kicker {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.32em;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-bone-mut);
 }
@@ -115,14 +120,66 @@ body > * { position: relative; z-index: 2; }
 /* ---------- surfaces ---------- */
 .card {
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0) 40%),
+    linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 38%),
     var(--color-ink-2);
   border: 1px solid var(--color-line);
-  border-radius: 2px;
+  border-radius: 1.15rem;
 }
 
 .glow-ring {
-  box-shadow: 0 0 0 1px rgba(176,38,255,0.5), 0 0 30px -6px rgba(176,38,255,0.55);
+  box-shadow: 0 0 0 1px rgba(183,60,255,0.65), 0 0 34px -8px rgba(183,60,255,0.7);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.section-head > p {
+  flex: 0 0 auto;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bone-mut);
+}
+
+.section-head h2 {
+  line-height: 1.05;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.matrix-scroll {
+  scrollbar-color: var(--color-match) var(--color-line);
+  scrollbar-width: thin;
+}
+
+@media (max-width: 639px) {
+  .section-head {
+    display: block;
+  }
+
+  .section-head > p {
+    margin-top: 0.55rem;
+    margin-bottom: 0;
+  }
 }
 
 /* ---------- entrance motion ---------- */

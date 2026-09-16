@@ -10,6 +10,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://ayto-matches.net',
   output: 'static',
+  devToolbar: {
+    enabled: false
+  },
   integrations: [svelte(), sitemap()],
 
   vite: {

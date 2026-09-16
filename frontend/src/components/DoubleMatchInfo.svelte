@@ -18,19 +18,18 @@
   const genderColor = (g: string) => (g === 'male' ? 'var(--color-him)' : 'var(--color-her)');
 </script>
 
-<div class="card p-7">
-  <p class="text-sm text-[var(--color-bone-dim)] mb-6 max-w-xl leading-relaxed">
-    Die Daten enthalten mindestens eine Person mit <em class="text-[var(--color-match-hi)] not-italic font-semibold">zwei</em>
-    Matches. Wer trägt am wahrscheinlichsten ein Doppel-Match?
+<div class="card p-5 sm:p-6">
+  <p class="mb-6 max-w-xl text-sm leading-relaxed text-[var(--color-bone-dim)]">
+    Eine Person kann in dieser Staffel zwei Perfect Matches haben. Wer ist am wahrscheinlichsten dabei?
   </p>
 
   <div class="space-y-3">
     {#each sorted as c, i}
-      <div class="flex items-center gap-4">
-        <span class="font-mono text-[0.65rem] text-[var(--color-bone-mut)] w-5 text-right">{String(i + 1).padStart(2, '0')}</span>
-        <span class="font-semibold text-sm w-28 truncate" style={`color:${genderColor(c.gender)}`} title={c.name}>{c.name}</span>
-        <div class="flex-1 h-2.5 bg-[var(--color-line)] overflow-hidden">
-          <div class="h-full transition-[width] duration-700 ease-out"
+      <div class="flex items-center gap-3">
+        <span class="w-5 text-right font-mono text-[0.65rem] text-[var(--color-bone-mut)]">{String(i + 1).padStart(2, '0')}</span>
+        <span class="w-28 truncate text-sm font-semibold" style={`color:${genderColor(c.gender)}`} title={c.name}>{c.name}</span>
+        <div class="h-2.5 flex-1 overflow-hidden rounded-full bg-[var(--color-line)]">
+          <div class="h-full rounded-full transition-[width] duration-700 ease-out"
                style={`width:${mounted ? (c.probability / max) * 100 : 0}%;background:linear-gradient(90deg,#7b3fd6,#b026ff)`}></div>
         </div>
         <span class="font-mono font-bold text-sm w-12 text-right text-[var(--color-match-hi)]">{formatProbability(c.probability)}</span>

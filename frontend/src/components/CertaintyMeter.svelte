@@ -43,11 +43,11 @@
   });
 </script>
 
-<div class="card p-7 sm:p-9 relative overflow-hidden">
+<div class="card relative overflow-hidden p-5 sm:p-8">
   <div class="pointer-events-none absolute -left-20 -bottom-24 h-72 w-72 rounded-full blur-3xl opacity-50"
        style="background:radial-gradient(circle,rgba(176,38,255,0.4),transparent 65%)"></div>
 
-  <div class="relative grid gap-8 sm:grid-cols-[auto_1fr] sm:items-center">
+  <div class="relative grid gap-7 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8">
     <!-- arc gauge -->
     <div class="relative w-[220px] mx-auto sm:mx-0">
       <svg viewBox="0 0 200 118" class="w-full" aria-hidden="true">
@@ -66,32 +66,32 @@
               style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1);filter:drop-shadow(0 0 6px rgba(176,38,255,0.6))" />
       </svg>
       <div class="absolute inset-x-0 bottom-1 text-center">
-        <div class="font-mono font-bold text-4xl text-[var(--color-bone)] leading-none">{shownClarity}<span class="text-[var(--color-match-hi)]">%</span></div>
+        <div class="font-mono text-4xl font-bold leading-none text-[var(--color-bone)]">{shownClarity}<span class="text-[var(--color-match-hi)]">%</span></div>
         <div class="kicker mt-1.5">Klarheit</div>
       </div>
     </div>
 
     <!-- readout -->
     <div>
-      <p class="kicker">Das Orakel</p>
-      <p class="mt-2 font-display text-2xl sm:text-3xl font-bold text-[var(--color-bone)] leading-tight">
+      <p class="kicker">Der aktuelle Stand</p>
+      <p class="mt-2 font-display text-2xl font-bold leading-tight text-[var(--color-bone)] sm:text-3xl">
         {#if solved}
-          Gelöst. Das Bild ist <span class="italic text-[var(--color-gold)]">eindeutig</span>.
+          Gelöst. Es gibt nur noch eine <span class="italic text-[var(--color-gold)]">Kombination</span>.
         {:else}
-          Noch <span class="italic text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</span> mögliche Endkonstellationen.
+          Noch <span class="italic text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</span> mögliche Kombinationen.
         {/if}
       </p>
 
-      <div class="mt-6 grid grid-cols-2 gap-px bg-[var(--color-line)] border border-[var(--color-line)] max-w-sm">
-        <div class="bg-[var(--color-ink-2)] px-4 py-3">
-          <div class="font-mono font-bold text-xl text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</div>
-          <div class="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)] mt-0.5">
-            {totalSolutions === 1 ? 'Lösung' : 'Lösungen'}
+      <div class="mt-5 grid max-w-sm grid-cols-2 gap-2">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.45)] px-4 py-3">
+          <div class="font-mono text-xl font-bold text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</div>
+          <div class="mt-0.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-[var(--color-bone-mut)]">
+            {totalSolutions === 1 ? 'Möglichkeit' : 'Möglichkeiten'}
           </div>
         </div>
-        <div class="bg-[var(--color-ink-2)] px-4 py-3">
-          <div class="font-mono font-bold text-xl text-[var(--color-gold)]">{confirmedCount} <span class="text-[var(--color-bone-mut)]">/ {totalPairs}</span></div>
-          <div class="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)] mt-0.5">Fix-Matches</div>
+        <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.45)] px-4 py-3">
+          <div class="font-mono text-xl font-bold text-[var(--color-gold)]">{confirmedCount} <span class="text-[var(--color-bone-mut)]">/ {totalPairs}</span></div>
+          <div class="mt-0.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-[var(--color-bone-mut)]">Fixe Matches</div>
         </div>
       </div>
     </div>
