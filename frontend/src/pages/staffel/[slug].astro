@@ -12,17 +12,15 @@ export function getStaticPaths() {
   const raw = readFileSync('public/data/seasons.json', 'utf-8');
   const index: SeasonsIndex = JSON.parse(raw);
 
-  return index.seasons.map((season) => {
-    const dataRaw = readFileSync(`public/data/${season.id}/latest.json`, 'utf-8');
-    const data: SeasonData = JSON.parse(dataRaw);
-    return {
-      params: { slug: season.id },
-      props: { data, season },
-    };
-  });
+  return index.seasons.map((season) => ({
+    params: { slug: season.id },
+  }));
 }
 
-const { data } = Astro.props;
+const slug = Astro.params.slug;
+if (!slug) throw new Error('Missing season slug');
+const dataRaw = readFileSync(`public/data/${slug}/latest.json`, 'utf-8');
+const data: SeasonData = JSON.parse(dataRaw);
 const topMatching = data.top_matching ?? [];
 const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches));
 ---
