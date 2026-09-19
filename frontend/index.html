@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="de">
+<head><script type="application/json" data-od-external-dependencies>["https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"]</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AYTO Matches — Wer ist wirklich ein Perfect Match?</title>
+<meta name="description" content="Match-Chancen für Are You The One? Deutschland — berechnet aus Matching Nights und Matchboxen." />
+<meta name="theme-color" content="#0c0a12" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230c0a12'/%3E%3Cg style='mix-blend-mode:screen'%3E%3Ccircle cx='26' cy='32' r='16' fill='%234d8dff'/%3E%3Ccircle cx='38' cy='32' r='16' fill='%23ff5599'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+/* ─── tokens — neon brand source (see brand-spec.md) ─────────────────── */
+:root {
+  --bg:        #0c0a12;
+  --surface:   #15111d;
+  --surface-2: #21182c;
+  --surface-3: #2c203a;
+
+  --fg:    #fff8f6;
+  --fg-2:  #c9bdca;
+  --muted: #8c7d91;
+
+  --border:   #30243c;
+  --border-2: #473657;
+
+  --accent:       #b73cff;
+  --accent-hi:    #d47cff;
+  --action:       #9b1feb;
+  --action-hover: #7d1fd0;
+  --on-action:    #ffffff;
+  --on-heat:      #ffffff;
+
+  --him:    #65a6ff;
+  --her:    #ff6fae;
+  --gold:   #ffd166;
+  --danger: #ff5d5d;
+
+  --heat-0: #2a2435;
+  --heat-1: #3a5fb0;
+  --heat-2: #7b3fd6;
+  --heat-3: #b026ff;
+  --heat-4: #ff3d8b;
+
+  --font-display: 'Space Grotesk', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --radius: 14px;
+  --radius-lg: 16px;
+  --container: 1180px;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(62% 46% at 86% -10%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 68%),
+    radial-gradient(48% 40% at -6% 4%, color-mix(in oklab, var(--him) 13%, transparent), transparent 70%),
+    radial-gradient(80% 50% at 50% 112%, color-mix(in oklab, var(--her) 9%, transparent), transparent 72%);
+}
+body::after {
+  content: ""; position: fixed; inset: -50%; z-index: 0; pointer-events: none;
+  opacity: 0.022; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body > * { position: relative; z-index: 1; }
+
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+h1 { font-size: clamp(2.4rem, 7vw, 4.6rem); line-height: 0.98; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.05rem); line-height: 1.05; }
+h3 { font-size: 1.15rem; line-height: 1.2; letter-spacing: -0.01em; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; text-decoration: none; }
+button, select, summary { font: inherit; cursor: pointer; }
+svg { display: block; }
+
+.wrap { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
+.kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.him { color: var(--him); } .her { color: var(--her); }
+.row { display: flex; align-items: center; gap: 12px; }
+.between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; border-radius: 6px; }
+
+.nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg) 82%, transparent); backdrop-filter: blur(16px) saturate(1.2); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand svg { transition: transform 0.5s var(--ease); }
+.brand:hover svg { transform: scale(1.1); }
+.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; }
+.brand-name i { font-style: normal; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-hi); margin-left: 6px; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.navlink { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s; }
+.navlink:hover { color: var(--fg); background: var(--surface-2); }
+.picker { position: relative; }
+.picker select { appearance: none; background: var(--surface-2); border: 1px solid var(--border); color: var(--fg);
+  border-radius: 999px; padding: 10px 34px 10px 14px; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase; min-height: 40px; transition: border-color 0.2s; }
+.picker select:hover { border-color: var(--border-2); }
+.picker::after { content: ""; position: absolute; right: 14px; top: 50%; width: 7px; height: 7px;
+  border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted);
+  transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px;
+  padding: 0 22px; border-radius: 999px; border: 1px solid transparent; font-weight: 600; font-size: 14px;
+  letter-spacing: -0.005em; transition: background 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.12s var(--ease), box-shadow 0.18s var(--ease); }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--action); color: var(--on-action);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 55%, transparent), 0 16px 38px -18px var(--accent); }
+.btn-primary:hover { background: var(--action-hover);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 80%, transparent), 0 20px 48px -18px var(--accent); }
+.btn-ghost { background: transparent; color: var(--fg); border-color: var(--border-2); }
+.btn-ghost:hover { border-color: var(--accent-hi); color: var(--fg); }
+.btn .arw { transition: transform 0.25s var(--ease); }
+.btn:hover .arw { transform: translateX(3px); }
+
+.card { background: linear-gradient(180deg, color-mix(in oklab, var(--fg) 5%, transparent), transparent 42%), var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); }
+
+/* hero */
+.hero { padding-block: clamp(52px, 9vw, 116px) clamp(28px, 4vw, 44px); }
+.hero h1 { margin-top: 20px; }
+.hero h1 .grad { background: linear-gradient(96deg, var(--fg) 20%, var(--accent-hi) 60%, var(--her));
+  -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
+.hero h1 .qm { color: var(--her); }
+.hero .lead { margin-top: 22px; max-width: 56ch; color: var(--fg-2); font-size: clamp(1rem, 1.4vw, 1.15rem); }
+.kpis { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.kpi { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: color-mix(in oklab, var(--surface) 72%, transparent); font-size: 13px; color: var(--fg-2); }
+.kpi b { font-family: var(--font-mono); font-weight: 700; }
+
+/* featured current season */
+.feature { display: block; position: relative; overflow: hidden; padding: clamp(22px, 3.4vw, 42px);
+  transition: border-color 0.4s var(--ease), box-shadow 0.5s var(--ease); }
+.feature:hover { border-color: color-mix(in oklab, var(--accent) 60%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 45%, transparent), 0 46px 100px -55px var(--accent); }
+.feature-glow { position: absolute; right: -100px; top: -130px; width: 340px; height: 340px; border-radius: 50%;
+  filter: blur(64px); opacity: 0.55; pointer-events: none;
+  background: radial-gradient(circle, color-mix(in oklab, var(--accent) 60%, transparent), transparent 65%); }
+.feature-grid { position: relative; display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: end; }
+.feature-title { margin-top: 16px; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 0.98; }
+.feature .meta { margin-top: 10px; }
+.ledger { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; }
+.ledger > div { border: 1px solid var(--border); background: color-mix(in oklab, var(--bg) 55%, transparent);
+  border-radius: var(--radius); padding: 16px 10px; text-align: center; }
+.ledger dd { margin: 0; font-family: var(--font-mono); font-weight: 700; font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1; }
+.ledger dt { margin-top: 7px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--her); }
+.live .dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--her);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--her) 22%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  .live .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--her); animation: ping 1.8s var(--ease) infinite; }
+  @keyframes ping { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.6); opacity: 0; } }
+}
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid var(--border-2); color: var(--muted); }
+.pill.gold { color: var(--gold); border-color: color-mix(in oklab, var(--gold) 55%, transparent); }
+.pill.violet { color: var(--accent-hi); border-color: color-mix(in oklab, var(--accent) 55%, transparent); }
+
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.scard { display: block; padding: 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); transition: transform 0.25s var(--ease), border-color 0.25s, background 0.25s; }
+.scard:hover { transform: translateY(-3px); border-color: color-mix(in oklab, var(--accent) 55%, var(--border)); background: var(--surface-2); }
+.scard .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.scard .idx { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--muted); }
+.scard h3 { margin-top: 12px; transition: color 0.25s; }
+.scard:hover h3 { color: var(--accent-hi); }
+.scard .sub { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+.heatbar { height: 4px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 18px; }
+.heatbar i { display: block; height: 100%; border-radius: inherit; transition: width 0.8s var(--ease); }
+.scard .foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* season view */
+.season-view { display: flex; flex-direction: column; gap: clamp(40px, 6vw, 76px); padding-bottom: 24px; }
+.back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.back:hover { color: var(--fg); }
+.back .arw { transition: transform 0.2s; }
+.back:hover .arw { transform: translateX(-3px); }
+.masthead { padding-block: 26px 6px; }
+.masthead .mrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 26px; }
+.masthead h1 { margin-top: 10px; font-size: clamp(2.4rem, 8vw, 5rem); }
+.masthead .sub { margin-top: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--fg-2); }
+
+/* clarity gauge */
+.gauge-card { position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr;
+  gap: clamp(24px, 4vw, 48px); align-items: center; padding: clamp(22px, 3.4vw, 38px); }
+.gauge-wrap { position: relative; width: min(240px, 62vw); margin-inline: auto; }
+.gauge { width: 100%; }
+#gaugeArc { transition: stroke-dashoffset 1.2s var(--ease); filter: drop-shadow(0 0 6px color-mix(in oklab, var(--accent) 60%, transparent)); }
+.gauge-val { position: absolute; left: 0; right: 0; bottom: 2px; text-align: center; }
+.gauge-val b { font-family: var(--font-mono); font-weight: 700; font-size: clamp(1.9rem, 4.4vw, 2.6rem); line-height: 1; }
+.gauge-val b i { font-style: normal; color: var(--accent-hi); }
+.gauge-val .kicker { display: block; margin-top: 7px; }
+.clarity-line { margin-top: 12px; font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.15; max-width: 26ch; }
+.clarity-line em { font-style: italic; color: var(--accent-hi); }
+.mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 380px; margin-top: 24px; }
+.mini { border: 1px solid var(--border); background: color-mix(in oklab, var(--bg) 45%, transparent); border-radius: var(--radius); padding: 14px 16px; }
+.mini b { display: block; font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; }
+.mini b i { font-style: normal; color: var(--muted); }
+.mini span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* confirmed */
+.confirmed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cmatch { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--gold) 38%, var(--border)); background: var(--surface);
+  box-shadow: 0 0 26px -14px color-mix(in oklab, var(--gold) 60%, transparent); }
+.cmatch svg { flex: 0 0 auto; color: var(--gold); }
+.who { font-weight: 600; line-height: 1.3; }
+.who i { font-family: var(--font-display); font-style: italic; color: var(--muted); margin: 0 5px; }
+
+/* top match cards */
+.matches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.mcard { position: relative; overflow: hidden; padding: 18px; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); border-left: 3px solid var(--border); background: var(--surface);
+  transition: transform 0.25s var(--ease), background 0.25s; }
+.mcard:hover { transform: translateY(-3px); background: var(--surface-2); }
+.mcard .tier { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-top: 16px; }
+.mcard .tier span { font-family: var(--font-mono); font-size: 11px; }
+.mcard .tier b { font-family: var(--font-mono); font-size: 1.5rem; line-height: 1; }
+.mbar { height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 12px; }
+.mbar i { display: block; height: 100%; border-radius: inherit; transition: width 0.8s var(--ease); }
+
+/* matrix */
+.matrix { overflow: hidden; }
+.matrix-readout { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 80px; padding: 16px 18px; border-bottom: 1px solid var(--border); }
+.matrix-readout .hint { font-family: var(--font-mono); font-size: 12px; line-height: 1.5; color: var(--muted); }
+.ro-names { display: flex; align-items: baseline; gap: 8px; min-width: 0; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 600; }
+.ro-names i { font-family: var(--font-display); font-style: italic; color: var(--muted); }
+.ro-val { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.ro-val b { font-family: var(--font-mono); font-weight: 700; font-size: clamp(1.4rem, 3vw, 1.85rem); line-height: 1; }
+.ro-val span { margin-top: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.matrix-scroll { overflow-x: auto; scrollbar-color: var(--accent) var(--border); scrollbar-width: thin; }
+table.mgrid { border-collapse: separate; border-spacing: 5px; min-width: 720px; width: 100%; padding: 14px; }
+.mgrid th { font-weight: 400; padding: 0; }
+.mgrid .corner { position: sticky; left: 0; width: 96px; background: var(--surface); z-index: 3; }
+.mgrid .colhead { height: 78px; width: 52px; vertical-align: bottom; }
+.mgrid .colhead span { display: inline-block; transform-origin: bottom left;
+  transform: rotate(-45deg) translate(6px, -2px); white-space: nowrap; font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  transition: color 0.2s, transform 0.2s; }
+.mgrid .colhead.is-active span { color: var(--her); transform: rotate(-45deg) translate(6px, -2px) scale(1.1); }
+.mgrid .rowhead { position: sticky; left: 0; z-index: 2; width: 96px; padding-right: 8px; text-align: right; background: var(--surface); }
+.mgrid .rowhead span { display: inline-block; white-space: nowrap; font-family: var(--font-mono);
+  font-size: 12px; color: var(--fg-2); transition: color 0.2s, transform 0.2s; }
+.mgrid .rowhead.is-active span { color: var(--him); transform: scale(1.08); transform-origin: right; }
+.cell { position: relative; display: block; width: 100%; min-width: 52px; height: 42px; border: 0;
+  border-radius: 8px; outline: none; transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s; }
+.cell span { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+.cell.is-conf { box-shadow: inset 0 0 0 2px var(--gold); }
+.cell.dim { opacity: 0.32; }
+.cell.active { transform: scale(1.16); z-index: 5; box-shadow: 0 0 0 2px var(--fg), 0 10px 24px -6px rgba(0, 0, 0, 0.7); }
+.cell:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.legend { display: flex; align-items: center; gap: 12px; padding: 14px 18px 18px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.legend .ramp { height: 8px; flex: 1; border-radius: 999px;
+  background: linear-gradient(90deg, var(--heat-0), var(--heat-1), var(--heat-2), var(--heat-3), var(--heat-4)); }
+
+/* double match */
+.double { padding: clamp(20px, 3vw, 28px); }
+.lead-sm { margin: 0; color: var(--fg-2); font-size: 14px; max-width: 62ch; }
+.drow { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.drow .rank { width: 22px; text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.drow .nm { width: 112px; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drow .track { flex: 1; height: 10px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.drow .track i { display: block; height: 100%; border-radius: inherit;
+  background: linear-gradient(90deg, var(--heat-2), var(--heat-3)); transition: width 0.8s var(--ease); }
+.drow .pc { width: 52px; text-align: right; font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: var(--accent-hi); }
+
+/* nights */
+.nights { display: flex; flex-direction: column; gap: 10px; }
+.night { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; }
+.night summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; }
+.night summary::-webkit-details-marker { display: none; }
+.night[open] summary { border-bottom: 1px solid var(--border); }
+.night .num { width: 38px; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; color: var(--muted); transition: color 0.2s; }
+.night[open] .num { color: var(--accent-hi); }
+.night .nlabel { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-2); }
+.night .mcount { display: flex; align-items: center; gap: 10px; }
+.pips { display: flex; gap: 4px; }
+.pips i { width: 8px; height: 8px; border-radius: 50%; background: var(--border-2); }
+.pips i.on { background: var(--accent); box-shadow: 0 0 10px -2px var(--accent); }
+.night .mcount b { font-family: var(--font-mono); font-size: 14px; color: var(--accent-hi); }
+.night .mcount small { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.night-body { padding: 16px 20px 20px; }
+.night-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 28px; margin-top: 12px; }
+.npair { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 14px;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent); }
+.note { margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.note.danger { color: var(--danger); }
+
+/* footer */
+.pagefoot { margin-top: clamp(52px, 8vw, 100px); border-top: 1px solid var(--border); }
+.foot-in { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: flex-end; padding-block: 40px; }
+.foot-brand { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; }
+.foot-brand span { color: var(--accent-hi); }
+.foot-ramp { display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot-ramp .ramp { height: 8px; flex: 1; border-radius: 999px;
+  background: linear-gradient(90deg, var(--heat-0), var(--heat-1), var(--heat-2), var(--heat-3), var(--heat-4)); }
+
+@media (max-width: 900px) {
+  .cards, .matches, .confirmed { grid-template-columns: repeat(2, 1fr); }
+  .feature-grid { grid-template-columns: 1fr; align-items: start; }
+}
+@media (max-width: 760px) {
+  .gauge-card { grid-template-columns: 1fr; }
+  .navlink { display: none; }
+}
+@media (max-width: 620px) {
+  .cards, .matches, .confirmed, .night-pairs { grid-template-columns: 1fr; }
+  .mini-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--action);color:#fff;padding:10px 16px;border-radius:0 0 10px 0" onfocus="this.style.left='0'" onblur="this.style.left='-9999px'">Zum Inhalt springen</a>
+
+<header class="nav" data-od-id="topnav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#/" aria-label="AYTO Matches — Startseite">
+      <svg width="38" height="26" viewBox="0 0 38 26" fill="none" aria-hidden="true">
+        <circle cx="14" cy="13" r="10.5" fill="#65a6ff" fill-opacity="0.92" style="mix-blend-mode:screen" />
+        <circle cx="24" cy="13" r="10.5" fill="#ff6fae" fill-opacity="0.92" style="mix-blend-mode:screen" />
+      </svg>
+      <span class="brand-name">AYTO<i>matches</i></span>
+    </a>
+    <div class="nav-right">
+      <div class="picker">
+        <label for="seasonSelect" class="kicker" style="position:absolute;left:-9999px">Staffel wählen</label>
+        <select id="seasonSelect" aria-label="Staffel wählen"></select>
+      </div>
+      <a class="navlink" href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener">Solver ↗</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" data-od-id="main"></main>
+
+<footer class="pagefoot" data-od-id="footer">
+  <div class="wrap">
+    <div class="foot-in">
+      <div>
+        <p class="foot-brand">AYTO<span>.</span>matches</p>
+        <p class="lead-sm" style="margin-top:8px;max-width:42ch">Zahlen statt Bauchgefühl für <i>Are You The One? Deutschland</i>.</p>
+      </div>
+      <div class="meta" style="text-align:right;line-height:1.9">
+        <p>Unabhängige Fan-Seite · nicht offiziell von RTL</p>
+        <p>Daten können sich ändern</p>
+        <p><a href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener" style="color:var(--accent-hi)">Mehr zum Solver →</a></p>
+      </div>
+    </div>
+    <div class="foot-ramp">
+      <span class="kicker">geringe Chance</span>
+      <span class="ramp" aria-hidden="true"></span>
+      <span class="kicker">hohe Chance</span>
+    </div>
+  </div>
+</footer>
+
+<script>window.AYTO_DATA={"generated_at":"2026-02-17","seasons":[{"id":"staffel-7","name":"Staffel 7","year":2026,"type":"regular","current":true,"ep":10,"totalEp":22,"nm":10,"nf":11,"sol":20399,"conf":1,"infeasible":false},{"id":"vip-5","name":"VIP Staffel 5","year":2025,"type":"vip","current":false,"ep":20,"totalEp":20,"nm":12,"nf":10,"sol":28,"conf":3,"infeasible":false},{"id":"vip-4","name":"VIP Staffel 4","year":2024,"type":"vip","current":false,"ep":18,"totalEp":20,"nm":10,"nf":11,"sol":1,"conf":2,"infeasible":false},{"id":"vip-3","name":"VIP Staffel 3","year":2023,"type":"vip","current":false,"ep":21,"totalEp":21,"nm":11,"nf":10,"sol":1,"conf":3,"infeasible":false},{"id":"vip-2","name":"VIP Staffel 2","year":2022,"type":"vip","current":false,"ep":20,"totalEp":20,"nm":11,"nf":10,"sol":9,"conf":3,"infeasible":false},{"id":"vip-1","name":"VIP Staffel 1","year":2021,"type":"vip","current":false,"ep":20,"totalEp":20,"nm":10,"nf":11,"sol":1,"conf":2,"infeasible":false},{"id":"staffel-6","name":"Staffel 6","year":2025,"type":"regular","current":false,"ep":20,"totalEp":20,"nm":10,"nf":11,"sol":3,"conf":4,"infeasible":false},{"id":"staffel-5","name":"Staffel 5","year":2023,"type":"regular","current":false,"ep":20,"totalEp":20,"nm":10,"nf":10,"sol":2,"conf":3,"infeasible":false},{"id":"staffel-4","name":"Staffel 4","year":2022,"type":"regular","current":false,"ep":18,"totalEp":20,"nm":11,"nf":10,"sol":7,"conf":3,"infeasible":false},{"id":"staffel-3","name":"Staffel 3","year":2021,"type":"regular","current":false,"ep":19,"totalEp":20,"nm":10,"nf":11,"sol":11,"conf":1,"infeasible":false},{"id":"staffel-2","name":"Staffel 2","year":2021,"type":"regular","current":false,"ep":18,"totalEp":20,"nm":10,"nf":11,"sol":10,"conf":2,"infeasible":false}],"detail":{"staffel-7":{"males":["Chris","Ema","Evi","Jeronymo","Jerry","Julian M.","Julian S.","Luke","Meji","Noel"],"females":["Adrianna","Alicia","Aurora","Elena","Ella","Laura","Linda","Marla","Michelle","Tiziana","Tonia"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[5,7]],"ruledOut":[[2,9],[6,6]],"probs":[0.12,0.125,0.0,0.151,0.075,0.049,0.405,0.0,0.121,0.048,0.024,0.12,0.134,0.099,0.158,0.209,0.063,0.123,0.0,0.0,0.065,0.126,0.076,0.088,0.058,0.11,0.0,0.619,0.057,0.0,0.065,0.0,0.057,0.083,0.093,0.057,0.116,0.047,0.022,0.0,0.0,0.072,0.578,0.062,0.119,0.149,0.0,0.0,0.056,0.075,0.147,0.0,0.329,0.07,0.144,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.203,0.0,0.585,0.1,0.013,0.043,0.0,0.0,0.05,0.039,0.09,0.145,0.152,0.098,0.187,0.088,0.077,0.127,0.0,0.133,0.079,0.0,0.134,0.125,0.015,0.013,0.428,0.0,0.116,0.0,0.104,0.066,0.112,0.0,0.134,0.088,0.165,0.084,0.052,0.025,0.0,0.126,0.055,0.385],"top":[[5,7,1.0,0],[2,5,0.619,0],[6,2,0.585,0],[3,9,0.578,0],[7,3,0.187,1],[7,1,0.152,1],[4,6,0.147,0],[8,0,0.134,0],[1,10,0.126,0],[0,8,0.121,0],[9,4,0.084,0]],"double":{"applicable":true,"cands":[["Jeronymo",0.13,"male"],["Evi",0.129,"male"],["Julian S.",0.123,"male"],["Chris",0.118,"male"],["Meji",0.115,"male"],["Noel",0.114,"male"],["Ema",0.097,"male"],["Jerry",0.089,"male"],["Luke",0.085,"male"]]},"nights":[{"n":1,"pairs":[[6,2],[5,0],[4,3],[3,9],[7,7],[9,10],[1,8],[2,5],[8,4],[0,6]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[0,10],[3,9],[6,0],[1,4],[5,1],[9,6],[8,3],[7,7],[4,8],[2,5]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[7,7],[6,1],[5,0],[9,10],[4,2],[8,3],[0,6],[2,5],[3,9],[1,8]],"matches":2,"loners":[],"blackout":false},{"n":4,"pairs":[[7,10],[6,1],[9,0],[4,3],[8,5],[0,2],[2,4],[3,6],[1,8]],"matches":0,"loners":[],"blackout":false}]},"vip-5":{"males":["Calvin O.","Calvin S.","Jimi Blue","Jonny","Kevin","Leandro","Lennert","Nico","Oliver","Rob","Sidar","Xander"],"females":["Antonia","Ariel","Beverly","Elissia","Hati","Henna","Joanna","Nelly","Sandra","Viki"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[11,3],[6,8],[0,7]],"ruledOut":[[1,7],[3,2],[5,8],[2,7],[8,0],[2,4],[10,5],[1,6]],"probs":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.393,0.0,0.0,0.107,0.107,0.0,0.0,0.0,0.107,0.393,0.214,0.071,0.0,0.0,0.0,0.071,0.0,0.0,0.071,0.0,0.536,0.0,0.0,0.0,0.0,0.107,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.679,0.0,0.0,0.0,0.071,0.0,0.071,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0],"top":[[10,4,1.0,0],[4,9,1.0,0],[6,8,1.0,0],[0,7,1.0,0],[11,3,1.0,0],[9,6,1.0,0],[8,5,1.0,0],[7,2,1.0,0],[5,0,0.679,0],[3,1,0.536,1],[1,1,0.393,1]],"double":{"applicable":true,"cands":[["Joanna",0.25,"female"],["Viki",0.179,"female"],["Hati",0.179,"female"],["Ariel",0.143,"female"],["Henna",0.107,"female"],["Beverly",0.071,"female"],["Antonia",0.071,"female"]]},"nights":[{"n":1,"pairs":[[5,9],[0,4],[3,5],[10,7],[4,8],[7,1],[9,6],[6,0],[11,3],[1,2]],"matches":2,"loners":[],"blackout":false},{"n":2,"pairs":[[1,6],[4,8],[9,7],[10,2],[7,1],[8,5],[0,4],[5,9],[3,0],[11,3]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[8,0],[1,6],[7,2],[3,9],[9,4],[4,8],[5,5],[6,7],[0,1],[11,3]],"matches":2,"loners":[],"blackout":false},{"n":4,"pairs":[[1,6],[0,7],[5,8],[7,1],[10,2],[6,5],[4,9],[9,4],[8,0],[11,3]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[2,5],[8,0],[0,7],[6,8],[10,2],[9,4],[1,6],[7,1],[4,9],[11,3]],"matches":4,"loners":[],"blackout":false},{"n":6,"pairs":[[2,4],[8,5],[5,2],[3,9],[4,1],[1,0],[10,6],[0,7],[6,8],[11,3]],"matches":4,"loners":[],"blackout":false},{"n":7,"pairs":[[3,4],[1,0],[10,6],[9,7],[5,1],[8,5],[4,9],[7,2],[6,8]],"matches":4,"loners":[],"blackout":false},{"n":8,"pairs":[[8,5],[4,1],[7,2],[5,9],[3,4],[1,0],[9,7],[0,6]],"matches":2,"loners":[],"blackout":false},{"n":9,"pairs":[[0,7],[9,9],[8,5],[5,1],[4,4],[10,2],[3,0],[1,6]],"matches":2,"loners":[],"blackout":false},{"n":10,"pairs":[[9,6],[1,0],[5,5],[4,9],[7,2],[10,4],[8,1]],"matches":4,"loners":[],"blackout":false}]},"vip-4":{"males":["Tim","Lucas","Nicola","Lars","Khan","Chris","Alex","Marc Robin","Ozan","Antonino"],"females":["Linda","Jennifer","Tara","Nadia","Asena","Emmy","Laura L","Anastassia","Gabriela","Laura","Dana"],"solved":true,"capped":false,"infeasible":false,"confirmed":[[5,5],[8,7]],"ruledOut":[[7,6],[7,4],[1,1]],"probs":[1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0],"top":[[8,7,1.0,0],[7,9,1.0,0],[2,6,1.0,0],[4,3,1.0,0],[0,0,1.0,1],[9,4,1.0,0],[3,1,1.0,0],[0,10,1.0,1],[6,8,1.0,0],[5,5,1.0,0],[1,2,1.0,0]],"double":{"applicable":true,"cands":[["Tim",1.0,"male"]]},"nights":[{"n":1,"pairs":[[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9]],"matches":2,"loners":[],"blackout":false},{"n":2,"pairs":[[0,0],[1,9],[2,2],[3,7],[4,3],[5,5],[6,1],[7,4],[8,6],[9,10]],"matches":3,"loners":[],"blackout":false},{"n":3,"pairs":[[0,10],[1,0],[2,6],[3,8],[4,1],[5,5],[6,7],[7,4],[8,9],[9,3]],"matches":3,"loners":[],"blackout":false},{"n":4,"pairs":[[4,4],[1,8],[0,6],[3,2],[6,1],[5,5],[2,7],[7,0],[8,9],[9,3]],"matches":1,"loners":[],"blackout":false},{"n":5,"pairs":[[4,2],[1,1],[0,0],[3,3],[6,8],[5,5],[2,6],[7,7],[8,10],[9,4]],"matches":5,"loners":[],"blackout":false},{"n":6,"pairs":[[4,2],[1,1],[0,0],[3,10],[6,8],[5,5],[2,3],[7,9],[8,7],[9,4]],"matches":6,"loners":[],"blackout":false},{"n":7,"pairs":[[4,2],[1,10],[0,0],[3,6],[6,8],[5,5],[2,3],[7,9],[8,7],[9,4]],"matches":6,"loners":[],"blackout":false},{"n":8,"pairs":[[1,2],[4,1],[0,0],[3,6],[6,8],[5,5],[2,3],[7,9],[8,7],[9,4]],"matches":7,"loners":[],"blackout":false}]},"vip-3":{"males":["Danilo","Paco","Steffen","Marvin","Mike","Emanuell","Elia","Fabio","Martini","Peter","Max"],"females":["Darya","Sandra","Paulina","Shakira","Kim","Sabrina","Jennifer","Marie","Stefanie","Alicia"],"solved":true,"capped":false,"infeasible":false,"confirmed":[[0,0],[5,8],[6,9]],"ruledOut":[[0,6],[6,6],[6,0],[4,4],[8,9],[10,5],[9,5]],"probs":[1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"top":[[8,4,1.0,0],[10,2,1.0,1],[2,1,1.0,0],[1,6,1.0,0],[4,5,1.0,0],[3,3,1.0,0],[6,9,1.0,0],[5,8,1.0,0],[7,7,1.0,0],[0,0,1.0,0],[9,2,1.0,1]],"double":{"applicable":true,"cands":[["Paulina",1.0,"female"]]},"nights":[{"n":1,"pairs":[[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[10,9]],"matches":3,"loners":[],"blackout":false},{"n":3,"pairs":[[0,2],[1,4],[2,9],[3,6],[4,5],[5,0],[6,1],[7,7],[8,8],[9,3]],"matches":2,"loners":[],"blackout":false},{"n":4,"pairs":[[0,2],[1,4],[2,9],[3,6],[4,5],[5,0],[6,1],[7,7],[8,8],[10,3]],"matches":2,"loners":[],"blackout":false},{"n":5,"pairs":[[0,0],[1,1],[2,9],[3,8],[4,2],[5,6],[6,7],[7,3],[8,4],[9,5]],"matches":2,"loners":[],"blackout":false},{"n":6,"pairs":[[0,0],[1,1],[2,9],[3,8],[4,2],[5,6],[6,7],[7,3],[8,4],[10,5]],"matches":2,"loners":[],"blackout":false},{"n":7,"pairs":[[0,0],[1,5],[2,1],[3,6],[5,8],[6,7],[7,3],[8,9],[9,4],[10,2]],"matches":4,"loners":[],"blackout":false},{"n":8,"pairs":[[0,0],[1,5],[2,1],[3,6],[5,8],[6,7],[7,3],[8,9],[10,4],[9,2]],"matches":4,"loners":[],"blackout":false},{"n":9,"pairs":[[0,0],[1,3],[2,9],[3,6],[4,2],[5,5],[6,8],[7,7],[8,4],[10,1]],"matches":3,"loners":[],"blackout":false},{"n":10,"pairs":[[0,0],[1,3],[2,9],[3,6],[4,2],[5,5],[6,8],[7,7],[8,4],[9,1]],"matches":3,"loners":[],"blackout":false},{"n":11,"pairs":[[0,0],[1,9],[2,1],[3,6],[4,2],[9,5],[6,7],[7,3],[8,4],[5,8]],"matches":4,"loners":[],"blackout":false},{"n":12,"pairs":[[0,0],[1,9],[2,1],[3,6],[4,2],[10,5],[6,7],[7,3],[8,4],[5,8]],"matches":4,"loners":[],"blackout":false},{"n":13,"pairs":[[0,0],[7,9],[4,1],[1,6],[3,2],[5,5],[2,7],[10,3],[8,4],[6,8]],"matches":3,"loners":[],"blackout":false},{"n":14,"pairs":[[0,0],[7,9],[4,1],[1,6],[3,2],[5,5],[2,7],[9,3],[8,4],[6,8]],"matches":3,"loners":[],"blackout":false},{"n":15,"pairs":[[0,0],[1,9],[7,1],[3,6],[6,7],[5,5],[2,3],[10,4],[9,4],[8,2],[4,8]],"matches":1,"loners":[],"blackout":false},{"n":16,"pairs":[[0,0],[5,8],[4,5],[10,6],[1,2],[7,7],[3,3],[2,9],[8,4],[6,1]],"matches":6,"loners":[],"blackout":false},{"n":17,"pairs":[[0,0],[5,8],[4,5],[9,6],[1,2],[7,7],[3,3],[2,9],[8,4],[6,1]],"matches":6,"loners":[],"blackout":false}]},"vip-2":{"males":["Amadu","Calvin","Fabio","Luca","Lukas","Martin","Maurice","Max","Micha","Pharrell","Felix"],"females":["Anna","Cecilia","Celina","Franziska","Gina","Isabelle","Karina","Luisa","Ricarda","Zoe"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[0,1],[4,7],[8,0]],"ruledOut":[[5,9],[9,6],[4,2],[10,8],[9,5],[9,8],[7,3]],"probs":[0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.333,0.0,0.556,0.0,0.111,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.222,0.556,0.0,0.0,0.0,0.222,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.333,0.111,0.556,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0],"top":[[6,8,1.0,0],[4,7,1.0,0],[2,2,1.0,0],[1,3,1.0,0],[8,0,1.0,0],[10,5,1.0,0],[9,9,1.0,0],[0,1,1.0,0],[5,4,0.556,0],[3,6,0.556,1],[7,6,0.556,1]],"double":{"applicable":true,"cands":[["Ricarda",0.333,"female"],["Gina",0.222,"female"],["Franziska",0.222,"female"],["Karina",0.111,"female"],["Isabelle",0.111,"female"]]},"nights":[{"n":1,"pairs":[[7,3],[8,0],[5,2],[6,8],[1,4],[0,1],[9,6],[4,5],[2,7],[3,9]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[3,3],[8,0],[7,2],[6,8],[0,4],[9,1],[2,6],[5,5],[1,7],[4,9]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[3,5],[8,4],[7,9],[6,8],[2,2],[5,0],[1,6],[0,1],[9,7],[4,3]],"matches":3,"loners":[],"blackout":false},{"n":4,"pairs":[[3,9],[8,3],[7,8],[6,5],[9,0],[2,2],[5,6],[10,4],[0,1],[4,7]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[3,9],[8,0],[7,3],[6,1],[1,6],[9,8],[2,2],[5,5],[10,4],[4,7]],"matches":3,"loners":[],"blackout":false},{"n":6,"pairs":[[3,9],[8,0],[7,3],[9,8],[2,2],[5,5],[10,4],[1,6],[0,1],[4,7]],"matches":4,"loners":[],"blackout":false},{"n":7,"pairs":[[2,4],[1,3],[9,8],[3,2],[5,6],[10,5],[6,9],[8,0],[0,1],[4,7]],"matches":5,"loners":[],"blackout":false},{"n":8,"pairs":[[2,2],[1,4],[9,9],[7,3],[5,6],[10,5],[6,8],[8,0],[0,1],[4,7]],"matches":7,"loners":[],"blackout":false}]},"vip-1":{"males":["Alex","Danilo","Diogo","Eugen","Francesco","Jamy","Josua","Manu","Salvatore","Tommy"],"females":["Aurelia","Finnja","Jacky","Jill","Jules","Kathleen","Melina","Sarah","Steffi","Walentina","Vanessa"],"solved":true,"capped":false,"infeasible":false,"confirmed":[[4,4],[6,0]],"ruledOut":[[1,1],[9,9],[8,1],[3,1],[3,8],[6,7],[9,6]],"probs":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"top":[[4,4,1.0,0],[5,8,1.0,0],[3,9,1.0,0],[7,5,1.0,0],[8,2,1.0,0],[1,6,1.0,0],[0,10,1.0,1],[6,0,1.0,0],[0,7,1.0,1],[9,3,1.0,0],[2,1,1.0,0]],"double":{"applicable":true,"cands":[["Alex",1.0,"male"]]},"nights":[{"n":1,"pairs":[[0,4],[1,8],[2,0],[3,9],[4,1],[5,3],[6,7],[7,5],[8,2],[9,6]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[4,4],[9,6],[6,9],[3,8],[8,2],[5,3],[7,5],[2,0],[0,1],[1,7]],"matches":3,"loners":[],"blackout":false},{"n":3,"pairs":[[0,8],[1,6],[2,0],[3,1],[4,4],[5,10],[6,7],[7,5],[8,9],[9,3]],"matches":4,"loners":[],"blackout":false},{"n":4,"pairs":[[5,8],[9,6],[1,0],[3,1],[4,4],[2,10],[0,7],[8,5],[6,9],[7,3]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[5,7],[9,6],[1,3],[3,1],[4,4],[2,0],[0,8],[8,2],[6,9],[7,5]],"matches":3,"loners":[],"blackout":false},{"n":6,"pairs":[[6,7],[9,6],[3,3],[5,1],[4,4],[1,0],[0,2],[8,9],[7,5],[2,10]],"matches":2,"loners":[],"blackout":false},{"n":7,"pairs":[[6,9],[9,8],[3,2],[5,7],[4,4],[1,0],[0,6],[8,3],[7,1],[2,10]],"matches":1,"loners":[],"blackout":false},{"n":8,"pairs":[[6,10],[9,1],[3,6],[5,8],[4,4],[1,3],[0,7],[8,9],[7,5],[2,0]],"matches":4,"loners":[],"blackout":false},{"n":9,"pairs":[[6,0],[9,1],[3,9],[5,8],[4,4],[1,7],[0,10],[8,2],[7,5],[2,3]],"matches":7,"loners":[],"blackout":false}]},"staffel-6":{"males":["Danish","Dino","Dion","Enes","Josh","Joshua","Kaan","Levin","Sinan","Tano"],"females":["Anna","Camelia","Chiara","Deisy","Ina","Joanna","Nadja","Nasti","Selina","Sophia","Tori"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[0,6],[1,3],[8,7],[4,1]],"ruledOut":[[4,0],[8,4],[6,9],[5,5]],"probs":[0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.333,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.333,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.333,0.0],"top":[[5,4,1.0,0],[3,8,1.0,0],[2,10,1.0,0],[0,6,1.0,0],[7,2,1.0,0],[4,1,1.0,0],[9,5,1.0,1],[8,7,1.0,0],[6,0,1.0,0],[1,3,1.0,0],[9,9,0.333,1]],"double":{"applicable":true,"cands":[["Tano",0.333,"male"],["Levin",0.333,"male"],["Joshua",0.333,"male"]]},"nights":[{"n":1,"pairs":[[0,9],[1,3],[2,10],[3,0],[4,6],[5,8],[6,5],[7,1],[8,4],[9,2]],"matches":2,"loners":[],"blackout":false},{"n":2,"pairs":[[0,1],[1,3],[2,8],[3,7],[4,6],[5,5],[6,0],[7,2],[8,4],[9,10]],"matches":3,"loners":[],"blackout":false},{"n":3,"pairs":[[0,9],[1,3],[2,2],[3,8],[4,6],[5,5],[6,0],[7,1],[8,7],[9,10]],"matches":4,"loners":[],"blackout":false},{"n":4,"pairs":[[0,6],[1,3],[2,7],[3,8],[4,4],[5,5],[6,0],[7,1],[8,9],[9,10]],"matches":4,"loners":[],"blackout":false},{"n":5,"pairs":[[0,6],[1,3],[2,2],[3,8],[4,4],[5,5],[6,9],[7,1],[8,7],[9,10]],"matches":4,"loners":[],"blackout":false},{"n":6,"pairs":[[0,6],[1,3],[2,0],[3,8],[4,7],[5,4],[6,9],[7,2],[8,1],[9,10]],"matches":5,"loners":[],"blackout":false},{"n":7,"pairs":[[0,6],[1,3],[2,10],[3,9],[4,1],[5,5],[6,8],[7,2],[8,7],[9,0]],"matches":6,"loners":[],"blackout":false},{"n":8,"pairs":[[0,6],[1,3],[2,2],[3,9],[4,1],[5,0],[6,8],[7,4],[8,7],[9,5]],"matches":5,"loners":[],"blackout":false},{"n":9,"pairs":[[0,6],[1,3],[2,9],[3,4],[4,1],[5,10],[6,0],[7,2],[8,7],[9,5]],"matches":7,"loners":[],"blackout":false}]},"staffel-5":{"males":["Eti","Gerrit","Kevin","Martin","Paddy","Paulo","Ryan","Sandro","Sidar","Wilson"],"females":["Afra","Edda","Jana","Julia","Lisa-Marie","Maya","Shelly","Sina","Lina","Tais"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[9,6],[1,9],[2,8]],"ruledOut":[[5,2],[6,8],[2,5],[5,3],[7,7],[7,0]],"probs":[0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0],"top":[[0,5,1.0,0],[2,8,1.0,0],[5,4,1.0,0],[7,3,1.0,0],[9,6,1.0,0],[1,9,1.0,0],[6,2,0.5,0],[3,7,0.5,0],[4,0,0.5,0],[8,1,0.5,0]],"double":{"applicable":false,"cands":[]},"nights":[{"n":1,"pairs":[[0,4],[1,9],[2,7],[3,3],[4,5],[6,8],[7,1],[8,2],[9,6]],"matches":2,"loners":[],"blackout":false},{"n":2,"pairs":[[0,0],[1,9],[2,7],[3,8],[4,6],[5,4],[7,1],[8,2],[9,5]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[0,5],[1,9],[3,4],[4,3],[5,1],[6,2],[7,7],[8,0],[9,6]],"matches":4,"loners":[],"blackout":false},{"n":4,"pairs":[[0,0],[1,9],[2,7],[3,3],[4,8],[5,4],[6,1],[8,2],[9,6]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[0,5],[1,9],[2,3],[3,4],[4,8],[5,1],[6,2],[7,7],[8,0],[9,6]],"matches":4,"loners":[],"blackout":false},{"n":6,"pairs":[[0,5],[1,9],[2,8],[3,4],[4,1],[5,7],[6,2],[7,0],[8,3],[9,6]],"matches":5,"loners":[],"blackout":false},{"n":7,"pairs":[[0,5],[1,9],[2,8],[3,0],[4,2],[5,7],[6,1],[7,3],[8,4],[9,6]],"matches":5,"loners":[],"blackout":false},{"n":8,"pairs":[[0,0],[1,9],[2,8],[3,4],[4,2],[5,7],[6,1],[7,3],[8,5],[9,6]],"matches":4,"loners":[],"blackout":false},{"n":9,"pairs":[[0,5],[1,9],[2,8],[3,4],[4,7],[5,1],[6,2],[7,3],[8,0],[9,6]],"matches":6,"loners":[],"blackout":false},{"n":10,"pairs":[[0,5],[1,9],[2,8],[3,0],[4,1],[5,4],[6,2],[7,3],[8,7],[9,6]],"matches":7,"loners":[],"blackout":false}]},"staffel-4":{"males":["Burim","Barkin","Cris","Denniz","Ken","Kenneth","Joel","Marwin","Max","Pascal","Sasa"],"females":["Aurelia","Carina","Caro","Dorna","Henna","Juliette","Larissa","Steffi","Valeria","Vanessa"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[2,7],[4,2],[8,2]],"ruledOut":[[7,8],[5,3],[0,1],[8,8],[0,3],[6,5],[7,3],[9,1]],"probs":[0.0,0.0,0.0,0.0,0.0,0.714,0.286,0.0,0.0,0.0,0.143,0.286,0.0,0.0,0.0,0.0,0.286,0.0,0.286,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.286,0.286,0.0,0.0,0.0,0.0,0.429,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.429,0.0,0.0,0.0,0.0,0.0,0.0,0.571,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.286,0.0,0.0,0.571,0.0,0.143,0.0,0.0,0.0,0.0,0.286,0.0,0.0,0.429,0.0,0.143,0.0,0.0,0.143,0.0],"top":[[5,4,1.0,0],[2,7,1.0,0],[8,2,1.0,1],[7,9,1.0,0],[4,2,1.0,1],[0,5,0.714,0],[9,3,0.571,0],[6,1,0.429,0],[3,6,0.429,0],[1,8,0.286,0],[10,0,0.286,0]],"double":{"applicable":true,"cands":[["Caro",1.0,"female"]]},"nights":[{"n":1,"pairs":[[10,9],[4,1],[5,4],[0,5],[6,6],[3,0],[7,3],[8,8],[2,7],[1,2]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[6,6],[5,4],[4,1],[10,9],[2,7],[7,3],[9,8],[8,2],[0,0],[1,5]],"matches":3,"loners":[],"blackout":false},{"n":3,"pairs":[[2,7],[5,0],[8,8],[10,1],[7,9],[3,3],[6,6],[1,5],[4,4],[9,2]],"matches":2,"loners":[],"blackout":false},{"n":4,"pairs":[[2,7],[5,5],[8,2],[10,9],[7,0],[3,6],[6,8],[4,4],[9,1],[0,3]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[2,7],[4,2],[10,9],[1,5],[9,1],[5,4],[7,0],[0,3],[6,8],[3,6]],"matches":4,"loners":[],"blackout":false},{"n":6,"pairs":[[2,7],[4,2],[10,1],[1,5],[6,9],[5,4],[3,3],[7,6],[0,0],[9,8]],"matches":3,"loners":[],"blackout":false},{"n":7,"pairs":[[2,7],[4,2],[7,1],[5,5],[3,9],[0,4],[1,3],[10,6],[6,0],[9,8]],"matches":2,"loners":[],"blackout":false},{"n":8,"pairs":[[2,7],[4,2],[0,8],[5,1],[1,5],[9,6],[3,4],[6,3],[10,9],[7,0]],"matches":2,"loners":[],"blackout":false}]},"staffel-3":{"males":["Andre","Antonio","Dustin","Jordi","Leon","Marius","Max","Mike","Tim","William"],"females":["Dana","Estelle","Isabelle","Jessica","Joelina","Kerstin","Marie","Monami","Raphaela","Zaira","Desiree"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[5,9]],"ruledOut":[[7,3],[4,7],[0,8],[1,7],[6,3],[3,8],[6,5],[2,2]],"probs":[0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.091,0.091,0.0,0.0,0.0,0.091,0.0,0.0,0.0,0.0,0.0,0.0,0.545,0.0,0.0,0.0,0.545,0.0,1.0,0.0,0.0,0.0,0.0,0.091,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.091,0.0,0.0,0.0,0.091,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.091,0.909,0.0,0.0,0.091,0.0,0.0,0.0,0.0,1.0,0.0,0.091,0.0,0.0,0.0,0.091,0.0,0.0,0.0,0.0,0.0,0.909,0.0,0.091,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.091],"top":[[9,8,1.0,0],[0,2,1.0,0],[5,9,1.0,0],[7,4,1.0,0],[1,0,1.0,0],[3,1,1.0,0],[4,3,1.0,0],[8,5,0.909,0],[6,7,0.909,0],[2,6,0.545,1],[2,10,0.545,1]],"double":{"applicable":true,"cands":[["Antonio",0.273,"male"],["Leon",0.182,"male"],["Mike",0.182,"male"],["Dustin",0.091,"male"],["William",0.091,"male"],["Max",0.091,"male"],["Jordi",0.091,"male"]]},"nights":[{"n":1,"pairs":[[0,8],[1,7],[2,9],[3,1],[4,3],[5,2],[6,5],[7,4],[8,6],[9,0]],"matches":3,"loners":[],"blackout":false},{"n":2,"pairs":[[0,0],[1,7],[2,2],[3,9],[4,1],[5,6],[6,5],[7,4],[8,3],[9,8]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[0,8],[1,5],[2,9],[3,3],[4,1],[5,2],[6,7],[7,4],[8,6],[9,0]],"matches":2,"loners":[],"blackout":false},{"n":4,"pairs":[[0,2],[1,7],[2,9],[3,8],[4,1],[5,3],[6,6],[7,4],[8,5],[9,0]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[0,4],[1,5],[2,2],[3,9],[4,3],[5,8],[6,7],[7,1],[8,10],[9,0]],"matches":2,"loners":[],"blackout":false},{"n":6,"pairs":[[0,6],[1,0],[2,2],[3,10],[4,3],[5,9],[6,5],[7,1],[8,4],[9,8]],"matches":4,"loners":[],"blackout":false},{"n":7,"pairs":[[0,10],[1,0],[2,2],[3,7],[4,3],[5,9],[6,6],[7,4],[8,5],[9,8]],"matches":6,"loners":[],"blackout":false},{"n":8,"pairs":[[0,6],[1,0],[2,2],[3,7],[4,3],[5,9],[6,5],[7,1],[8,4],[9,8]],"matches":4,"loners":[],"blackout":false},{"n":9,"pairs":[[0,10],[1,2],[2,0],[3,7],[4,3],[5,9],[6,8],[7,1],[8,4],[9,6]],"matches":2,"loners":[],"blackout":false}]},"staffel-2":{"males":["Aaron","Dario","Dominik","Germain","Marc","Marcel","Marko","Marvin","Maximilian","Sascha"],"females":["Christin","Jill","Kathleen","Laura","Leonie","Melissa","Mirjam","Sabrina","Vanessa_E","Victoria","Vanessa_M"],"solved":false,"capped":false,"infeasible":false,"confirmed":[[5,4],[0,5]],"ruledOut":[[8,7],[0,2],[5,3],[1,3],[6,7]],"probs":[0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.1,0.1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.0,0.0,1.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.6,0.0,0.0,0.0,0.8,0.0,0.0,0.0,0.0,0.0,0.2,0.2],"top":[[2,8,1.0,0],[6,2,1.0,0],[7,1,1.0,0],[3,0,1.0,0],[1,7,1.0,0],[4,6,1.0,0],[5,4,1.0,0],[0,5,1.0,0],[9,3,0.8,0],[8,10,0.6,1],[8,9,0.5,1]],"double":{"applicable":true,"cands":[["Marc",0.3,"male"],["Dominik",0.2,"male"],["Marvin",0.2,"male"],["Sascha",0.2,"male"],["Maximilian",0.1,"male"]]},"nights":[{"n":1,"pairs":[[5,3],[0,2],[4,6],[9,8],[7,1],[2,5],[8,0],[3,4],[6,7],[1,9]],"matches":2,"loners":[],"blackout":false},{"n":2,"pairs":[[5,4],[0,2],[4,6],[9,1],[7,8],[2,5],[8,0],[3,9],[6,7],[1,3]],"matches":2,"loners":[],"blackout":false},{"n":3,"pairs":[[5,3],[0,5],[4,4],[9,7],[7,2],[2,8],[8,1],[3,0],[6,6],[1,9]],"matches":3,"loners":[],"blackout":false},{"n":4,"pairs":[[5,4],[0,5],[4,6],[9,8],[7,0],[2,3],[8,1],[3,9],[6,7],[1,2]],"matches":3,"loners":[],"blackout":false},{"n":5,"pairs":[[5,4],[0,6],[4,5],[9,1],[7,2],[2,8],[8,3],[3,0],[6,10],[1,9]],"matches":3,"loners":[],"blackout":false},{"n":6,"pairs":[[5,4],[0,5],[4,6],[9,1],[7,3],[2,8],[8,0],[3,9],[6,7],[1,10]],"matches":4,"loners":[],"blackout":false},{"n":7,"pairs":[[5,4],[0,5],[4,6],[9,1],[7,2],[2,3],[8,0],[3,10],[6,9],[1,7]],"matches":4,"loners":[],"blackout":false},{"n":8,"pairs":[[5,4],[0,8],[4,10],[9,7],[7,2],[2,5],[8,6],[3,1],[6,3],[1,9]],"matches":1,"loners":[],"blackout":false},{"n":9,"pairs":[[5,4],[0,5],[1,2],[2,7],[3,3],[4,6],[6,9],[7,8],[8,0],[9,1]],"matches":3,"loners":[],"blackout":false}]}}};</script>
+<script>
+(function () {
+  "use strict";
+  var D = window.AYTO_DATA;
+  var root = document.getElementById("main");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var fmt = function (n) { return Math.round(n).toLocaleString("de-DE"); };
+  var fmtP = function (p) { return p >= 1 ? "100%" : p <= 0 ? "0%" : Math.round(p * 100) + "%"; };
+
+  var cssVar = function (n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); };
+  var hexRgb = function (h) { h = h.replace("#", ""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; };
+  var STOPS = [[0, hexRgb(cssVar("--heat-0"))], [0.18, hexRgb(cssVar("--heat-1"))], [0.45, hexRgb(cssVar("--heat-2"))], [0.72, hexRgb(cssVar("--heat-3"))], [1, hexRgb(cssVar("--heat-4"))]];
+  function heatRgb(p) {
+    p = Math.max(0, Math.min(1, p));
+    for (var i = 1; i < STOPS.length; i++) {
+      var a = STOPS[i - 1], b = STOPS[i];
+      if (p <= b[0]) { var t = (p - a[0]) / ((b[0] - a[0]) || 1);
+        return a[1].map(function (v, k) { return Math.round(v + (b[1][k] - v) * t); }); }
+    }
+    return STOPS[STOPS.length - 1][1];
+  }
+  function heat(p) { var c = heatRgb(p); return "rgb(" + c[0] + " " + c[1] + " " + c[2] + ")"; }
+  function tier(p) {
+    if (p >= 1) return { label: "Fix" };
+    if (p >= 0.7) return { label: "Sehr wahrscheinlich" };
+    if (p >= 0.3) return { label: "Möglich" };
+    if (p > 0) return { label: "Eher unwahrscheinlich" };
+    return { label: "Kein Match" };
+  }
+  function heatText(p) { return p >= 0.85 ? "var(--bg)" : p >= 0.18 ? "var(--on-heat)" : "var(--fg-2)"; }
+  function who(m, f) { return '<span class="who"><span class="him">' + esc(m) + '</span><i>&amp;</i><span class="her">' + esc(f) + "</span></span>"; }
+
+  function statusOf(s) {
+    if (s.infeasible) return { label: "Passt nicht zusammen", color: "var(--danger)", cert: 0 };
+    if (s.sol === 1) return { label: "Komplett gelöst", color: "var(--gold)", cert: 1 };
+    return { label: fmt(s.sol) + " Möglichkeiten", color: "var(--accent-hi)", cert: Math.max(0.06, 1 / Math.sqrt(s.sol)) };
+  }
+
+  /* ── overview ─────────────────────────────────────────────────────── */
+  function seasonCard(s, i) {
+    var st = statusOf(s);
+    return '<a class="scard" data-od-id="season-card-' + s.id + '" href="#/staffel/' + s.id + '">' +
+      '<div class="top"><span class="idx">' + String(i + 1).padStart(2, "0") + "</span>" + (s.type === "vip" ? '<span class="pill gold">VIP</span>' : "") + "</div>" +
+      "<h3>" + esc(s.name) + "</h3>" +
+      '<p class="sub">' + s.year + " · Folge " + s.ep + " von " + s.totalEp + "</p>" +
+      '<div class="heatbar"><i data-bar="' + Math.round(st.cert * 100) + '" style="width:0%;background:linear-gradient(90deg,var(--heat-1),' + st.color + ')"></i></div>' +
+      '<div class="foot"><span style="color:' + st.color + '">' + st.label + "</span>" + (s.conf > 0 ? "<span>" + s.conf + " Fix</span>" : "") + "</div>" +
+    "</a>";
+  }
+
+  function renderOverview() {
+    var seasons = D.seasons;
+    var cur = seasons.filter(function (s) { return s.current; })[0] || seasons[0];
+    var archive = seasons.filter(function (s) { return s.id !== cur.id; });
+    var solved = seasons.filter(function (s) { return s.sol === 1 && !s.infeasible; }).length;
+    var parts = cur.nm + cur.nf;
+    document.title = "AYTO Matches — Wer ist wirklich ein Perfect Match?";
+    root.innerHTML =
+      '<section class="hero wrap" data-od-id="hero">' +
+        '<p class="kicker">Are You The One? Deutschland · Zahlen statt Bauchgefühl</p>' +
+        '<h1>Wer ist wirklich ein <span class="grad">Perfect Match</span><span class="qm">?</span></h1>' +
+        '<p class="lead">Jede Matching Night und jede Matchbox zählt. Wir zeigen dir, welche Paare laut Daten die besten Chancen haben — und wie sicher der Solver schon ist.</p>' +
+        '<div class="kpis">' +
+          '<span class="kpi"><b style="color:var(--him)">' + seasons.length + '</b> Staffeln</span>' +
+          '<span class="kpi"><b style="color:var(--accent-hi)">' + solved + '</b> komplett gelöst</span>' +
+          '<span class="kpi"><b style="color:var(--her)">100%</b> Zahlen</span>' +
+        "</div>" +
+      "</section>" +
+      '<section class="wrap" data-od-id="current-season">' +
+        '<a class="feature card" href="#/staffel/' + cur.id + '">' +
+          '<div class="feature-glow"></div>' +
+          '<div class="feature-grid">' +
+            "<div>" +
+              '<div class="row" style="flex-wrap:wrap">' +
+                '<span class="live"><span class="dot"></span>Gerade aktuell</span>' +
+                (cur.type === "vip" ? '<span class="pill gold">VIP</span>' : "") +
+              "</div>" +
+              '<h2 class="feature-title">' + esc(cur.name) + "</h2>" +
+              '<p class="meta">' + cur.year + " · Folge " + cur.ep + " von " + cur.totalEp + "</p>" +
+              '<span class="btn btn-primary" style="margin-top:24px">Staffel ansehen <span class="arw">→</span></span>' +
+            "</div>" +
+            '<dl class="ledger">' +
+              '<div><dd data-count="' + cur.sol + '" style="color:var(--accent-hi)">0</dd><dt>' + (cur.sol === 1 ? "Möglichkeit" : "Möglichkeiten") + "</dt></div>" +
+              '<div><dd data-count="' + cur.conf + '" style="color:var(--gold)">0</dd><dt>Fix-Matches</dt></div>' +
+              '<div><dd data-count="' + parts + '">0</dd><dt>Personen</dt></div>' +
+            "</dl>" +
+          "</div>" +
+        "</a>" +
+      "</section>" +
+      '<section class="wrap" data-od-id="archive">' +
+        '<div class="sec-head"><h2>Alle Staffeln</h2><span class="meta">' + archive.length + " im Archiv</span></div>" +
+        '<div class="cards">' + archive.map(seasonCard).join("") + "</div>" +
+      "</section>";
+    bindCounters();
+  }
+
+  /* ── season ───────────────────────────────────────────────────────── */
+  function gaugeHTML(s, d, clarity, LEN) {
+    return '<section class="card gauge-card" data-od-id="clarity">' +
+      '<div class="gauge-wrap">' +
+        '<svg viewBox="0 0 200 118" class="gauge" aria-hidden="true">' +
+          "<defs><linearGradient id=\"gg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">" +
+            '<stop offset="0" stop-color="var(--heat-1)"/><stop offset="55%" stop-color="var(--heat-3)"/><stop offset="100%" stop-color="var(--heat-4)"/>' +
+          "</linearGradient></defs>" +
+          '<path d="M 14 100 A 86 86 0 0 1 186 100" fill="none" stroke="var(--border)" stroke-width="12" stroke-linecap="round"/>' +
+          '<path id="gaugeArc" d="M 14 100 A 86 86 0 0 1 186 100" fill="none" stroke="url(#gg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + LEN.toFixed(2) + '" stroke-dashoffset="' + LEN.toFixed(2) + '"/>' +
+        "</svg>" +
+        '<div class="gauge-val"><b><span data-count="' + clarity + '">0</span><i>%</i></b><span class="kicker">Klarheit</span></div>' +
+      "</div>" +
+      "<div>" +
+        '<p class="kicker">Der aktuelle Stand</p>' +
+        '<p class="clarity-line">' + (d.solved
+          ? 'Gelöst. Es gibt nur noch eine <em>Kombination</em>.'
+          : 'Noch <em>' + fmt(s.sol) + "</em> mögliche Kombinationen.") + "</p>" +
+        '<div class="mini-stats">' +
+          '<div class="mini"><b style="color:var(--accent-hi)">' + fmt(s.sol) + '</b><span>' + (s.sol === 1 ? "Möglichkeit" : "Möglichkeiten") + "</span></div>" +
+          '<div class="mini"><b style="color:var(--gold)">' + d.confirmed.length + ' <i>/ ' + d.males.length + '</i></b><span>Fixe Matches</span></div>' +
+        "</div>" +
+      "</div>" +
+    "</section>";
+  }
+
+  function confirmedHTML(d) {
+    if (!d.confirmed.length) return "";
+    var items = d.confirmed.map(function (c) {
+      return '<div class="cmatch">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="10" rx="1.5"/></svg>' +
+        who(d.males[c[0]], d.females[c[1]]) + "</div>";
+    }).join("");
+    return '<section data-od-id="confirmed"><div class="sec-head"><h2>Fixe Perfect Matches</h2><span class="meta" style="color:var(--gold)">stehen fest</span></div><div class="confirmed">' + items + "</div></section>";
+  }
+
+  function topHTML(d) {
+    if (!d.top.length) return "";
+    var cards = d.top.map(function (t) {
+      var p = t[2], col = heat(p), tr = tier(p);
+      var badge = p >= 1 ? '<span class="pill gold">Fix</span>' : t[3] ? '<span class="pill violet">Doppel</span>' : "";
+      return '<div class="mcard" data-od-id="match-card" style="border-left-color:' + col + '">' +
+        '<div class="between" style="align-items:flex-start">' + who(d.males[t[0]], d.females[t[1]]) + badge + "</div>" +
+        '<div class="tier"><span style="color:' + col + '">' + tr.label + '</span><b style="color:' + col + '">' + fmtP(p) + "</b></div>" +
+        '<div class="mbar"><i data-bar="' + (p * 100).toFixed(1) + '" style="width:0%;background:linear-gradient(90deg,var(--heat-1),' + col + ')"></i></div>' +
+      "</div>";
+    }).join("");
+    return '<section data-od-id="top-pairings"><div class="sec-head"><h2>Die heißesten Paarungen</h2><span class="meta">aktuell je Person</span></div><div class="matches">' + cards + "</div></section>";
+  }
+
+  function matrixHTML(s, d) {
+    var nf = d.females.length;
+    var conf = {}; d.confirmed.forEach(function (c) { conf[c[0] + "-" + c[1]] = 1; });
+    var off = {}; d.ruledOut.forEach(function (c) { off[c[0] + "-" + c[1]] = 1; });
+    var head = '<th class="corner" scope="col"></th>';
+    d.females.forEach(function (f) { head += '<th class="colhead" scope="col"><span>' + esc(f) + "</span></th>"; });
+    var body = d.males.map(function (m, r) {
+      var cells = d.females.map(function (f, c) {
+        var p = d.probs[r * nf + c];
+        var key = r + "-" + c;
+        var cls = "cell" + (conf[key] ? " is-conf" : "");
+        var label = esc(m) + " & " + esc(f) + ": " + fmtP(p);
+        return '<td><button type="button" class="' + cls + '" data-m="' + r + '" data-f="' + c + '" aria-label="' + label + '" style="background:' + heat(p) + ";color:" + heatText(p) + '">' + (p > 0 ? "<span>" + fmtP(p) + "</span>" : "") + "</button></td>";
+      }).join("");
+      return '<tr><th class="rowhead" scope="row"><span>' + esc(m) + "</span></th>" + cells + "</tr>";
+    }).join("");
+    return '<section data-od-id="matrix">' +
+      '<div class="sec-head"><h2>Alle Paarungen</h2><span class="meta">je kräftiger, desto wahrscheinlicher</span></div>' +
+      '<div class="card matrix">' +
+        '<div class="matrix-readout" id="matrixReadout"><p class="hint">Tippe oder fahre über ein Feld · Männer links, Frauen oben · nach rechts wischen</p></div>' +
+        '<div class="matrix-scroll"><table class="mgrid" role="grid" aria-label="Match-Chancen Matrix"><thead><tr>' + head + "</tr></thead><tbody>" + body + "</tbody></table></div>" +
+        '<div class="legend"><span>0%</span><span class="ramp" aria-hidden="true"></span><span>100%</span></div>' +
+      "</div>" +
+    "</section>";
+  }
+
+  function doubleHTML(d) {
+    var dm = d.double;
+    if (!dm.applicable || !dm.cands.length) return "";
+    var max = Math.max.apply(null, dm.cands.map(function (c) { return c[1]; }).concat([0.0001]));
+    var rows = dm.cands.map(function (c, i) {
+      return '<div class="drow">' +
+        '<span class="rank">' + String(i + 1).padStart(2, "0") + "</span>" +
+        '<span class="nm" style="color:' + (c[2] === "male" ? "var(--him)" : "var(--her)") + '">' + esc(c[0]) + "</span>" +
+        '<span class="track"><i data-bar="' + ((c[1] / max) * 100).toFixed(1) + '" style="width:0%"></i></span>' +
+        '<span class="pc">' + fmtP(c[1]) + "</span>" +
+      "</div>";
+    }).join("");
+    return '<section data-od-id="double-match"><div class="sec-head"><h2>Wer hat das Doppel?</h2><span class="meta">zwei Perfect Matches</span></div>' +
+      '<div class="card double"><p class="lead-sm">Eine Person kann in dieser Staffel zwei Perfect Matches haben. Wer ist am wahrscheinlichsten dabei?</p>' + rows + "</div></section>";
+  }
+
+  function nightsHTML(d) {
+    if (!d.nights.length) return "";
+    var maxM = Math.max.apply(null, d.nights.map(function (n) { return n.matches; }).concat([1]));
+    var items = d.nights.map(function (n, i) {
+      var pips = ""; for (var k = 0; k < maxM; k++) pips += '<i class="' + (k < n.matches ? "on" : "") + '"></i>';
+      var pairs = n.pairs.map(function (p) { return '<div class="npair">' + who(d.males[p[0]], d.females[p[1]]) + "</div>"; }).join("");
+      var notes = (n.loners.length ? '<p class="note">Ohne Match: ' + esc(n.loners.join(", ")) + "</p>" : "") + (n.blackout ? '<p class="note danger">Blackout</p>' : "");
+      return '<details class="night"' + (i === d.nights.length - 1 ? " open" : "") + ">" +
+        '<summary><span class="row"><span class="num">' + String(n.n).padStart(2, "0") + '</span><span class="nlabel">Nacht ' + n.n + "</span></span>" +
+        '<span class="mcount"><span class="pips">' + pips + "</span><b>" + n.matches + '</b><small>' + (n.matches === 1 ? "Licht" : "Lichter") + "</small></span></summary>" +
+        '<div class="night-body">' + notes + '<div class="night-pairs">' + pairs + "</div></div></details>";
+    }).join("");
+    return '<section data-od-id="matching-nights"><div class="sec-head"><h2>Matching Nights</h2><span class="meta">was bisher feststand</span></div><div class="nights">' + items + "</div></section>";
+  }
+
+  function renderSeason(id) {
+    var s = D.seasons.filter(function (x) { return x.id === id; })[0] || D.seasons.filter(function (x) { return x.current; })[0];
+    var d = D.detail[s.id];
+    document.title = s.name + " — AYTO Matches";
+    try { localStorage.setItem("ayto:lastSeason", s.id); } catch (e) {}
+    if (d.infeasible) {
+      root.innerHTML = '<div class="wrap season-view"><div>' +
+        '<a class="back" href="#/"><span class="arw">←</span> Zur Übersicht</a>' +
+        '<header class="masthead"><h1>' + esc(s.name) + "</h1></header></div>" +
+        '<section class="card" data-od-id="infeasible" style="padding:32px;border-color:color-mix(in oklab,var(--danger) 45%,var(--border))">' +
+          '<p class="kicker" style="color:var(--danger)">Passt nicht zusammen</p>' +
+          '<h2 style="margin-top:12px">Keine passende Kombination</h2>' +
+          '<p class="lead-sm" style="margin-top:12px">Die bekannten Matching Nights und Matchboxen widersprechen sich. Wahrscheinlich fehlt noch eine Info oder eine Zahl ist falsch.</p>' +
+        "</section></div>";
+      return;
+    }
+    var clarity = d.solved ? 100 : Math.max(3, Math.round(100 / Math.sqrt(s.sol)));
+    var LEN = Math.PI * 86;
+    root.innerHTML = '<div class="wrap season-view">' +
+      "<div>" +
+        '<a class="back" href="#/"><span class="arw">←</span> Zur Übersicht</a>' +
+        '<header class="masthead" data-od-id="season-masthead">' +
+          '<div class="mrow"><span class="kicker">' + s.year + " · Folge " + s.ep + " von " + s.totalEp + "</span>" + (s.type === "vip" ? '<span class="pill gold">VIP</span>' : "") + "</div>" +
+          "<h1>" + esc(s.name) + "</h1>" +
+          '<p class="sub">' + d.males.length + " Männer · " + d.females.length + " Frauen" + (d.males.length !== d.females.length ? " · ungleich verteilt" : "") + "</p>" +
+        "</header>" +
+      "</div>" +
+      gaugeHTML(s, d, clarity, LEN) + confirmedHTML(d) + topHTML(d) + matrixHTML(s, d) + doubleHTML(d) + nightsHTML(d) +
+    "</div>";
+    bindGauge(LEN, clarity);
+    bindCounters();
+    bindMatrix(d);
+  }
+
+  /* ── bindings ─────────────────────────────────────────────────────── */
+  function countUp(el) {
+    var target = +el.dataset.count || 0;
+    if (reduce || target <= 0) { el.textContent = fmt(target); return; }
+    var dur = 1100, start = performance.now();
+    var tick = function (now) {
+      var t = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(target * e);
+      if (t < 1) requestAnimationFrame(tick); else el.textContent = fmt(target);
+    };
+    requestAnimationFrame(tick);
+  }
+  function bindCounters() {
+    var els = root.querySelectorAll("[data-count]");
+    if (reduce) { els.forEach(function (el) { el.textContent = fmt(+el.dataset.count || 0); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { countUp(en.target); io.unobserve(en.target); } });
+    }, { threshold: 0.4 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+  function bindBars() {
+    var bars = root.querySelectorAll("[data-bar]");
+    var apply = function () { bars.forEach(function (b) { b.style.width = b.dataset.bar + "%"; }); };
+    if (reduce) apply(); else requestAnimationFrame(function () { requestAnimationFrame(apply); });
+  }
+  function bindGauge(LEN, clarity) {
+    var arc = root.querySelector("#gaugeArc");
+    if (!arc) return;
+    var offset = LEN * (1 - clarity / 100);
+    if (reduce) arc.style.strokeDashoffset = offset; else requestAnimationFrame(function () { arc.style.strokeDashoffset = offset; });
+  }
+  function bindMatrix(d) {
+    var table = root.querySelector("table.mgrid");
+    var readout = root.querySelector("#matrixReadout");
+    if (!table || !readout) return;
+    var nf = d.females.length;
+    var cells = Array.prototype.slice.call(table.querySelectorAll(".cell"));
+    var hint = readout.innerHTML;
+    function setActive(r, c) {
+      var p = d.probs[r * nf + c], tr = tier(p);
+      readout.innerHTML = '<div class="ro-names"><span class="him">' + esc(d.males[r]) + '</span><i>&amp;</i><span class="her">' + esc(d.females[c]) + '</span></div>' +
+        '<div class="ro-val"><b style="color:' + heat(p) + '">' + fmtP(p) + "</b><span" + (p >= 1 ? ' style="color:var(--gold)"' : "") + ">" + tr.label + "</span></div>";
+      table.querySelectorAll(".colhead").forEach(function (th, ci) { th.classList.toggle("is-active", ci === c); });
+      table.querySelectorAll(".rowhead").forEach(function (th, ri) { th.classList.toggle("is-active", ri === r); });
+      cells.forEach(function (cell) {
+        var cr = +cell.dataset.m, cf = +cell.dataset.f;
+        cell.classList.toggle("active", cr === r && cf === c);
+        cell.classList.toggle("dim", cr !== r && cf !== c);
+      });
+    }
+    function clear() {
+      readout.innerHTML = hint;
+      table.querySelectorAll(".colhead,.rowhead").forEach(function (el) { el.classList.remove("is-active"); });
+      cells.forEach(function (cell) { cell.classList.remove("active", "dim"); });
+    }
+    table.addEventListener("mouseover", function (e) { var c = e.target.closest(".cell"); if (c) setActive(+c.dataset.m, +c.dataset.f); });
+    table.addEventListener("mouseleave", clear);
+    table.addEventListener("focusin", function (e) { var c = e.target.closest(".cell"); if (c) setActive(+c.dataset.m, +c.dataset.f); });
+    table.addEventListener("focusout", function () { if (!table.contains(document.activeElement)) clear(); });
+    table.addEventListener("click", function (e) { var c = e.target.closest(".cell"); if (c) setActive(+c.dataset.m, +c.dataset.f); });
+  }
+
+  /* ── nav + router ─────────────────────────────────────────────────── */
+  function buildSelect() {
+    var sel = document.getElementById("seasonSelect");
+    sel.innerHTML = D.seasons.map(function (s) {
+      return '<option value="' + s.id + '">' + esc(s.name) + (s.current ? " · aktuell" : "") + "</option>";
+    }).join("");
+    sel.addEventListener("change", function () { location.hash = "#/staffel/" + sel.value; });
+  }
+  function syncSelect() {
+    var sel = document.getElementById("seasonSelect");
+    var m = location.hash.match(/#\/staffel\/([^/]+)/);
+    var id = m ? m[1] : null;
+    if (!id) { try { id = localStorage.getItem("ayto:lastSeason"); } catch (e) {} }
+    if (!id || !D.detail[id]) id = (D.seasons.filter(function (s) { return s.current; })[0] || D.seasons[0]).id;
+    sel.value = id;
+  }
+  function route() {
+    var m = location.hash.match(/#\/staffel\/([^/]+)/);
+    if (m && D.detail[m[1]]) renderSeason(m[1]); else renderOverview();
+    bindBars();
+    try { window.scrollTo({ top: 0, behavior: "auto" }); } catch (e) {}
+    syncSelect();
+  }
+  buildSelect();
+  window.addEventListener("hashchange", function () {
+    var h = location.hash;
+    if (h && h !== "#/" && !h.indexOf("#/") === 0) return;
+    if (h && h !== "#/" && h.indexOf("#/") !== 0) return;
+    route();
+  });
+  route();
+})();
+</script>
+</body>
+</html>
