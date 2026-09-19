@@ -34,35 +34,29 @@ const confirmedLabel = season.confirmed_matches === 1 ? '1 Fix-Match' : `${seaso
 
 <a
   href={seasonUrl(season.id)}
-  class="reveal group relative block rounded-2xl border border-[var(--color-line)] bg-[var(--color-ink-2)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-match)]/60 hover:bg-[var(--color-ink-3)] sm:p-6"
+  class="scard reveal group"
   style={`animation-delay:${0.05 * index + 0.1}s`}
 >
-  <div class="flex items-start justify-between">
-    <span class="font-mono text-[0.7rem] text-[var(--color-bone-mut)] tracking-widest">{num}</span>
+  <div class="top">
+    <span class="idx">{num}</span>
     {season.type === 'vip' && (
-      <span class="pill border border-[var(--color-gold)]/60 text-[var(--color-gold)]">VIP</span>
+      <span class="pill gold">VIP</span>
     )}
   </div>
 
-  <h3 class="font-display text-2xl font-bold mt-3 text-[var(--color-bone)] transition-colors group-hover:text-[var(--color-match-hi)]">
-    {season.display_name}
-  </h3>
-  <p class="mt-1 font-mono text-xs text-[var(--color-bone-mut)]">
-    {season.year} · Folge {season.latest_episode} von {season.total_episodes}
-  </p>
+  <h3>{season.display_name}</h3>
+  <p class="sub">{season.year} · Folge {season.latest_episode} von {season.total_episodes}</p>
 
   <!-- heat strip: how close to fully solved -->
-  <div class="mt-5 h-1 w-full bg-[var(--color-line)] overflow-hidden">
-    <div class="h-full transition-all duration-700"
-         style={`width:${Math.round(certainty * 100)}%;background:linear-gradient(90deg,#3a5fb0,${statusColor})`}></div>
+  <div class="heatbar">
+    <i
+      style={`width:${Math.round(certainty * 100)}%;background:linear-gradient(90deg,#3a5fb0,${statusColor})`}></i>
   </div>
 
-  <div class="mt-3 flex items-center justify-between gap-3">
-    <span class="font-mono text-[0.68rem] font-medium" style={`color:${statusColor}`}>
-      {statusLabel}
-    </span>
+  <div class="foot">
+    <span style={`color:${statusColor}`}>{statusLabel}</span>
     {season.confirmed_matches > 0 && (
-      <span class="font-mono text-[0.68rem] text-[var(--color-bone-mut)]">{confirmedLabel}</span>
+      <span>{confirmedLabel}</span>
     )}
   </div>
 </a>

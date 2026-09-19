@@ -10,89 +10,85 @@
 
   let { totalSolutions, solved, confirmedCount, totalPairs }: Props = $props();
 
-  // "Klarheit" — 1 solution = 100%, more solutions = less clarity.
   const clarity = solved ? 100 : Math.max(3, Math.round(100 / Math.sqrt(totalSolutions)));
+  const radius = 86;
+  const length = Math.PI * radius;
+  const formatNumber = (value: number) => Math.round(value).toLocaleString('de-DE');
 
-  const R = 86;
-  const LEN = Math.PI * R; // semicircle arc length
-  const fmtDE = (n: number) => n.toLocaleString('de-DE');
-
-  let offset = $state(LEN);         // start empty, animate to filled
+  let offset = $state(length);
   let shownClarity = $state(0);
   let shownSolutions = $state(0);
 
   onMount(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
-      offset = LEN * (1 - clarity / 100);
+      offset = length * (1 - clarity / 100);
       shownClarity = clarity;
       shownSolutions = totalSolutions;
       return;
     }
-    requestAnimationFrame(() => { offset = LEN * (1 - clarity / 100); });
-    const dur = 1100, start = performance.now();
+
+    requestAnimationFrame(() => { offset = length * (1 - clarity / 100); });
+    const duration = 1100;
+    const start = performance.now();
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / dur);
-      const e = 1 - Math.pow(1 - t, 3);
-      shownClarity = Math.round(clarity * e);
-      shownSolutions = Math.round(totalSolutions * e);
-      if (t < 1) requestAnimationFrame(tick);
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      shownClarity = Math.round(clarity * eased);
+      shownSolutions = Math.round(totalSolutions * eased);
+      if (progress < 1) requestAnimationFrame(tick);
       else { shownClarity = clarity; shownSolutions = totalSolutions; }
     };
     requestAnimationFrame(tick);
   });
 </script>
 
-<div class="card relative overflow-hidden p-5 sm:p-8">
-  <div class="pointer-events-none absolute -left-20 -bottom-24 h-72 w-72 rounded-full blur-3xl opacity-50"
-       style="background:radial-gradient(circle,rgba(176,38,255,0.4),transparent 65%)"></div>
-
-  <div class="relative grid gap-7 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8">
-    <!-- arc gauge -->
-    <div class="relative w-[220px] mx-auto sm:mx-0">
-      <svg viewBox="0 0 200 118" class="w-full" aria-hidden="true">
-        <defs>
-          <linearGradient id="clarityGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#3a5fb0" />
-            <stop offset="55%" stop-color="#b026ff" />
-            <stop offset="100%" stop-color="#ff3d8b" />
-          </linearGradient>
-        </defs>
-        <path d="M 14 100 A 86 86 0 0 1 186 100" fill="none"
-              stroke="var(--color-line)" stroke-width="12" stroke-linecap="round" />
-        <path d="M 14 100 A 86 86 0 0 1 186 100" fill="none"
-              stroke="url(#clarityGrad)" stroke-width="12" stroke-linecap="round"
-              stroke-dasharray={LEN} stroke-dashoffset={offset}
-              style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1);filter:drop-shadow(0 0 6px rgba(176,38,255,0.6))" />
-      </svg>
-      <div class="absolute inset-x-0 bottom-1 text-center">
-        <div class="font-mono text-4xl font-bold leading-none text-[var(--color-bone)]">{shownClarity}<span class="text-[var(--color-match-hi)]">%</span></div>
-        <div class="kicker mt-1.5">Klarheit</div>
-      </div>
+<div class="card gauge-card">
+  <div class="gauge-wrap">
+    <svg viewBox="0 0 200 118" class="gauge" role="img" aria-label={`Klarheit: ${clarity}%`}>
+      <defs>
+        <linearGradient id="clarityGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="var(--color-heat-1)" />
+          <stop offset="55%" stop-color="var(--color-heat-3)" />
+          <stop offset="100%" stop-color="var(--color-heat-4)" />
+        </linearGradient>
+      </defs>
+      <path d="M 14 100 A 86 86 0 0 1 186 100" fill="none" stroke="var(--border)" stroke-width="12" stroke-linecap="round" />
+      <path
+        class="gauge-arc"
+        d="M 14 100 A 86 86 0 0 1 186 100"
+        fill="none"
+        stroke="url(#clarityGrad)"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-dasharray={length}
+        stroke-dashoffset={offset}
+      />
+    </svg>
+    <div class="gauge-val">
+      <div><b>{shownClarity}<span>%</span></b></div>
+      <span class="kicker">Klarheit</span>
     </div>
+  </div>
 
-    <!-- readout -->
-    <div>
-      <p class="kicker">Der aktuelle Stand</p>
-      <p class="mt-2 font-display text-2xl font-bold leading-tight text-[var(--color-bone)] sm:text-3xl">
-        {#if solved}
-          Gelöst. Es gibt nur noch eine <span class="italic text-[var(--color-gold)]">Kombination</span>.
-        {:else}
-          Noch <span class="italic text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</span> mögliche Kombinationen.
-        {/if}
-      </p>
+  <div>
+    <p class="kicker">Der aktuelle Stand</p>
+    <p class="clarity-line">
+      {#if solved}
+        Gelöst. Es gibt nur noch eine <em>Kombination</em>.
+      {:else}
+        Noch <em>{formatNumber(shownSolutions)}</em> mögliche Kombinationen.
+      {/if}
+    </p>
 
-      <div class="mt-5 grid max-w-sm grid-cols-2 gap-2">
-        <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.45)] px-4 py-3">
-          <div class="font-mono text-xl font-bold text-[var(--color-match-hi)]">{fmtDE(shownSolutions)}</div>
-          <div class="mt-0.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-[var(--color-bone-mut)]">
-            {totalSolutions === 1 ? 'Möglichkeit' : 'Möglichkeiten'}
-          </div>
-        </div>
-        <div class="rounded-xl border border-[var(--color-line)] bg-[rgba(12,10,18,0.45)] px-4 py-3">
-          <div class="font-mono text-xl font-bold text-[var(--color-gold)]">{confirmedCount} <span class="text-[var(--color-bone-mut)]">/ {totalPairs}</span></div>
-          <div class="mt-0.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-[var(--color-bone-mut)]">Fixe Matches</div>
-        </div>
+    <div class="mini-stats">
+      <div class="mini">
+        <b style="color:var(--accent-hi)">{formatNumber(shownSolutions)}</b>
+        <span>{totalSolutions === 1 ? 'Möglichkeit' : 'Möglichkeiten'}</span>
+      </div>
+      <div class="mini">
+        <b style="color:var(--color-gold)">{confirmedCount} <i>/ {totalPairs}</i></b>
+        <span>Fixe Matches</span>
       </div>
     </div>
   </div>

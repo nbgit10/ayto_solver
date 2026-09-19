@@ -13,10 +13,10 @@ export interface ProbabilityTier {
 export function getProbabilityTier(probability: number, lang: Lang): ProbabilityTier {
   const s = t(lang);
   if (probability >= 1.0) return { label: s.confirmed, key: 'confirmed', accent: '#ffd166' };
-  if (probability >= 0.7) return { label: s.veryLikely, key: 'veryLikely', accent: '#ff5599' };
-  if (probability >= 0.3) return { label: s.possible, key: 'possible', accent: '#c86bff' };
-  if (probability > 0) return { label: s.unlikely, key: 'unlikely', accent: '#6f7bd6' };
-  return { label: s.ruledOutLabel, key: 'ruledOut', accent: '#6f6878' };
+  if (probability >= 0.7) return { label: s.veryLikely, key: 'veryLikely', accent: '#ff3d8b' };
+  if (probability >= 0.3) return { label: s.possible, key: 'possible', accent: '#b026ff' };
+  if (probability > 0) return { label: s.unlikely, key: 'unlikely', accent: '#3a5fb0' };
+  return { label: s.ruledOutLabel, key: 'ruledOut', accent: '#8c7d91' };
 }
 
 /* ---- continuous "heat" ramp: cold (low p) → hot (high p) ---- */
@@ -55,7 +55,9 @@ export function heatColor(probability: number, alpha = 1): string {
 
 /** Light vs. dark text on a given heat background. */
 export function heatTextColor(probability: number): string {
-  return probability >= 0.32 ? '#fff' : 'rgba(243,239,233,0.62)';
+  if (probability >= 0.85) return '#0c0a12';
+  if (probability >= 0.18) return '#fff';
+  return '#c9bdca';
 }
 
 export function formatProbability(probability: number): string {
