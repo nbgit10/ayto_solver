@@ -10,93 +10,87 @@
 
   let { pairings, males, females }: Props = $props();
 
-  const probMap = new Map<string, number>();
+  const probabilityMap = new Map<string, number>();
   const confirmedSet = new Set<string>();
-  for (const p of pairings) {
-    probMap.set(`${p.male}|${p.female}`, p.probability);
-    if (p.confirmed) confirmedSet.add(`${p.male}|${p.female}`);
+  for (const pairing of pairings) {
+    probabilityMap.set(`${pairing.male}|${pairing.female}`, pairing.probability);
+    if (pairing.confirmed) confirmedSet.add(`${pairing.male}|${pairing.female}`);
   }
-  const getProb = (m: string, f: string) => probMap.get(`${m}|${f}`) ?? 0;
 
-  let hr = $state(-1); // hovered row (male index)
-  let hc = $state(-1); // hovered col (female index)
+  const getProbability = (male: string, female: string) => probabilityMap.get(`${male}|${female}`) ?? 0;
+  const short = (value: string, length: number) => value.length > length ? `${value.slice(0, length - 1)}…` : value;
 
-  let active = $derived(hr >= 0 && hc >= 0);
-  let activeProb = $derived(active ? getProb(males[hr], females[hc]) : 0);
-  let activeTier = $derived(getProbabilityTier(activeProb, 'de'));
+  let hoveredRow = $state(-1);
+  let hoveredColumn = $state(-1);
+  let active = $derived(hoveredRow >= 0 && hoveredColumn >= 0);
+  let activeProbability = $derived(active ? getProbability(males[hoveredRow], females[hoveredColumn]) : 0);
+  let activeTier = $derived(getProbabilityTier(activeProbability, 'de'));
 
-  function enter(r: number, c: number) { hr = r; hc = c; }
-  function clear() { hr = -1; hc = -1; }
+  function enter(row: number, column: number) {
+    hoveredRow = row;
+    hoveredColumn = column;
+  }
 
-  const short = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+  function clear() {
+    hoveredRow = -1;
+    hoveredColumn = -1;
+  }
 </script>
 
-<div class="card overflow-hidden">
-  <!-- live readout -->
-  <div class="flex min-h-[76px] items-center justify-between gap-4 border-b border-[var(--color-line)] px-4 py-4 sm:px-5">
+<div class="card matrix">
+  <div class="matrix-readout">
     {#if active}
-      <div class="flex min-w-0 items-center gap-2 text-base font-semibold sm:text-lg">
-        <span class="text-[var(--color-him)]">{males[hr]}</span>
-        <span class="font-display italic text-[var(--color-bone-mut)]">&amp;</span>
-        <span class="text-[var(--color-her)]">{females[hc]}</span>
+      <div class="ro-names">
+        <span class="him">{males[hoveredRow]}</span>
+        <i>&amp;</i>
+        <span class="her">{females[hoveredColumn]}</span>
       </div>
-      <div class="text-right">
-        <div class="font-mono text-2xl font-bold leading-none" style={`color:${heatColor(activeProb)}`}>{formatProbability(activeProb)}</div>
-        <div class="mt-1 font-mono text-[0.62rem] font-medium" style={`color:${activeTier.accent}`}>{activeTier.label}</div>
+      <div class="ro-val">
+        <b style={`color:${heatColor(activeProbability)}`}>{formatProbability(activeProbability)}</b>
+        <span style={activeProbability >= 1 ? 'color:var(--color-gold)' : ''}>{activeTier.label}</span>
       </div>
     {:else}
-      <p class="font-mono text-[0.68rem] leading-relaxed text-[var(--color-bone-mut)] sm:text-[0.72rem]">
-        Tippe auf ein Feld · Männer links, Frauen oben <span class="sm:hidden">· nach rechts wischen</span>
-      </p>
+      <p class="hint">Tippe auf ein Feld · Männer links, Frauen oben <span class="mobile-hint">· nach rechts wischen</span></p>
     {/if}
   </div>
 
-  <div class="matrix-scroll overflow-x-auto" aria-label="Match-Matrix, horizontal scrollen">
-    <table class="min-w-[700px] w-full border-separate border-spacing-1 p-3" on:mouseleave={clear} role="grid">
+  <div class="matrix-scroll" aria-label="Match-Matrix, horizontal scrollen">
+    <table class="mgrid" on:mouseleave={clear} role="grid" aria-label="Match-Chancen Matrix">
       <thead>
         <tr>
-          <th class="sticky left-0 z-20 w-24 bg-[var(--color-ink-2)]"></th>
-          {#each females as female, c}
-            <th class="h-20 w-[52px] px-1 pb-1 align-bottom">
-              <div class="origin-bottom whitespace-nowrap font-mono text-[0.62rem] tracking-wide transition-all duration-200"
-                   style={`color:${hc === c ? 'var(--color-her)' : 'var(--color-bone-mut)'};transform:rotate(-45deg) translateX(2px)${hc === c ? ' scale(1.12)' : ''}`}
-                   title={female}>
-                {short(female, 8)}
-              </div>
+          <th class="corner" scope="col"></th>
+          {#each females as female, column}
+            <th class:is-active={hoveredColumn === column} class="colhead" scope="col">
+              <span title={female}>{short(female, 10)}</span>
             </th>
           {/each}
         </tr>
       </thead>
       <tbody>
-        {#each males as male, r}
+        {#each males as male, row}
           <tr>
-            <th class="sticky left-0 z-10 w-24 bg-[var(--color-ink-2)] pr-2 text-right">
-              <span class="inline-block whitespace-nowrap font-mono text-[0.7rem] transition-all duration-200"
-                    style={`color:${hr === r ? 'var(--color-him)' : 'var(--color-bone-dim)'}${hr === r ? ';transform:scale(1.08)' : ''}`}
-                    title={male}>{short(male, 9)}</span>
+            <th class:is-active={hoveredRow === row} class="rowhead" scope="row">
+              <span title={male}>{short(male, 11)}</span>
             </th>
-            {#each females as female, c}
-              {@const prob = getProb(male, female)}
+            {#each females as female, column}
+              {@const probability = getProbability(male, female)}
               {@const confirmed = confirmedSet.has(`${male}|${female}`)}
-              {@const isAxis = hr === r || hc === c}
-              {@const isCell = hr === r && hc === c}
-              <td class="p-0">
+              {@const isCell = hoveredRow === row && hoveredColumn === column}
+              {@const isDimmed = active && hoveredRow !== row && hoveredColumn !== column}
+              <td>
                 <button
                   type="button"
-                  on:click={() => enter(r, c)}
-                  on:mouseenter={() => enter(r, c)}
-                  on:focus={() => enter(r, c)}
-                  aria-label={`${male} & ${female}: ${formatProbability(prob)}`}
-                  class="relative block h-10 w-full min-w-[52px] rounded-md outline-none transition-all duration-150"
-                  style={`
-                    background:${heatColor(prob)};
-                    color:${heatTextColor(prob)};
-                    opacity:${active && !isAxis ? 0.38 : 1};
-                    transform:${isCell ? 'scale(1.18)' : 'scale(1)'};
-                    z-index:${isCell ? 30 : 1};
-                    box-shadow:${isCell ? '0 0 0 2px var(--color-bone),0 6px 20px -4px rgba(0,0,0,0.7)' : confirmed ? '0 0 0 2px var(--color-gold) inset' : 'none'};
-                  `}>
-                  <span class="font-mono text-[0.62rem] font-bold">{prob > 0 ? formatProbability(prob) : ''}</span>
+                  class:active={isCell}
+                  class:dim={isDimmed}
+                  class:is-conf={confirmed}
+                  class="cell"
+                  on:click={() => enter(row, column)}
+                  on:mouseenter={() => enter(row, column)}
+                  on:focus={() => enter(row, column)}
+                  aria-label={`${male} & ${female}: ${formatProbability(probability)}`}
+                  style={`background:${heatColor(probability)};color:${heatTextColor(probability)}`}
+                >
+                  {#if probability > 0}<span>{formatProbability(probability)}</span>{/if}
                 </button>
               </td>
             {/each}
@@ -104,5 +98,11 @@
         {/each}
       </tbody>
     </table>
+  </div>
+
+  <div class="legend">
+    <span>0%</span>
+    <span class="ramp" aria-hidden="true"></span>
+    <span>100%</span>
   </div>
 </div>

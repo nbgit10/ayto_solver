@@ -1,30 +1,28 @@
 ---
 ---
 
-<footer class="mt-20 border-t border-[var(--color-line)]">
-  <div class="mx-auto max-w-[1180px] px-5 py-10 sm:px-8 sm:py-12">
-    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+<footer class="pagefoot">
+  <div class="wrap">
+    <div class="foot-in">
       <div>
-        <p class="font-display text-3xl font-extrabold text-[var(--color-bone)]">AYTO<span class="text-[var(--color-match-hi)]">.</span>matches</p>
-        <p class="mt-2 max-w-md text-sm leading-relaxed text-[var(--color-bone-dim)]">
-          Zahlen statt Bauchgefühl für <span class="font-display italic">Are You The One? Deutschland</span>.
+        <p class="foot-brand">AYTO<span>.</span>matches</p>
+        <p class="lead-sm" style="margin-top:8px;max-width:42ch">
+          Zahlen statt Bauchgefühl für <i>Are You The One? Deutschland</i>.
         </p>
       </div>
-      <div class="space-y-1.5 text-sm text-[var(--color-bone-mut)] md:text-right">
+      <div class="meta" style="text-align:right;line-height:1.9">
         <p>Unabhängige Fan-Seite · nicht offiziell von RTL</p>
         <p>Daten können sich ändern</p>
         <p class="pt-1">
-          <a href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener"
-             class="font-medium text-[var(--color-match-hi)] transition-colors hover:text-[var(--color-her)]">Mehr zum Solver →</a>
+          <a href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener" style="color:var(--accent-hi)">Mehr zum Solver →</a>
         </p>
       </div>
     </div>
 
-    <div class="mt-8 flex items-center gap-3 border-t border-[var(--color-line)] pt-5">
-      <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">geringe Chance</span>
-      <span class="h-2 min-w-0 flex-1 rounded-full"
-            style="background:linear-gradient(90deg,#2a2435,#3a5fb0,#7b3fd6,#b73cff,#ff6fae)"></span>
-      <span class="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--color-bone-mut)]">hohe Chance</span>
+    <div class="foot-ramp">
+      <span class="kicker">geringe Chance</span>
+      <span class="ramp" aria-hidden="true"></span>
+      <span class="kicker">hohe Chance</span>
     </div>
   </div>
 </footer>

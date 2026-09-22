@@ -22,50 +22,42 @@ if (!slug) throw new Error('Missing season slug');
 const dataRaw = readFileSync(`public/data/${slug}/latest.json`, 'utf-8');
 const data: SeasonData = JSON.parse(dataRaw);
 const topMatching = data.top_matching ?? [];
-const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches));
+const maxNightMatches = Math.max(1, ...data.matching_nights.map((night) => night.matches));
+const formatPrice = (price: number | null) => price === null ? '' : ` · ${price.toLocaleString('de-DE')} €`;
 ---
 
 <Base
   title={`${data.meta.display_name} — AYTO Matches`}
   description={`Match-Chancen für ${data.meta.display_name} (${data.meta.year}) — Folge ${data.meta.latest_episode} von ${data.meta.total_episodes}.`}
 >
-  <!-- ============ SEASON MASTHEAD ============ -->
-  <header class="mx-auto max-w-[1180px] px-5 pb-8 pt-10 sm:px-8 sm:pb-10 sm:pt-14">
-    <a href="/" class="reveal group inline-flex items-center gap-2 font-mono text-[0.7rem] font-medium text-[var(--color-bone-mut)] transition-colors hover:text-[var(--color-bone)]">
-      <span class="transition-transform group-hover:-translate-x-1">&larr;</span> Zur Übersicht
-    </a>
-
-    <div class="reveal mt-6 flex flex-wrap items-center gap-3" style="animation-delay:.08s">
-      <span class="kicker">{data.meta.year} · Folge {data.meta.latest_episode} von {data.meta.total_episodes}</span>
-      {data.meta.type === 'vip' && (
-        <span class="pill border border-[var(--color-gold)] text-[var(--color-gold)]">VIP</span>
-      )}
+  <div class="wrap season-view">
+    <div>
+      <a class="back" href="/"><span class="arw">←</span> Zur Übersicht</a>
+      <header class="masthead" data-od-id="season-masthead">
+        <div class="mrow">
+          <span class="kicker">{data.meta.year} · Folge {data.meta.latest_episode} von {data.meta.total_episodes}</span>
+          {data.meta.type === 'vip' && <span class="pill gold">VIP</span>}
+        </div>
+        <h1>{data.meta.display_name}</h1>
+        <p class="sub">
+          {data.contestants.males.length} Männer · {data.contestants.females.length} Frauen
+          {data.contestants.is_unbalanced ? ' · ungleich verteilt' : ''}
+        </p>
+      </header>
     </div>
 
-    <h1 class="reveal mt-3 font-display text-[clamp(2.8rem,9vw,6rem)] font-black leading-none tracking-[-0.02em] text-[var(--color-bone)]"
-        style="animation-delay:.14s">
-      {data.meta.display_name}
-    </h1>
-    <p class="reveal mt-4 font-mono text-sm text-[var(--color-bone-dim)]" style="animation-delay:.2s">
-      {data.contestants.males.length} Männer · {data.contestants.females.length} Frauen
-      {data.contestants.is_unbalanced ? ' · ungleich verteilt' : ''}
-    </p>
-  </header>
-
-  <div class="mx-auto max-w-[1180px] px-5 pb-8 sm:px-8">
     {data.solver_result.infeasible ? (
-      <div class="card p-8" style="border-color:rgba(255,93,93,0.4);box-shadow:0 0 30px -12px rgba(255,93,93,0.5)">
-        <p class="kicker" style="color:#ff5d5d">Passt nicht zusammen</p>
-        <h2 class="mt-3 font-display text-3xl font-bold text-[var(--color-bone)]">Keine passende Kombination</h2>
-        <p class="mt-3 text-[var(--color-bone-dim)] max-w-xl leading-relaxed">
-          Die bekannten Matching Nights und Matchboxen widersprechen sich. Wahrscheinlich fehlt noch eine
-          Info oder eine Zahl ist falsch.
+      <section class="card" data-od-id="infeasible" style="padding:32px;border-color:color-mix(in oklab,var(--danger) 45%,var(--border))">
+        <p class="kicker" style="color:var(--danger)">Passt nicht zusammen</p>
+        <h2 style="margin-top:12px">Keine passende Kombination</h2>
+        <p class="lead-sm" style="margin-top:12px">
+          Die bekannten Matching Nights und Matchboxen widersprechen sich. Wahrscheinlich fehlt noch eine Info oder
+          eine Zahl ist falsch.
         </p>
-      </div>
+      </section>
     ) : (
-      <div class="space-y-14 sm:space-y-16">
-        <!-- The Oracle -->
-        <section>
+      <div class="season-content">
+        <section data-od-id="clarity">
           <CertaintyMeter
             totalSolutions={data.solver_result.total_solutions}
             solved={data.solver_result.solved}
@@ -75,49 +67,41 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
           />
         </section>
 
-        <!-- Confirmed -->
         {data.confirmed_matches.length > 0 && (
-          <section>
-            <div class="section-head mb-5">
-              <h2 class="font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Fixe Perfect Matches</h2>
-              <p class="text-[var(--color-gold)]">stehen fest</p>
+          <section data-od-id="confirmed">
+            <div class="sec-head">
+              <h2>Fixe Perfect Matches</h2>
+              <span class="meta" style="color:var(--color-gold)">stehen fest</span>
             </div>
             <ConfirmedMatches matches={data.confirmed_matches} client:load />
           </section>
         )}
 
-        <!-- Matchboxes -->
         {data.matchboxes.length > 0 && (
-          <section>
-            <div class="section-head mb-5">
-              <h2 class="font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Matchboxen</h2>
-              <p>was bisher bekannt ist</p>
+          <section data-od-id="matchboxes">
+            <div class="sec-head">
+              <h2>Matchboxen</h2>
+              <span class="meta">was bisher bekannt ist</span>
             </div>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="matchbox-grid">
               {data.matchboxes.map((box) => (
-                <div class="card p-4 sm:p-5">
-                  <div class="flex items-center justify-between gap-3">
-                    <span class="font-mono text-[0.65rem] text-[var(--color-bone-mut)]">
-                      Matchbox {String(box.number).padStart(2, '0')}
-                    </span>
+                <div class="matchbox">
+                  <div class="matchbox-head">
+                    <span class="matchbox-label">Matchbox {String(box.number).padStart(2, '0')}</span>
                     {box.sold ? (
-                      <span class="text-right font-mono text-[0.62rem] font-medium text-[var(--color-gold)]">
-                        Verkauft{box.sold_price ? ` · ${box.sold_price.toLocaleString('de-DE')} €` : ''}
-                      </span>
+                      <span class="meta" style="color:var(--color-gold)">Verkauft{formatPrice(box.sold_price)}</span>
                     ) : box.match === null ? (
-                      <span class="font-mono text-[0.62rem] text-[var(--color-bone-mut)]">
-                        Noch offen
-                      </span>
+                      <span class="meta">Noch offen</span>
                     ) : (
-                      <span class={`font-mono text-[0.62rem] font-medium ${box.match ? 'text-[var(--color-match-hi)]' : 'text-[var(--color-bone-mut)]'}`}>
+                      <span class="meta" style={`color:${box.match ? 'var(--accent-hi)' : 'var(--muted)'}`}>
                         {box.match ? 'Perfect Match' : 'Kein Match'}
                       </span>
                     )}
                   </div>
-                  <div class="mt-3 text-base font-semibold leading-snug">
-                    <span class="text-[var(--color-him)]">{box.male}</span>
-                    <span class="text-[var(--color-bone-mut)] mx-1.5 font-display italic">&amp;</span>
-                    <span class="text-[var(--color-her)]">{box.female}</span>
+                  <div class="pair">
+                    <span class="him">{box.male}</span>
+                    <span class="pair-amp">&amp;</span>
+                    <span class="her">{box.female}</span>
                   </div>
                 </div>
               ))}
@@ -125,14 +109,13 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
           </section>
         )}
 
-        <!-- Top matching -->
         {topMatching.length > 0 && (
-          <section>
-            <div class="section-head mb-5">
-              <h2 class="font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Die heißesten Paarungen</h2>
-              <p>aktuell je Person</p>
+          <section data-od-id="top-pairings">
+            <div class="sec-head">
+              <h2>Die heißesten Paarungen</h2>
+              <span class="meta">aktuell je Person</span>
             </div>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="matches">
               {topMatching.map((entry) => (
                 <MatchCard pairing={entry} isDoubleMatch={entry.is_double} client:load />
               ))}
@@ -140,15 +123,11 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
           </section>
         )}
 
-        <!-- The Matrix (centerpiece) -->
-        <section>
-          <div class="mb-2">
-            <span class="kicker">Match-Chancen</span>
+        <section data-od-id="matrix">
+          <div class="sec-head">
+            <h2>Alle Paarungen</h2>
+            <span class="meta">je kräftiger, desto wahrscheinlicher</span>
           </div>
-          <h2 class="mb-1 font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Alle Paarungen</h2>
-          <p class="mb-5 max-w-2xl text-sm text-[var(--color-bone-dim)]">
-            Je kräftiger die Farbe, desto höher die Chance auf ein Match.
-          </p>
           <MatchGrid
             pairings={data.pairings}
             males={data.contestants.males}
@@ -157,61 +136,51 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
           />
         </section>
 
-        <!-- Double match -->
         {data.double_match.applicable && data.double_match.candidates.length > 0 && (
-          <section>
-            <div class="section-head mb-5">
-              <h2 class="font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Wer hat das Doppel?</h2>
-              <p>zwei Perfect Matches</p>
+          <section data-od-id="double-match">
+            <div class="sec-head">
+              <h2>Wer hat das Doppel?</h2>
+              <span class="meta">zwei Perfect Matches</span>
             </div>
             <DoubleMatchInfo doubleMatch={data.double_match} client:load />
           </section>
         )}
 
-        <!-- Matching nights -->
         {data.matching_nights.length > 0 && (
-          <section>
-            <div class="section-head mb-5">
-              <h2 class="font-display text-2xl font-bold text-[var(--color-bone)] sm:text-3xl">Matching Nights</h2>
-              <p>was bisher feststand</p>
+          <section data-od-id="matching-nights">
+            <div class="sec-head">
+              <h2>Matching Nights</h2>
+              <span class="meta">was bisher feststand</span>
             </div>
-            <div class="space-y-2.5">
-              {data.matching_nights.map((night, i) => (
-                <details class="card group" open={i === data.matching_nights.length - 1}>
-                  <summary class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none">
-                    <div class="flex items-center gap-4">
-                      <span class="font-display text-2xl font-bold text-[var(--color-bone-mut)] group-open:text-[var(--color-match-hi)] transition-colors w-10">
-                        {String(night.night_number).padStart(2, '0')}
-                      </span>
-                      <span class="font-mono text-[0.72rem] font-medium text-[var(--color-bone-dim)]">Nacht {night.night_number}</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                      <div class="hidden sm:flex items-center gap-1">
-                        {Array.from({ length: maxNightMatches }).map((_, k) => (
-                          <span class="h-2 w-2 rounded-full" style={`background:${k < night.matches ? 'var(--color-match)' : 'var(--color-line-2)'}`}></span>
+            <div class="nights">
+              {data.matching_nights.map((night, index) => (
+                <details class="night" open={index === data.matching_nights.length - 1}>
+                  <summary>
+                    <span class="row">
+                      <span class="num">{String(night.night_number).padStart(2, '0')}</span>
+                      <span class="nlabel">Nacht {night.night_number}</span>
+                    </span>
+                    <span class="mcount">
+                      <span class="pips">
+                        {Array.from({ length: maxNightMatches }).map((_, matchIndex) => (
+                          <i class:list={{ on: matchIndex < night.matches }}></i>
                         ))}
-                      </div>
-                      <span class="font-mono text-sm font-bold text-[var(--color-match-hi)]">{night.matches}</span>
-                       <span class="font-mono text-[0.62rem] text-[var(--color-bone-mut)]">{night.matches === 1 ? 'Licht' : 'Lichter'}</span>
-                    </div>
+                      </span>
+                      <b>{night.matches}</b>
+                      <small>{night.matches === 1 ? 'Licht' : 'Lichter'}</small>
+                    </span>
                   </summary>
-                   <div class="px-5 pb-5 pt-1 border-t border-[var(--color-line)]">
-                     {night.loners && night.loners.length > 0 && (
-                        <p class="mt-3 font-mono text-[0.65rem] text-[var(--color-bone-mut)]">
-                          Ohne Match: {night.loners.join(', ')}
-                       </p>
-                     )}
-                     {night.blackout && (
-                        <p class="mt-3 font-mono text-[0.65rem] text-[#ff5d5d]">
-                         Blackout
-                       </p>
-                     )}
-                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 mt-3">
+                  <div class="night-body">
+                    {night.loners && night.loners.length > 0 && (
+                      <p class="note">Ohne Match: {night.loners.join(', ')}</p>
+                    )}
+                    {night.blackout && <p class="note danger">Blackout</p>}
+                    <div class="night-pairs">
                       {night.pairs.map(([male, female]) => (
-                        <div class="flex items-center gap-2 text-sm py-1 border-b border-[var(--color-line)]/50">
-                          <span class="text-[var(--color-him)] font-medium">{male}</span>
-                          <span class="text-[var(--color-bone-mut)] font-display italic text-xs">&amp;</span>
-                          <span class="text-[var(--color-her)] font-medium">{female}</span>
+                        <div class="npair">
+                          <span class="him">{male}</span>
+                          <span class="pair-amp">&amp;</span>
+                          <span class="her">{female}</span>
                         </div>
                       ))}
                     </div>
@@ -225,7 +194,3 @@ const maxNightMatches = Math.max(1, ...data.matching_nights.map((n) => n.matches
     )}
   </div>
 </Base>
-
-<style>
-  details > summary::-webkit-details-marker { display: none; }
-</style>

@@ -1,35 +1,47 @@
 ---
+import { readFileSync } from 'node:fs';
+import type { SeasonsIndex } from '../lib/types';
+import { seasonUrl } from '../lib/helpers';
+
+const raw = readFileSync('public/data/seasons.json', 'utf-8');
+const index: SeasonsIndex = JSON.parse(raw);
 const path = Astro.url.pathname;
-const onHome = path === '/' || path === '';
+const currentSlug = path.match(/^\/staffel\/([^/]+)/)?.[1];
+const currentSeason = index.seasons.find((season) => season.id === currentSlug)
+  ?? index.seasons.find((season) => season.current)
+  ?? index.seasons[0];
 ---
 
-<header class="sticky top-0 z-50 border-b border-[var(--color-line)] bg-[rgba(12,10,18,0.82)] backdrop-blur-xl">
-  <div class="mx-auto flex h-[4.5rem] max-w-[1180px] items-center justify-between px-5 sm:px-8">
-    <a href="/" class="group flex items-center gap-3" aria-label="AYTO Matches — Startseite">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="AYTO Matches — Startseite">
       <!-- him (blue) + her (pink) overlap → match (violet) -->
-      <svg width="36" height="24" viewBox="0 0 36 24" fill="none" class="shrink-0 transition-transform duration-500 group-hover:scale-110" aria-hidden="true">
-        <circle cx="13" cy="12" r="10" fill="#65a6ff" fill-opacity="0.92" style="mix-blend-mode:screen" />
-        <circle cx="23" cy="12" r="10" fill="#ff6fae" fill-opacity="0.92" style="mix-blend-mode:screen" />
+      <svg width="38" height="26" viewBox="0 0 38 26" fill="none" aria-hidden="true">
+        <circle cx="14" cy="13" r="10.5" fill="#65a6ff" fill-opacity="0.92" style="mix-blend-mode:screen" />
+        <circle cx="24" cy="13" r="10.5" fill="#ff6fae" fill-opacity="0.92" style="mix-blend-mode:screen" />
       </svg>
-      <span class="leading-none">
-        <span class="font-display text-[1.45rem] font-extrabold tracking-tight text-[var(--color-bone)]">AYTO</span>
-        <span class="ml-1 font-mono text-[0.6rem] uppercase tracking-[0.22em] text-[var(--color-match-hi)]">matches</span>
-      </span>
+      <span class="brand-name">AYTO<i>matches</i></span>
     </a>
 
-    <nav class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.14em]">
-      <a
-        href="/"
-        class={`rounded-full px-3 py-2 transition-colors hover:bg-[var(--color-ink-3)] hover:text-[var(--color-bone)] ${onHome ? 'bg-[var(--color-ink-3)] text-[var(--color-bone)]' : 'text-[var(--color-bone-mut)]'}`}
-      >
-        Staffeln
-      </a>
-      <a
-        href="/#archiv"
-        class="hidden rounded-full px-3 py-2 text-[var(--color-bone-mut)] transition-colors hover:bg-[var(--color-ink-3)] hover:text-[var(--color-bone)] sm:inline"
-      >
-        Archiv
-      </a>
-    </nav>
+    <div class="nav-right">
+      <div class="picker">
+        <label for="seasonSelect" class="sr-only">Staffel wählen</label>
+        <select id="seasonSelect" class="nav-season-select" aria-label="Staffel wählen">
+          {index.seasons.map((season) => (
+            <option value={seasonUrl(season.id)} selected={season.id === currentSeason.id}>
+              {season.display_name}{season.current ? ' · aktuell' : ''}
+            </option>
+          ))}
+        </select>
+      </div>
+      <a class="navlink" href="https://github.com/nbgit10/ayto_solver" target="_blank" rel="noopener">Solver ↗</a>
+    </div>
   </div>
 </header>
+
+<script>
+  const seasonSelect = document.querySelector<HTMLSelectElement>('#seasonSelect');
+  seasonSelect?.addEventListener('change', () => {
+    if (seasonSelect.value) window.location.href = seasonSelect.value;
+  });
+</script>
