@@ -24,6 +24,11 @@ FEMALES:
   - "Laura"
   - "Dana"
 
+DEGREE_PROFILE:
+  males:
+    Tim: 2
+  females: {}
+
 MATCHING_NIGHTS:
   - Pairs:  # Night 1, Ep. 4, Dana not present
     - ["Tim", "Linda"]
@@ -121,36 +126,60 @@ MATCHING_NIGHTS:
     - ["Ozan", "Anastassia"]
     - ["Antonino", "Asena"]
     Matches: 7
+  - LONERS: ["Dana"]
+    Pairs:  # Matchnight 9
+      - ["Nicola", "Laura L"]
+      - ["Alex", "Gabriela"]
+      - ["Marc Robin", "Laura"]
+      - ["Antonino", "Asena"]
+      - ["Lucas", "Tara"]
+      - ["Khan", "Nadia"]
+      - ["Lars", "Jennifer"]
+      - ["Tim", "Linda"]
+      - ["Ozan", "Anastassia"]
+      - ["Chris", "Emmy"]
+    Matches: 10
 
 TRUTH_BOOTH:
-  - Pair:
-      - "Marc Robin"
-      - "Laura L"
-    Match: False  # Ep. 3
-  - Pair:
-      - "Chris"
-      - "Emmy"
-    Match: True  # Ep. 5
-  # - Pair:
-  #     - "Alex"
-  #     - "Anastassia"
-    # Match: True  # Ep. 7. Sold.
-  - Pair:
-    - "Marc Robin"
-    - "Asena"
-    Match: False  # Ep. 9
-  # - Pair:
-  #   - "Tim"
-  #   - "Linda"
-  #   Match: True  # Ep. 11  # Sold. Confirmed in ep 17.
-  - Pair:
-    - "Ozan"
-    - "Anastassia"
-    Match: True  # Ep. 13
-  - Pair:
-    - "Lucas"
-    - "Jennifer"
-    Match: False  # Ep. 15
+  - Number: 1
+    Pair: ["Marc Robin", "Laura L"]
+    Match: false
+    Sold: false
+  - Number: 2
+    Pair: ["Chris", "Emmy"]
+    Match: true
+    Sold: false
+  - Number: 3
+    Pair: ["Alex", "Anastassia"]
+    Match: null
+    Sold: true
+    SoldPrice: 20000
+  - Number: 4
+    Pair: ["Marc Robin", "Asena"]
+    Match: false
+    Sold: false
+  - Number: 5
+    Pair: ["Nicola", "Laura"]
+    Match: null
+    Sold: true
+    SoldPrice: 20000
+  - Number: 6
+    Pair: ["Ozan", "Anastassia"]
+    Match: true
+    Sold: false
+  - Number: 7
+    Pair: ["Lucas", "Jennifer"]
+    Match: false
+    Sold: false
+  - Number: 8
+    Pair: ["Tim", "Linda"]
+    Match: true
+    Sold: false
+  - Number: 9
+    Pair: ["Lars", "Laura L"]
+    Match: false
+    Sold: false
+  # Separate hand note, not listed among the nine public Matchboxes:
   # - Pair:
   #   - "Tim"
   #   - "Dana"

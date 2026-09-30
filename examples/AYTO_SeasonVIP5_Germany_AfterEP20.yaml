@@ -146,10 +146,11 @@ MATCHING_NIGHTS:
   # They LOST with 7/10 lights.
 
 TRUTH_BOOTH:
-  # - Pair:  # Matchbox 1, Sold (note: source says "Sarah" — likely Sandra?)
-  #     - "Kevin"
-  #     - "Sandra"
-  #   Match: ???
+  - Number: 1
+    Pair: ["Kevin", "Sandra"]
+    Match: null
+    Sold: true
+    SoldPrice: 20
   - Pair:  # Matchbox 2
       - "Xander"
       - "Elissia"
@@ -186,10 +187,12 @@ TRUTH_BOOTH:
       - "Sidar"
       - "Henna"
     Match: False
-  - Pair:  # Matchbox 11, Sold but confirmed PM via special offer (cost 40k)
+  - Pair:  # Matchbox 11, confirmed PM; show note says 40k, ayto-fans lists 45k
       - "Calvin O."
       - "Nelly"
     Match: True
+    Sold: true
+    SoldPrice: 45000
   - Pair:  # Matchbox 12
       - "Calvin S."
       - "Joanna"

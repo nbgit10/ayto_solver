@@ -24,6 +24,11 @@ FEMALES:
   - "Sophia"
   - "Tori"
 
+DEGREE_PROFILE:
+  males:
+    Tano: 2
+  females: {}
+
 MATCHING_NIGHTS:
   - Pairs:  # Night 1, Nasti not matched
     - ["Danish", "Sophia"]
@@ -133,19 +138,29 @@ MATCHING_NIGHTS:
     - ["Sinan", "Nasti"]
     - ["Tano", "Joanna"]
     Matches: 7
-  # Night 10 (Final) omitted — they solved it (10 beams).
-  # Sophia not matched in ceremony (double match with Tano).
-  # Solution: the Tano/Joanna+Sophia double-match variant from the 3 remaining.
+  - Pairs:  # Night 10 (Final)
+      - ["Tano", "Joanna"]
+      - ["Levin", "Chiara"]
+      - ["Kaan", "Anna"]
+      - ["Enes", "Selina"]
+      - ["Dion", "Tori"]
+      - ["Joshua", "Ina"]
+      - ["Josh", "Camelia"]
+      - ["Sinan", "Nasti"]
+      - ["Dino", "Deisy"]
+      - ["Danish", "Nadja"]
+    Matches: 10
+  # Sophia was not matched in the ceremony (double match with Tano).
 
 TRUTH_BOOTH:
   - Pair:
       - "Josh"
       - "Anna"
     Match: False
-  # - Pair:  # Truth Booth Deal (sold for prize money)
-  #     - "Levin"
-  #     - "Camelia"
-  #   Match: ???
+  - Number: 2
+    Pair: ["Levin", "Camelia"]
+    Match: null
+    Sold: true
   - Pair:
       - "Sinan"
       - "Ina"
@@ -158,10 +173,10 @@ TRUTH_BOOTH:
       - "Dino"
       - "Deisy"
     Match: True
-  # - Pair:  # Truth Booth Deal (sold for prize money)
-  #     - "Tano"
-  #     - "Tori"
-  #   Match: ???
+  - Number: 6
+    Pair: ["Tano", "Tori"]
+    Match: null
+    Sold: true
   - Pair:
       - "Kaan"
       - "Sophia"

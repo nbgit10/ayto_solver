@@ -1,5 +1,5 @@
 # AYTO SEASON VIP 6 DE (2026)
-# Current public data through Matching Night 5 / Episode 10.
+# Current public data through Matching Night 7.
 # Season 6 is scheduled for 22 episodes, including the reunion.
 # Source: https://ayto-fans.de/#matchboxen and https://ayto-fans.de/#matchnights
 # 11 women, 11 men. Matchnight counts exclude the listed loner(s).
@@ -125,6 +125,36 @@ MATCHING_NIGHTS:
     Matches: 3
     Blackout: false
     Sold: false
+  - LONERS: ["Raúl"]
+    Pairs:  # Matchnight 6
+      - ["Brian", "Alexandra"]
+      - ["Robin", "Joena"]
+      - ["Daymian", "Jenny"]
+      - ["Marwin", "Francesca"]
+      - ["Cansin", "Zoe"]
+      - ["Fabi", "Michelle"]
+      - ["Laurenz", "Emma"]
+      - ["Bennett", "Christin"]
+      - ["Germain", "Julia"]
+      - ["Johannes", "Marta"]
+    Matches: 5
+    Blackout: false
+    Sold: false
+  - LONERS: ["Cansin"]
+    Pairs:  # Matchnight 7
+      - ["Laurenz", "Emma"]
+      - ["Brian", "Zoe"]
+      - ["Fabi", "Michelle"]
+      - ["Robin", "Joena"]
+      - ["Germain", "Julia"]
+      - ["Bennett", "Christin"]
+      - ["Marwin", "Francesca"]
+      - ["Raúl", "Alexandra"]
+      - ["Johannes", "Marta"]
+      - ["Daymian", "Jenny"]
+    Matches: 5
+    Blackout: false
+    Sold: false
 
 TRUTH_BOOTH:
   - Number: 1
@@ -152,6 +182,14 @@ TRUTH_BOOTH:
     Match: null
     Sold: true
     SoldPrice: 10000
+  - Number: 7
+    Pair: ["Raúl", "Michelle"]
+    Match: false
+    Sold: false
+  - Number: 8
+    Pair: ["Daymian", "Jenny"]
+    Match: true
+    Sold: false
 
 # Revealed by the double-match announcement after Marta/Johannes was found;
 # this was not a separate published Matchbox record.

@@ -1,6 +1,6 @@
 # AYTO SEASON 7 DE (2026)
 # 11 Women, 10 Men — 1 woman goes unmatched (no double match)
-# Current season, through Episode 10
+# Public data through Matching Night 10.
 MALES:
   - "Chris"
   - "Ema"
@@ -39,6 +39,7 @@ MATCHING_NIGHTS:
     - ["Meji", "Ella"]
     - ["Chris", "Linda"]
     Matches: 3
+    LONERS: ["Alicia"]
   - Pairs:  # Night 2, Aurora loner
     - ["Chris", "Tonia"]
     - ["Jeronymo", "Tiziana"]
@@ -51,6 +52,7 @@ MATCHING_NIGHTS:
     - ["Jerry", "Michelle"]
     - ["Evi", "Laura"]
     Matches: 2
+    LONERS: ["Aurora"]
   - Pairs:  # Night 3, Ella loner
     - ["Luke", "Marla"]
     - ["Julian S.", "Alicia"]
@@ -63,6 +65,7 @@ MATCHING_NIGHTS:
     - ["Jeronymo", "Tiziana"]
     - ["Ema", "Michelle"]
     Matches: 2
+    LONERS: ["Ella"]
   - Pairs: # Night 4, Tiziana Loner
     - ["Luke", "Tonia"]
     - ["Julian S.", "Alicia"]
@@ -74,16 +77,97 @@ MATCHING_NIGHTS:
     - ["Jeronymo", "Linda"]
     - ["Ema", "Michelle"]
     Matches: 0
+    LONERS: ["Tiziana"]
+    Sold: true
+    SoldPrice: 55000
+  - LONERS: ["Alicia"]
+    Pairs:  # Night 5
+      - ["Meji", "Ella"]
+      - ["Noel", "Tonia"]
+      - ["Evi", "Aurora"]
+      - ["Julian S.", "Adrianna"]
+      - ["Luke", "Laura"]
+      - ["Jerry", "Elena"]
+      - ["Ema", "Michelle"]
+      - ["Jeronymo", "Tiziana"]
+      - ["Chris", "Linda"]
+      - ["Julian M.", "Marla"]
+    Matches: 5
+  - LONERS: ["Alicia"]
+    Pairs:  # Night 6
+      - ["Noel", "Tonia"]
+      - ["Julian S.", "Tiziana"]
+      - ["Ema", "Michelle"]
+      - ["Luke", "Adrianna"]
+      - ["Evi", "Linda"]
+      - ["Jeronymo", "Laura"]
+      - ["Meji", "Aurora"]
+      - ["Jerry", "Elena"]
+      - ["Chris", "Ella"]
+      - ["Julian M.", "Marla"]
+    Matches: 4
+  - LONERS: ["Alicia"]
+    Pairs:  # Night 7
+      - ["Jerry", "Laura"]
+      - ["Evi", "Aurora"]
+      - ["Jeronymo", "Tiziana"]
+      - ["Julian S.", "Adrianna"]
+      - ["Ema", "Michelle"]
+      - ["Chris", "Linda"]
+      - ["Meji", "Ella"]
+      - ["Luke", "Elena"]
+      - ["Julian M.", "Marla"]
+      - ["Noel", "Tonia"]
+    Matches: 4
+  - LONERS: ["Alicia"]
+    Pairs:  # Night 8
+      - ["Meji", "Ella"]
+      - ["Jerry", "Elena"]
+      - ["Luke", "Laura"]
+      - ["Chris", "Linda"]
+      - ["Evi", "Michelle"]
+      - ["Julian S.", "Adrianna"]
+      - ["Ema", "Aurora"]
+      - ["Jeronymo", "Tiziana"]
+      - ["Julian M.", "Marla"]
+      - ["Noel", "Tonia"]
+    Matches: 5
+  - LONERS: ["Alicia"]
+    Pairs:  # Night 9
+      - ["Meji", "Ella"]
+      - ["Luke", "Adrianna"]
+      - ["Julian S.", "Laura"]
+      - ["Chris", "Tiziana"]
+      - ["Ema", "Linda"]
+      - ["Jeronymo", "Michelle"]
+      - ["Evi", "Aurora"]
+      - ["Jerry", "Elena"]
+      - ["Julian M.", "Marla"]
+      - ["Noel", "Tonia"]
+    Matches: 3
+  - Pairs:  # Night 10
+      - ["Evi", "Adrianna"]
+      - ["Luke", "Linda"]
+      - ["Jerry", "Aurora"]
+      - ["Julian S.", "Michelle"]
+      - ["Chris", "Laura"]
+      - ["Meji", "Ella"]
+      - ["Ema", "Elena"]
+      - ["Julian M.", "Marla"]
+      - ["Noel", "Tonia"]
+      - ["Jeronymo", "Tiziana"]
+    Matches: 4
 
 TRUTH_BOOTH:
   - Pair:
       - "Evi"
       - "Tiziana"
     Match: False
-  # - Pair:  # Matchbox 2, Sold
-  #     - "Evi"
-  #     - "Laura"
-  #   Match: ???
+  - Number: 2
+    Pair: ["Evi", "Laura"]
+    Match: null
+    Sold: true
+    SoldPrice: 5000
   - Pair:
       - "Julian S."
       - "Linda"
@@ -92,3 +176,29 @@ TRUTH_BOOTH:
       - "Julian M."
       - "Marla"
     Match: True
+  - Number: 5
+    Pair: ["Chris", "Aurora"]
+    Match: false
+    Sold: false
+  - Number: 6
+    Pair: ["Jerry", "Elena"]
+    Match: null
+    Sold: true
+    SoldPrice: 20000
+  - Number: 7
+    Pair: ["Noel", "Tonia"]
+    Match: true
+    Sold: false
+  - Number: 8
+    Pair: ["Ema", "Michelle"]
+    Match: false
+    Sold: false
+  - Number: 9
+    Pair: ["Meji", "Ella"]
+    Match: null
+    Sold: true
+    SoldPrice: 20000
+  - Number: 10
+    Pair: ["Jeronymo", "Tiziana"]
+    Match: true
+    Sold: false

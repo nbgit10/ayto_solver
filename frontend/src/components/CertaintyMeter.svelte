@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { clarityFromSolutionCount } from '../lib/clarity';
 
   interface Props {
     totalSolutions: number;
@@ -10,7 +11,7 @@
 
   let { totalSolutions, solved, confirmedCount, totalPairs }: Props = $props();
 
-  const clarity = solved ? 100 : Math.max(3, Math.round(100 / Math.sqrt(totalSolutions)));
+  const clarity = clarityFromSolutionCount(totalSolutions);
   const radius = 86;
   const length = Math.PI * radius;
   const formatNumber = (value: number) => Math.round(value).toLocaleString('de-DE');
