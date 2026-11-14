@@ -34,9 +34,17 @@ jobs:
         working-directory: frontend
         run: npm run build
 
+      - name: Bootstrap pinned uv in an isolated venv
+        run: |
+          python3 -m venv .ci-uv
+          .ci-uv/bin/python -m pip install --only-binary=:all: 'uv==0.12.15'
+
+      - name: Install managed Python 3.13
+        run: .ci-uv/bin/uv python install 3.13
+
       - name: Run ARM-compatible graph solver tests
         run: >-
-          uv run --python 3.13 --no-project
+          .ci-uv/bin/uv run --python 3.13 --no-project
           --with 'pytest==9.1.1'
           --with 'PyYAML==6.0.3'
           --with 'networkx==3.6.1'
