@@ -30,12 +30,9 @@ jobs:
         working-directory: frontend
         run: npm test
 
-      - name: Build frontend
-        working-directory: frontend
-        run: npm run build
-
       - name: Bootstrap pinned uv in an isolated venv
         run: |
+          set -euo pipefail
           python3 -m venv .ci-uv
           .ci-uv/bin/python -m pip install --only-binary=:all: 'uv==0.12.15'
 
@@ -49,4 +46,19 @@ jobs:
           --with 'PyYAML==6.0.3'
           --with 'networkx==3.6.1'
           --with 'numpy==2.5.3'
-          pytest -q tests/test_examples_graph.py tests/test_graph_degree_profiles.py
+          pytest -q tests/test_examples_graph.py tests/test_graph_degree_profiles.py tests/test_build.py
+
+      - name: Generate static data from checked-in season inputs
+        run: >-
+          PYTHONHASHSEED=0
+          AYTO_BUILD_RANDOM_SEED=0
+          SOURCE_DATE_EPOCH=0
+          .ci-uv/bin/uv run --python 3.13 --no-project
+          --with 'PyYAML==6.0.3'
+          --with 'networkx==3.6.1'
+          --with 'numpy==2.5.3'
+          python build.py
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
