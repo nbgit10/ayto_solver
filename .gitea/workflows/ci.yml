@@ -1,0 +1,44 @@
+---
+name: Test and build
+
+"on":
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: pi-unprivileged-ci
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npm test
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Run ARM-compatible graph solver tests
+        run: >-
+          uv run --python 3.13 --no-project
+          --with 'pytest==9.1.1'
+          --with 'PyYAML==6.0.3'
+          --with 'networkx==3.6.1'
+          --with 'numpy==2.5.3'
+          pytest -q tests/test_examples_graph.py tests/test_graph_degree_profiles.py
