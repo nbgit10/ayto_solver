@@ -68,6 +68,30 @@ def test_explicit_profile_can_leave_a_late_entrant_unmatched():
         }
 
 
+def test_complete_final_night_fixes_the_only_double_profile_solution():
+    """A full confirmed night leaves the lone woman to the double-match man."""
+    solver = GraphSolver(
+        ["Tano", "Levin"],
+        ["Joanna", "Chiara", "Sophia"],
+        degree_profile={"males": {"Tano": 2}},
+    )
+    solver.add_matching_night(
+        [("Tano", "Joanna"), ("Levin", "Chiara")],
+        num_matches=2,
+    )
+
+    matchings, capped = solver.enumerate_all_matchings(max_matchings=10)
+
+    assert not capped
+    assert matchings == [
+        {
+            ("Tano", "Joanna"),
+            ("Levin", "Chiara"),
+            ("Tano", "Sophia"),
+        }
+    ]
+
+
 def test_alternative_match_group_requires_exactly_one_edge():
     solver = GraphSolver(["A", "B"], ["X", "Y"])
     solver.add_exclusive_alternative([("A", "X"), ("A", "Y")])

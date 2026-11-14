@@ -6,6 +6,8 @@ frontend/public/data/ for the Astro static site.
 """
 
 import json
+import os
+import random
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -17,6 +19,23 @@ from ayto_solver.solvers.graph_solver import GraphSolver
 
 ROOT = Path(__file__).parent
 OUTPUT_DIR = ROOT / "frontend" / "public" / "data"
+
+
+def configure_build_random_seed() -> None:
+    """Set a reproducible graph-search order when CI requests one."""
+    seed = os.environ.get("AYTO_BUILD_RANDOM_SEED")
+    if seed is not None:
+        random.seed(int(seed))
+
+
+def build_timestamp() -> str:
+    """Use SOURCE_DATE_EPOCH for reproducible generated metadata when set."""
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch is None:
+        generated_at = datetime.now(timezone.utc)
+    else:
+        generated_at = datetime.fromtimestamp(int(source_date_epoch), timezone.utc)
+    return generated_at.isoformat()
 
 
 def load_season_registry() -> list[dict]:
@@ -296,8 +315,9 @@ def build_season_json(season: dict, now: str) -> dict:
 
 
 def main():
+    configure_build_random_seed()
     seasons = load_season_registry()
-    now = datetime.now(timezone.utc).isoformat()
+    now = build_timestamp()
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

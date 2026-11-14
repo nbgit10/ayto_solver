@@ -195,19 +195,20 @@ class TestSeason4DoubleMatch:
 
 
 class TestSeason6DoubleMatch:
-    """Season 6: Tano has double match (Joanna + Sophia). 3 solutions remain."""
+    """Season 6: the final night and Tano's profile force one solution."""
 
     def test_solution_count(self):
         data = load_yaml_example("AYTO_Season6_Germany_AfterEp20.yaml")
         matchings, capped, _ = solve_with_graph(data)
         assert not capped
-        assert len(matchings) == 3
+        assert len(matchings) == 1
 
     def test_tano_double_match_in_solutions(self):
         data = load_yaml_example("AYTO_Season6_Germany_AfterEp20.yaml")
         matchings, _, _ = solve_with_graph(data)
 
-        # Tano/Joanna+Sophia should be one of the 3 solutions
+        # The final night fixes Joanna; the degree profile leaves Sophia as
+        # Tano's only possible second partner.
         for matching in matchings:
             tano_partners = {f for m, f in matching if m == "Tano"}
             if tano_partners == {"Joanna", "Sophia"}:
@@ -261,7 +262,8 @@ class TestVIP6:
         matchings, capped, _ = solve_with_graph(data)
 
         assert not capped
-        assert len(matchings) == 56
+        # The fixture now includes Matching Nights 6–7 and Matchboxes 7–8.
+        assert len(matchings) == 1
 
     def test_double_match_is_preserved(self):
         data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
@@ -286,22 +288,30 @@ class TestVIP6:
         data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
         boxes = data["TRUTH_BOOTH"]
 
-        assert len(boxes) == 6
+        assert len(boxes) == 8
         assert boxes[3]["Pair"] == ["Johannes", "Marta"]
         assert boxes[3]["Match"] is True
         assert boxes[5]["Pair"] == ["Laurenz", "Emma"]
         assert boxes[5]["Match"] is None
         assert boxes[5]["Sold"] is True
         assert boxes[5]["SoldPrice"] == 10000
+        assert boxes[6]["Pair"] == ["Raúl", "Michelle"]
+        assert boxes[6]["Match"] is False
+        assert boxes[7]["Pair"] == ["Daymian", "Jenny"]
+        assert boxes[7]["Match"] is True
 
     def test_matching_nights_have_source_counts_and_loners(self):
         data = load_yaml_example("AYTO_SeasonVIP6_Germany_AfterEP10.yaml")
 
-        assert [night["Matches"] for night in data["MATCHING_NIGHTS"]] == [3, 3, 3, 4, 3]
+        assert [night["Matches"] for night in data["MATCHING_NIGHTS"]] == [
+            3, 3, 3, 4, 3, 5, 5,
+        ]
         assert [night["LONERS"] for night in data["MATCHING_NIGHTS"]] == [
             ["Joena"],
             ["Francesca"],
             ["Janice"],
             [],
             ["Fabi"],
+            ["Raúl"],
+            ["Cansin"],
         ]
