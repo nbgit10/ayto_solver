@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: graph-python-static
+        name: Graph build-path undefined-name check
+        entry: flake8 --select=F821,F822,F823 --config=.flake8 ayto_solver/solvers/graph_solver.py build.py
+        language: system
+        pass_filenames: false
+        always_run: true
