@@ -39,6 +39,13 @@ jobs:
       - name: Install managed Python 3.13
         run: .ci-uv/bin/uv python install 3.13
 
+      - name: Static check graph build path
+        run: >-
+          .ci-uv/bin/uv run --python 3.13 --no-project
+          --with 'flake8==7.3.0'
+          flake8 --select=F821,F822,F823 --config=.flake8
+          ayto_solver/solvers/graph_solver.py build.py
+
       - name: Run ARM-compatible graph solver tests
         run: >-
           .ci-uv/bin/uv run --python 3.13 --no-project

@@ -133,6 +133,27 @@ uv run pytest tests/ -v
 uv run pip-audit
 ```
 
+## Local static hook and contribution workflow
+
+The hook is deliberately limited to undefined-name diagnostics in the
+ARM-compatible graph solver and its data builder; it does not import or run the
+MIP solver, call external services, or change files. Use an environment with
+Flake8 7.3.0 available on `PATH` (the version locked for the dev group), then
+install the pinned pre-commit runner and enable the hook:
+
+```bash
+uv tool install flake8==7.3.0
+uv tool install pre-commit==4.7.0
+pre-commit install
+pre-commit run --all-files
+```
+
+The CI gate runs the same scoped Flake8 check alongside the existing
+ARM-compatible graph tests; CI remains authoritative. Agents should use a
+`feature/<short-name>` branch and submit a pull request, and must not skip or
+bypass failing hooks. The human repository owner retains review authority and
+sole discretion to override a hook when necessary.
+
 ## Platform Constraints
 
 - **MIP solver**: Requires `python-mip` (AMD64 Linux only). Use Docker on ARM Macs.
